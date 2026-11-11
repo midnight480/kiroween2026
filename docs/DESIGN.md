@@ -142,8 +142,8 @@ COBOL の索引ファイル（ISAM/VSAM 的な `ORGANIZATION IS INDEXED`）を�
 > サンプル整合: `54-db.cbl` は上記 2 を満たすよう `OBJECT-COMPUTER. AWS-AP-NORTHEAST-1.`（＝`REPLICA-1` の東京）を追加済み（§5.4、1 行の最小追記）。これで `51-s3.cbl` と対称になり、「主リージョンがどこから来るか」が一意に決まる。フォールバック規則 3 は `OBJECT-COMPUTER` を省いた MRSC ファイルでも成立する保険として残す。
 
 ✅ 2026-10-30 検証（AWS公式ドキュメント）: CloudFormation `AWS::DynamoDB::GlobalTable` で MRSC を単一スタック宣言可能。
-- `ReplicaSpecification` に `MultiRegionConsistency: STRONG` を指定（MREC/MRSC の切替）。
-- `GlobalTableWitness`（`{ "Region": String }`）で witness リージョンを指定。「3レプリカ or 2レプリカ＋1 witness」。
+- **GlobalTable のトップレベル**プロパティ `MultiRegionConsistency: STRONG` を指定（MREC/MRSC の切替）。※ 当初メモは `ReplicaSpecification` 内と誤記していた。2026-11-11 に公式スキーマと `cfn-lint` で訂正。
+- `GlobalTableWitnesses`（配列・最大 1 件、要素は `{ "Region": String }`）で witness リージョンを指定。「3レプリカ or 2レプリカ＋1 witness」。`Replicas` には**スタックのリージョンのレプリカが必須**。
 - witness はレプリカと別リージョンかつ**同一 region set 内**必須。**AP region set = 東京（ap-northeast-1）・ソウル（ap-northeast-2）・大阪（ap-northeast-3）**。
   → §5.4 の REPLICA-1=東京／REPLICA-2=大阪／WITNESS=ソウルは AP region set に完全に収まる（妥当）。
 - 2026/9 に追加リージョン・クロス大陸構成もサポート済み。
@@ -159,15 +159,17 @@ COBOL の索引ファイル（ISAM/VSAM 的な `ORGANIZATION IS INDEXED`）を�
 | `.cbl` の `CALL "DEPLOY"` 等 | **意図の宣言**。そのプログラムの既定アクション（PROCEDURE DIVISION の主処理）。本物の COBOL として構文・実行が成立する（§16.3 実証済み） | `CALL "DEPLOY"` / `CALL "DESTROY"` / `CALL "DIFF"` |
 | CLI サブコマンド | **実行の制御**。CI・ゴールデンテスト（副作用なし）と実デプロイを分離。CLI 指定が最優先 | 下表 |
 
+> CLI コマンド名は正式名 `cobolform` と短縮別名 `cobf` の 2 つ（npm の複数 bin 登録で両方が有効。§6/§15-Q1）。以下の例では日常使い想定の短縮形 `cobf` を用いるが、すべて `cobolform` と読み替えても同じ。
+
 ```
-cdk-cobol compile <file.cbl> [--format json|yaml]   # CFN 出力のみ。副作用なし（CI/ゴールデンテスト用）
-cdk-cobol diff    <file.cbl>                         # 既存スタックとの ChangeSet 差分
-cdk-cobol deploy  <file.cbl>                         # ChangeSet 作成→実行→132桁帳票
-cdk-cobol destroy <file.cbl>                         # スタック削除（要確認プロンプト）
+cobf compile <file.cbl> [--format json|yaml]   # CFN 出力のみ。副作用なし（CI/ゴールデンテスト用）
+cobf diff    <file.cbl>                         # 既存スタックとの ChangeSet 差分
+cobf deploy  <file.cbl>                         # ChangeSet 作成→実行→132桁帳票
+cobf destroy <file.cbl>                         # スタック削除（要確認プロンプト）
 ```
 
 **優先順位ルール:**
-1. CLI サブコマンドを明示 → それが実行される（`CALL "DEPLOY"` と書いた `.cbl` に `cdk-cobol diff` すれば差分のみ）。
+1. CLI サブコマンドを明示 → それが実行される（`CALL "DEPLOY"` と書いた `.cbl` に `cobf diff` すれば差分のみ）。
 2. CLI でサブコマンド省略時 → `.cbl` の `CALL` 文を既定アクションとして採用（`CALL "DEPLOY"` なら deploy）。
 3. `CALL` 文が複数/未記載の扱いは Semantic 段（§6[3]）で検証：主段落の最初の `CALL "<OP>"` を既定とし、`CALL` が無ければ `compile` 既定。
 
@@ -181,8 +183,8 @@ cdk-cobol destroy <file.cbl>                         # スタック削除（要�
 **非対話フラグ（CI 両立）:** `destroy`（および将来の `deploy`）は破壊的操作のため既定で確認プロンプトを出す（§7 の「ジョブ投入確認」演出を兼ねる）。一方 CI の nightly は非対話で DESTROY する必要がある（§9.6）ため、確認を省略する `--yes`（別名 `--force`）フラグを用意する。CLI 仕様（上表）に以下を追加:
 
 ```
-cdk-cobol destroy <file.cbl> [--yes | --force]  # --yes 指定時は確認プロンプトを省略（CI 用）
-cdk-cobol deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定で最終確認を出す
+cobf destroy <file.cbl> [--yes | --force]  # --yes 指定時は確認プロンプトを省略（CI 用）
+cobf deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定で最終確認を出す
 ```
 
 対話プロンプト（§4.6 既定）と CI 非対話 DESTROY（§9.6）は、この 1 フラグで両立する。環境変数 `CI=true` 検出時に `--yes` を既定にするかは実装時に判断（明示フラグを基本とする）。
@@ -206,7 +208,9 @@ cdk-cobol deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既
 共通規約:
 - `01` グループ名 → 論理 ID（PascalCase 化。`LOGS-BUCKET` → `LogsBucket`）
 - `05 RESOURCE-TYPE VALUE "<型>"` → CFN リソースの `Type`
-- 値参照の規約文字列: `"REF:<01名>"` → `{ "Ref": "<論理ID>" }`、`"GETATT:<01名>.<属性>"` → `{ "Fn::GetAtt": ["<論理ID>", "<属性>"] }`。**解決スコープは同一 `.cbl` ファイル内の `01` 名のみ**（クロスファイル参照は MVP 非対象＝§11 非ゴール。未定義参照は §7/§9.1 の明示エラー）。
+- 値参照の規約文字列: `"REF:<01名>"` → `{ "Ref": "<論理ID>" }`、`"GETATT:<01名>.<属性>"` → `{ "Fn::GetAtt": ["<論理ID>", "<属性>"] }`。**解決スコープは同一 `.cbl` ファイル内の `01` 名のみ**（クロスファイル参照は MVP 非対象＝§11 非ゴール。未定義参照は §7/§9.1 の明示エラー）。したがって §5.3 の `53-policy.cbl` は `REF:LOGS-BUCKET` の参照先（§5.1）が別ファイルのため単体では `UNDEFINED-REFERENCE` になる。デプロイ用は同一ファイルに束ねる（`tests/golden/policy-ref/`）。
+- **ポリシーの `Resource` 項目（`STMT-RES`）では `REF:` を ARN として解決する**（2026-11-11 実装で確定）。`Ref` はバケットでは名前を返し ARN にならないため。`"REF:LOGS-BUCKET"` → `{ "Fn::GetAtt": ["LogsBucket", "Arn"] }`、`"REF:LOGS-BUCKET/*"` → `{ "Fn::Sub": "${LogsBucket.Arn}/*" }`。それ以外の項目の `REF:` は従来どおり `Ref`（接尾辞は不可）。
+- `GETATT:<名>.ARN` の属性名は CFN の `Arn` に正規化する（COBOL 側は大文字で書くため）。
 
 #### (a) S3 Bucket（`AWS::S3::Bucket`、§5.1）
 
@@ -250,12 +254,12 @@ cdk-cobol deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既
 | COBOL 項目 | CFN プロパティ | 変換ルール |
 |---|---|---|
 | `SELECT ... ASSIGN TO "DYNAMODB"` | `AWS::DynamoDB::Table`（単一リージョン） | レプリカ指定なしの単一テーブル |
-| `SELECT ... ASSIGN TO "DYNAMODB-MRSC"` | `AWS::DynamoDB::GlobalTable` ＋ `ReplicaSpecification[].MultiRegionConsistency: STRONG` | MRSC。§4.5/§16.4 の検証どおり |
+| `SELECT ... ASSIGN TO "DYNAMODB-MRSC"` | `AWS::DynamoDB::GlobalTable` ＋ トップレベル `MultiRegionConsistency: STRONG` | MRSC。§4.5/§16.4 の検証どおり（`Replicas` 内ではない） |
 | `RECORD KEY IS ORDER-ID` | `KeySchema`（HASH）＋ `AttributeDefinitions` | パーティションキー |
 | `ALTERNATE RECORD KEY IS ORDER-STATE WITH DUPLICATES` | `GlobalSecondaryIndexes[]` ＋ 当該属性の `AttributeDefinitions` | GSI |
 | `FD` レコード項目 `PIC X`/`PIC 9` | `AttributeDefinitions[].AttributeType` `S`/`N` | **キー属性（RECORD KEY・ALTERNATE KEY）のみ出力**。非キー（`ORDER-AMOUNT`）は DynamoDB の動的スキーマにつき `AttributeDefinitions` に出さない（意図を明示） |
 | `01 <ファイル名>-REGIONS` の `REPLICA-1/REPLICA-2` | `Replicas[].Region`（2 レプリカ） | §4.3 の `OBJECT-COMPUTER`（主リージョン）＝ `REPLICA-1` と一致させる（§4.5 の優先順位ルール） |
-| 同グループ `WITNESS-REGION` | `GlobalTableWitness.Region` | 第 3 リージョンの witness |
+| 同グループ `WITNESS-REGION` | `GlobalTableWitnesses[0].Region` | 第 3 リージョンの witness（配列・最大 1 件） |
 
 `DYNAMODB`（単一）と `DYNAMODB-MRSC` の分岐は Emitter が `ASSIGN TO` の外部名で判定し、前者は `Replicas`/`Witness` を出さない。`DYNAMODB-MRSC` は `MultiRegionConsistency: STRONG` を固定出力する。
 
@@ -432,9 +436,10 @@ cdk-cobol deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既
 | [6] Reporter/Deployer | `CALL "DEPLOY"` で **AWS SDK for JavaScript v3**（`@aws-sdk/client-cloudformation`）の CloudFormation API（ChangeSet: `CreateChangeSet` → `ExecuteChangeSet` → `DescribeStackEvents`）を呼び、スタックイベントを 132 桁帳票に流す。※ SDK は**トランスパイラ内部のデプロイ実装**に使う部品であり、利用者の `.cbl` からは見えない（「SDK for COBOL」ではない） |
 
 ### 実装言語：**TypeScript（Node.js）**
-- **プロダクト名: `cdk-cobol`（確定）**。CDK には依存しない**独自トランスパイラ**。名前は「CDK 的な開発体験を COBOL で」という世界観を示す比喩（§1/§6 冒頭ノート）。
+- **プロダクト名: `cobolform`（✅ 確定）。短縮別名コマンド `cobf`**。npm は 1 パッケージに複数 bin を登録できるため、`cobolform` と `cobf` の両コマンドを同梱し、どちらでも同じ CLI が動く。`cobolform` は説明的で検索しやすい正式名、`cobf` はタイポしにくい日常使いの短縮形、という役割分担。
+- **`cdk` を含む名前は意図的に避けた**。本作は CDK の言語バインディングではなく CloudFormation 直結の独自トランスパイラ（§1/§6 の CDK/jsii 区別）であり、名前に `cdk` が入ると「これは CDK の対応言語か？」という、本メモが否定している誤解を再び招くため。CloudFormation（`...form`）に直結することが伝わる `cobolform` を正式名に採用した。
 - 選定理由: TS の型安全なパーサ実装（Chevrotain 等）、`npx` 配布、ブラウザ内コンパイル（Web 緑画面デモ §8）にそのまま流用可、CFN/AWS SDK v3 との親和性
-- `cobc-aws` / `jcl` は別名案だったが、本家 `cobc`（GnuCOBOL）と紛らわしい `cobc-aws` は不採用。`cdk-cobol` に一本化
+- 別名案だった `cobc-aws` / `jcl` / `cdk-cobol` は不採用（`cobc-aws` は本家 `cobc`（GnuCOBOL）と紛らわしく、`cdk-cobol` は上記のとおり CDK との混同を招く）。`cobolform`（＋別名 `cobf`）に一本化
 
 ### CDK L1 との相互運用（ストレッチ・任意）
 - **本線は独自トランスパイラ（案B: CFN 直接出力）**。CDK には依存しない。以下はあくまで「CDK と並べて見せる」ための任意オプション。
@@ -474,7 +479,7 @@ cdk-cobol deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既
 
 ### 配布方式（MVP）✅ 方針決定
 トランスパイラ本体は TypeScript/Node 実装（§6）なので、**COBOL ランタイムを同梱せずに macOS / Windows / Linux で動く**。この利点をそのまま配布に活かす。
-- **MVP の配布は npm / npx**。利用者は `npx cdk-cobol compile deploy.cbl`（CLI は §4.6 の `cdk-cobol compile <file.cbl>` と同じ）のように、インストールなしで呼び出せる。Node が動く環境ならプラットフォームを問わない。
+- **MVP の配布は npm / npx**。利用者は `npx cobf compile 51-s3.cbl`（短縮別名。正式名なら `npx cobolform compile 51-s3.cbl`。CLI は §4.6 の `cobf compile <file.cbl>` と同じ）のように、インストールなしで呼び出せる。Node が動く環境ならプラットフォームを問わない。
 - **GnuCOBOL は任意（オプション）依存**。任意の構文チェック段（「本物の COBOL か」の検証。CI での位置づけは §9.3、実機検証は §16）でのみ使い、**あれば使う／無ければスキップ**する。Windows では GnuCOBOL の導入に手間がかかるため、トランスパイラ本体の必須依存にはせず任意のままにする。構文チェックを飛ばしても `compile`（CFN 出力）は成立する。
 
 ---
@@ -523,7 +528,7 @@ tests/golden/<case>/expected.report.txt   # 132桁帳票（任意）
 tsc/eslint → vitest(unit+golden) → cobc -fsyntax-only -fixed
   → compile samples → cfn-lint → (nightly) validate-template / 実デプロイ→DESTROY
 ```
-- nightly の実デプロイ後 DESTROY は**非対話**で回す必要があるため、`cdk-cobol destroy <file.cbl> --yes`（§4.6）を使う。対話環境の確認プロンプトと CI の非対話 DESTROY はこの `--yes`/`--force` フラグで両立する。
+- nightly の実デプロイ後 DESTROY は**非対話**で回す必要があるため、`cobf destroy <file.cbl> --yes`（§4.6）を使う。対話環境の確認プロンプトと CI の非対話 DESTROY はこの `--yes`/`--force` フラグで両立する。
 
 ---
 
@@ -596,7 +601,7 @@ README・動画で「Kiro のどの機能で何を作ったか」を明示（審
 |---|---|---|
 | 審査基準・要件が想定と違う | 高 | W1 初日に本メモ改訂 |
 | COBOL パーサが沼る（継続行・ピリオド・予約語） | 高 | サブセット文法を Spec で明文化、未対応は明示エラー。GnuCOBOL を「正」とする |
-| CFN で MRSC / DSQL マルチリージョンを表現できない | 中→**低（MRSC は解消）** | ✅ MRSC は CFN `AWS::DynamoDB::GlobalTable` の `MultiRegionConsistency: STRONG` + `GlobalTableWitness` で単一スタック宣言可と確認済み（2026-10-30、§5.4）。残る懸念は DSQL のみ → 不可ならカスタムリソース／SDK 直接、最悪シングルリージョン＋説明 |
+| CFN で MRSC / DSQL マルチリージョンを表現できない | 中→**低（MRSC は解消）** | ✅ MRSC は CFN `AWS::DynamoDB::GlobalTable` の `MultiRegionConsistency: STRONG`（トップレベル）+ `GlobalTableWitnesses` で単一スタック宣言可と確認済み（2026-10-30、§5.4）。残る懸念は DSQL のみ → 不可ならカスタムリソース／SDK 直接、最悪シングルリージョン＋説明 |
 | AWS コスト・後片付け漏れ | 中 | デモ専用アカウント、Budgets、CI で必ず DESTROY |
 | 海外審査員に COBOL/8i の文脈が伝わらない | 中 | 動画冒頭で DB リンク地獄を図解、英語ピッチを磨く |
 | 「新規コードのみ」ルール | 高 | 初コミットは 10/30 以降。本メモは企画書扱い（規約確認） |
@@ -615,7 +620,7 @@ README・動画で「Kiro のどの機能で何を作ったか」を明示（審
 - [x] ✅ 2026-10-30 完了: `brew install gnucobol` → `cobc 3.2.0` 確認。`cobc --help` で `-fsyntax-only`/`--fixed`/`-std` を確認
 - [x] ✅ 2026-10-30 完了: §5 の 4 サンプルを `cobc -fsyntax-only --fixed`（+ `-std=cobol85`）で検証＝全通過。`deploy.cbl` とリンクして `cobc -x` で実行まで確認（`verify/samples/`）
 - [x] ✅ 2026-10-30 完了: `cobc --list-reserved`（1006 語）で予約語確認。`STATUS`/`TIMEOUT`/`ACTION`/`AUTHOR` は予約語 → §5 サンプルは接頭辞で全て回避済み（§4.4）
-- [x] ✅ 2026-10-30 完了: CFN の `AWS::DynamoDB::GlobalTable` MRSC 指定方法を確認（`MultiRegionConsistency: STRONG` + `GlobalTableWitness`、AP region set = 東京/ソウル/大阪）。`AWS::DSQL::*` の有無は未確認（DSQL はストレッチ）
+- [x] ✅ 2026-10-30 完了: CFN の `AWS::DynamoDB::GlobalTable` MRSC 指定方法を確認（トップレベル `MultiRegionConsistency: STRONG` + `GlobalTableWitnesses`、AP region set = 東京/ソウル/大阪）。`AWS::DSQL::*` の有無は未確認（DSQL はストレッチ）
 - [ ] デモ用 AWS アカウント＋Budgets
 - [ ] 8i の DB リンク構成図（3+1 台）を匿名化して描き起こす（動画素材）
 - [ ] 英語ピッチ案 3 つ
@@ -623,14 +628,14 @@ README・動画で「Kiro のどの機能で何を作ったか」を明示（審
 ---
 
 ## 15. オープンクエスチョン
-1. ✅ **決定: プロダクト名 = `cdk-cobol`**（CDK には依存しない独自トランスパイラ。CDK は世界観の比喩。§6）。サブタイトル／作品名として `COBOL DEPLOY DIVISION` を併用可
+1. ✅ **決定: プロダクト名 = `cobolform`、短縮別名コマンド = `cobf`**（CDK には依存しない CloudFormation 直結の独自トランスパイラ。`cdk` を含む名前は CDK/jsii の区別と衝突するため不採用。§6/§8）。サブタイトル／作品名として `COBOL DEPLOY DIVISION` を併用可
 2. 既定の DB: DynamoDB MRSC（MVP）か Aurora DSQL（SQL 寄りで COBOL の帳票文化と相性◎）か
 3. デモは実デプロイまで見せるか、帳票だけで足りるか（審査員が触れる環境の要否 ⚠️）
 4. Resurrection 単独か、Costume Contest 併願か
 5. 8i の実話をどこまで具体的に出すか（元職場の情報に触れない範囲）
 6. Kiro の新しめの機能（Powers / Agent Skills / Cloud sessions）をどこまで盛り込むか
 7. ✅ **決定: `CALL` 文（意図の宣言）＋ CLI サブコマンド（実行制御）の二層**（§4.6）。CLI 優先、省略時は `CALL` を既定アクションに。`compile`/`deploy`/`destroy` が MVP、`diff` はストレッチ
-8. ⚠️ **配布時のプロダクト名の再検討（未確認・要確認）**: 配布（§8）で名前が前面に出る以上、`cdk` を含む名前（例: `cdk-cobol`）は「これは CDK の言語バインディングか？」という、本メモが意図的に否定している誤解（CDK/jsii の区別＝§1/§6/§11）を再び招きうる。そこで CloudFormation 直結であることが伝わる名前（候補: `cobol-cfn` / `cobolform`）への変更を検討する。これはあくまで**オープンな検討事項**であり、Q1 の確定事項（プロダクト名 = `cdk-cobol`。§6/§15-Q1）を上書きするものではない。確定は配布準備時に判断する。
+8. ✅ **解決済み（Q1 に統合）: 配布時のプロダクト名の再検討**: `cdk` を含む名前は「CDK の言語バインディングか？」という、本メモが否定している誤解（CDK/jsii の区別＝§1/§6/§11）を招くため、`cobolform`（別名 `cobf`）に確定した。詳細は Q1 と §6 を参照。
 
 ## デモ動画の作り方（提出準備）
 
@@ -667,7 +672,7 @@ README・動画で「Kiro のどの機能で何を作ったか」を明示（審
 - → `CALL "DEPLOY"` は実行時解決の標準 CALL 文として本物の COBOL ランタイムで動く。§4.1 の「規約依存で DSL では？」という弱点を潰す実証になるため、**この実行デモを MVP に格上げ推奨**
 
 ### 16.4 検証3: CFN で DynamoDB MRSC を単一スタック宣言できるか → ✅ 可能
-- `AWS::DynamoDB::GlobalTable` の `ReplicaSpecification` に `MultiRegionConsistency: STRONG`、`GlobalTableWitness`（`{ "Region": String }`）で witness を指定
+- `AWS::DynamoDB::GlobalTable` のトップレベルに `MultiRegionConsistency: STRONG`、`GlobalTableWitnesses`（配列・最大 1 件、`{ "Region": String }`）で witness を指定（当初の「`ReplicaSpecification` 内」は誤記。公式スキーマと `cfn-lint` 1.60.0 で訂正）
 - 「3レプリカ or 2レプリカ＋1 witness」。witness はレプリカと別リージョンかつ同一 region set 内
 - **AP region set = 東京(ap-northeast-1)・ソウル(ap-northeast-2)・大阪(ap-northeast-3)** → §5.4 の 東京/大阪＋ソウル(witness) は妥当
 - 出典: AWS CloudFormation `GlobalTableWitness` ドキュメント、AWS News Blog（MRSC GA）
