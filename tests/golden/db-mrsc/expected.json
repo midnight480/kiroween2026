@@ -1,0 +1,56 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "ORDER-DB",
+  "Resources": {
+    "OrdersFile": {
+      "Type": "AWS::DynamoDB::GlobalTable",
+      "Properties": {
+        "BillingMode": "PAY_PER_REQUEST",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "ORDER-ID",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "ORDER-STATE",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "ORDER-ID",
+            "KeyType": "HASH"
+          }
+        ],
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "order-state-index",
+            "KeySchema": [
+              {
+                "AttributeName": "ORDER-STATE",
+                "KeyType": "HASH"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+          }
+        ],
+        "MultiRegionConsistency": "STRONG",
+        "Replicas": [
+          {
+            "Region": "ap-northeast-1"
+          },
+          {
+            "Region": "ap-northeast-3"
+          }
+        ],
+        "GlobalTableWitnesses": [
+          {
+            "Region": "ap-northeast-2"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "cobolform",
+  "version": "0.1.0",
+  "description": "Write AWS infrastructure in fixed-format COBOL. Compiles to CloudFormation.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "cobolform": "dist/cli.js",
+    "cobf": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudformation": "3.1166.0"
+  }
+}
