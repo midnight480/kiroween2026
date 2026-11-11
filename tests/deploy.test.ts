@@ -1,6 +1,7 @@
 import type { CloudFormationClient } from "@aws-sdk/client-cloudformation";
 import { describe, expect, it } from "vitest";
-import { deploy, destroy, isCredentialError } from "../src/deploy.js";
+import { deploy, destroy, isCredentialError, rollbackStateOf } from "../src/deploy.js";
+import { renderDeploy } from "../src/report.js";
 
 type Handler = (input: Record<string, unknown>) => unknown;
 
@@ -116,7 +117,7 @@ describe("deploy", () => {
       }),
     });
     const out = await deploy({ ...base, template, client });
-    expect(out).toMatchObject({ kind: "stack-failed", rolledBack: true });
+    expect(out).toMatchObject({ kind: "stack-failed", rollback: "restored" });
     if (out.kind === "stack-failed") expect(out.failures[0]?.reason).toBe("boom");
   });
 
@@ -129,6 +130,46 @@ describe("deploy", () => {
       },
     });
     expect(await deploy({ ...base, template, client })).toEqual({ kind: "no-credentials", detail: "CredentialsProviderError" });
+  });
+});
+
+describe("巻き戻しの判定（実機で ROLLBACK_FAILED を踏んで追加）", () => {
+  it("ROLLBACK_COMPLETE 系だけが「元に戻った」", () => {
+    expect(rollbackStateOf("ROLLBACK_COMPLETE")).toBe("restored");
+    expect(rollbackStateOf("UPDATE_ROLLBACK_COMPLETE")).toBe("restored");
+  });
+
+  it("ROLLBACK_FAILED は元に戻っていない", () => {
+    expect(rollbackStateOf("ROLLBACK_FAILED")).toBe("failed");
+    expect(rollbackStateOf("UPDATE_ROLLBACK_FAILED")).toBe("failed");
+  });
+
+  it("巻き戻しでない失敗は none", () => {
+    expect(rollbackStateOf("CREATE_FAILED")).toBe("none");
+  });
+
+  it("帳票は ROLLBACK_FAILED を「元に戻した」と表示しない", () => {
+    const { text, code } = renderDeploy({
+      kind: "stack-failed",
+      stackStatus: "ROLLBACK_FAILED",
+      rollback: "failed",
+      failures: [{ logicalId: "BadBucket", type: "AWS::S3::Bucket", reason: "boom" }],
+    });
+    expect(code).toBe(1);
+    expect(text).not.toContain("PRIOR STATE RESTORED");
+    expect(text).toContain("MANUAL CLEANUP REQUIRED");
+  });
+
+  it("長い失敗理由は切り捨てず折り返す（132 桁以内）", () => {
+    const reason = `${"x".repeat(200)}ROOT-CAUSE`;
+    const { text } = renderDeploy({
+      kind: "stack-failed",
+      stackStatus: "ROLLBACK_COMPLETE",
+      rollback: "restored",
+      failures: [{ logicalId: "B", type: "AWS::S3::Bucket", reason }],
+    });
+    expect(text).toContain("ROOT-CAUSE");
+    for (const l of text.split("\n")) expect(l.length).toBeLessThanOrEqual(132);
   });
 });
 

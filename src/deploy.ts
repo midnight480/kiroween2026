@@ -19,10 +19,22 @@ export type DeployOutcome =
   | { kind: "ok"; stackStatus: string }
   | { kind: "no-changes" }
   | { kind: "changeset-rejected"; reason: string }
-  | { kind: "stack-failed"; stackStatus: string; failures: FailedResource[]; rolledBack: boolean }
+  | { kind: "stack-failed"; stackStatus: string; failures: FailedResource[]; rollback: RollbackState }
   | { kind: "stack-unusable"; stackStatus: string; advice: string }
   | { kind: "no-credentials"; detail: string }
   | { kind: "aws-error"; detail: string };
+
+/**
+ * 巻き戻しの結果。`restored` は ROLLBACK_COMPLETE 系だけ。
+ * ROLLBACK_FAILED は元に戻っていないので `failed`（手動の後片付けが要る）。
+ */
+export type RollbackState = "none" | "restored" | "failed";
+
+export function rollbackStateOf(status: string): RollbackState {
+  if (status === "ROLLBACK_COMPLETE" || status === "UPDATE_ROLLBACK_COMPLETE") return "restored";
+  if (/ROLLBACK_FAILED$/.test(status)) return "failed";
+  return "none";
+}
 
 export interface FailedResource {
   logicalId: string;
@@ -173,7 +185,7 @@ export async function deploy(opts: DeployOptions): Promise<DeployOutcome> {
         type: e.ResourceType ?? "?",
         reason: e.ResourceStatusReason ?? "",
       }));
-    return { kind: "stack-failed", stackStatus: status, failures, rolledBack: /ROLLBACK/.test(status) };
+    return { kind: "stack-failed", stackStatus: status, failures, rollback: rollbackStateOf(status) };
   } catch (e) {
     return classify(e);
   }

@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, but only an S3 stack has been deployed to a real AWS account so far. `diff`, the browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, but DynamoDB MRSC has not been deployed to a real AWS account yet. S3, IAM and Lambda have. `diff`, the browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -156,9 +156,10 @@ Planned:
 - **Runtime check:** linked with the dummy [`deploy.cbl`](verify/samples/deploy.cbl) subprogram, the samples compile with `cobc -x` and run. This shows `CALL "DEPLOY"` resolves at run time like ordinary COBOL.
 - **CloudFormation schema:** `AWS::DynamoDB::GlobalTable` can declare MRSC in a single stack. Tokyo, Osaka and Seoul all fall in the same AP region set, so the sample's witness placement is valid.
 - **Transpiler output:** the golden cases in [`tests/golden/`](tests/golden/) (S3, IAM policy, Lambda, DynamoDB MRSC) pass `cfn-lint`, and the Vitest suite passes.
-- **Real AWS:** `examples/smoke-s3.cbl` was deployed, redeployed (no changes) and destroyed in a real account. The bucket had versioning enabled and all four public-access blocks on, as the COBOL asked.
+- **Real AWS:** in a real account, `examples/smoke-s3.cbl` was deployed, redeployed (no changes) and destroyed. The bucket had versioning enabled and all four public-access blocks on, as the COBOL asked. The Lambda golden case (IAM role plus function) deployed and the function returned `{"statusCode":200}` when invoked. The policy golden case deployed with the bucket ARN resolved inside the policy document.
+- **A real failure:** a deliberately invalid bucket name ended in `ROLLBACK_FAILED`. That exposed a bug where the report claimed the prior state was restored. It is fixed and covered by tests.
 
-What is not verified yet: IAM, Lambda and DynamoDB MRSC stacks have not been deployed to a real account, and rollback is only covered by tests with a fake client. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+What is not verified yet: DynamoDB MRSC has not been deployed to a real account (it creates tables in three regions). The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples
@@ -170,7 +171,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 
 1. Done: card reader, parser and semantic checks, covered by Vitest and golden tests (`.cbl` to expected CloudFormation).
 2. Done: emitters for S3, IAM, Lambda and DynamoDB, with `cfn-lint` on the golden outputs.
-3. Mostly done: deployer and the 132-column report. Real-account runs for IAM, Lambda and MRSC are still to do.
+3. Mostly done: deployer and the 132-column report. A real-account run for MRSC is still to do.
 4. Browser demo: a green-screen CRT editor and a virtual line printer. Compilation runs in the browser, and AWS credentials never reach it. Real deployments go through an authenticated backend.
 5. Stretch: `diff`, Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
 

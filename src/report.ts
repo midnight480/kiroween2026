@@ -8,6 +8,14 @@ function line(text: string): string {
   return text.length > WIDTH ? text.slice(0, WIDTH) : text;
 }
 
+/** 132 桁を超える行は切り捨てず折り返す（失敗理由は末尾に原因が来ることが多い）。 */
+function wrap(text: string, indent: string): string[] {
+  const width = WIDTH - indent.length;
+  const out: string[] = [];
+  for (let i = 0; i < text.length || i === 0; i += width) out.push(`${i === 0 ? indent : " ".repeat(indent.length)}${text.slice(i, i + width)}`);
+  return out;
+}
+
 export function header(title: string, stackName: string, region: string): string {
   const now = new Date().toISOString().replace("T", " ").slice(0, 19);
   return [RULE, line(`* ${title}   STACK=${stackName}   REGION=${region}   RUN=${now}Z`.padEnd(WIDTH - 1) + "*"), RULE].join("\n");
@@ -23,7 +31,7 @@ function abend(title: string, rows: string[]): string {
   return [
     RULE,
     line(`*** ABEND S0C7 *** ${title}`),
-    ...rows.map((r) => line(`    ${r}`)),
+    ...rows.flatMap((r) => wrap(r, "    ")),
     RULE,
   ].join("\n");
 }
@@ -43,7 +51,10 @@ export function renderDeploy(o: DeployOutcome): { text: string; code: number } {
           "STACK FAILED",
           [
             ...o.failures.map((f) => `${f.logicalId} (${f.type}): ${f.reason}`),
-            ...(o.rolledBack ? ["ROLLBACK — PRIOR STATE RESTORED"] : []),
+            ...(o.rollback === "restored" ? ["ROLLBACK — PRIOR STATE RESTORED"] : []),
+            ...(o.rollback === "failed"
+              ? [`ROLLBACK FAILED (${o.stackStatus}) — STATE NOT RESTORED. MANUAL CLEANUP REQUIRED`]
+              : []),
           ],
         ),
         code: 1,
