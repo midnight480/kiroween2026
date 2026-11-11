@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Sync README translations",
+      "trigger": "PostFileSave",
+      "description": "When README.md (English, source of truth) is saved, update every README_*.md translation to match.",
+      "matcher": "(^|/)README\\.md$",
+      "action": {
+        "type": "agent",
+        "prompt": "README.md was changed. It is the English source of truth. Review the change (for example with git diff) and update every translated README in the same directory (README_*.md, currently README_ja.md) so that its structure and content match README.md. Translate only what changed, keep the existing wording elsewhere, and leave code blocks, commands, file paths and URLs as in README.md. Keep the language-switch link at the top of each file. If a translation is already in sync, do nothing."
+      }
+    }
+  ]
+}
