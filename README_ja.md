@@ -7,7 +7,7 @@
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は S3、IAM、Lambda、DynamoDB（単一テーブルと MRSC）の COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動きますが、DynamoDB MRSC はまだ実際の AWS アカウントにデプロイしていません。S3、IAM、Lambda はデプロイ済みです。`diff`、ブラウザデモ、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は S3、IAM、Lambda、DynamoDB（単一テーブルと MRSC）の COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、MVP の 4 種類のリソース（S3、IAM、Lambda、MRSC を含む DynamoDB）はすべて実際の AWS アカウントにデプロイ済みです。`diff`、ブラウザデモ、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 
@@ -159,7 +159,9 @@ CLI でサブコマンドを明示した場合はそれが最優先です。省�
 - **実際の AWS:** 実アカウントで、`examples/smoke-s3.cbl` をデプロイし、再デプロイ（変更なし）、削除まで行いました。バケットは、COBOL に書いたとおり、バージョニングが有効で、パブリックアクセスブロックの 4 項目がすべて有効でした。Lambda のゴールデン（IAM ロールと関数）もデプロイでき、関数を呼び出すと `{"statusCode":200}` が返りました。ポリシーのゴールデンもデプロイでき、ポリシー文書の中でバケットの ARN が解決されていました。
 - **実際の失敗:** わざと不正なバケット名にしたところ、`ROLLBACK_FAILED` になりました。このとき、帳票が「元の状態に戻した」と表示する不具合が見つかりました。修正済みで、テストもあります。
 
-まだ検証していないこと: DynamoDB MRSC は実アカウントにデプロイしていません（3 つのリージョンにテーブルが作られます）。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
+- **MRSC:** DynamoDB のゴールデンが、東京・大阪にレプリカ、ソウルに witness を持つ強整合のグローバルテーブルとしてデプロイできました。東京に書き込んだ項目を、大阪から強整合読み取りで読み戻せました。最初の 1 回は、CloudFormation の内部で一時的な `UnrecognizedClientException` が出て失敗しました。ほかの形のグローバルテーブルでの実験は成功し、何も変えずに再実行しても成功したので、テンプレートの問題ではありません。
+
+まだ検証していないこと: 変更した `.cbl` による既存スタックの更新（試したのは変更なしの再デプロイだけ）と、更新時のロールバックです。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
 
 ```
 cd verify/samples
@@ -171,7 +173,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 
 1. 完了: Card Reader、パーサ、セマンティックチェック。Vitest とゴールデンテスト（`.cbl` → 期待する CloudFormation）で固める
 2. 完了: S3、IAM、Lambda、DynamoDB の Emitter。ゴールデンの出力に `cfn-lint` を実行
-3. ほぼ完了: Deployer と 132 桁帳票。MRSC の実アカウントでの実行が残っています。
+3. ほぼ完了: Deployer と 132 桁帳票。変更した `.cbl` による既存スタックの更新を、実アカウントで試すことが残っています。
 4. ブラウザデモ: 緑画面の CRT エディタと仮想ラインプリンター。コンパイルはブラウザ内で完結し、AWS 資格情報はブラウザに渡しません。実デプロイは認証付きバックエンド経由です。
 5. ストレッチ: `diff`、Aurora DSQL、CDK L1 出力、cfn-guard によるセキュリティポリシーチェック
 

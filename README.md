@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, but DynamoDB MRSC has not been deployed to a real AWS account yet. S3, IAM and Lambda have. `diff`, the browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and all four MVP resource types (S3, IAM, Lambda, DynamoDB including MRSC) have been deployed to a real AWS account. `diff`, the browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -159,7 +159,9 @@ Planned:
 - **Real AWS:** in a real account, `examples/smoke-s3.cbl` was deployed, redeployed (no changes) and destroyed. The bucket had versioning enabled and all four public-access blocks on, as the COBOL asked. The Lambda golden case (IAM role plus function) deployed and the function returned `{"statusCode":200}` when invoked. The policy golden case deployed with the bucket ARN resolved inside the policy document.
 - **A real failure:** a deliberately invalid bucket name ended in `ROLLBACK_FAILED`. That exposed a bug where the report claimed the prior state was restored. It is fixed and covered by tests.
 
-What is not verified yet: DynamoDB MRSC has not been deployed to a real account (it creates tables in three regions). The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+- **MRSC:** the DynamoDB golden case deployed as a strongly consistent global table with replicas in Tokyo and Osaka and a witness in Seoul. An item written in Tokyo was read back from Osaka with a consistent read. The first attempt failed once with a transient `UnrecognizedClientException` raised inside CloudFormation. Experiments with other global table shapes succeeded, and an unchanged retry succeeded, so it was not a template problem.
+
+What is not verified yet: updating an existing stack with a changed `.cbl` (only the no-change redeploy was tried), and rollback of an update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples
@@ -171,7 +173,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 
 1. Done: card reader, parser and semantic checks, covered by Vitest and golden tests (`.cbl` to expected CloudFormation).
 2. Done: emitters for S3, IAM, Lambda and DynamoDB, with `cfn-lint` on the golden outputs.
-3. Mostly done: deployer and the 132-column report. A real-account run for MRSC is still to do.
+3. Mostly done: deployer and the 132-column report. Updating an existing stack from a changed `.cbl` is still to be tried on a real account.
 4. Browser demo: a green-screen CRT editor and a virtual line printer. Compilation runs in the browser, and AWS credentials never reach it. Real deployments go through an authenticated backend.
 5. Stretch: `diff`, Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
 
