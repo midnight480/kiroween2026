@@ -42,6 +42,15 @@ const GHOST = [
   "     THE ERA OF DB-LINK REDUNDANCY IS OVER. USE DYNAMODB-MRSC.",
 ];
 
+/** ALB + EC2 + RDS を検出したときの「落ち」。 */
+const PUNCHLINE = [
+  "  ALB  ->  EC2  ->  RDS",
+  "  .--------.   .--------.   .--------.",
+  "  |  LOAD  |-->|  WEB   |-->|   DB   |     <- THE CLASSIC THREE-TIER, AGAIN",
+  "  '--------'   '--------'   '--------'",
+  "  1998 CALLED. THEY WANT THEIR ARCHITECTURE BACK.",
+];
+
 /**
  * ソースを検査して、ラインプリンターに印字する帳票を作る。
  * ブラウザでも Node でも動く純粋関数（時刻は引数で受け取る）。
@@ -74,6 +83,11 @@ export function buildListing(source: string, file = "PROGRAM.CBL", now = new Dat
     push(RULE, "rule");
     push(boxed(`TOTAL RESOURCES: ${ids.length}   WARNINGS: ${result.warnings.length}   INTENT: ${result.intent ?? "COMPILE"}`), "rule");
     push(RULE, "rule");
+    // 落ち: 王道の 3 層構成を検出したときだけ
+    if (result.warnings.some((w) => w.code === "CLASSIC-THREE-TIER")) {
+      push("");
+      for (const l of PUNCHLINE) push(l, "ghost");
+    }
     return { lines, ok: true };
   } catch (e) {
     if (!(e instanceof CobolError)) throw e;

@@ -1,0 +1,133 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "OLD-SCHOOL",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "OldVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "172.31.0.0/16",
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true
+      }
+    },
+    "OldIgw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {}
+    },
+    "OldAttach": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "OldVpc"
+        },
+        "InternetGatewayId": {
+          "Ref": "OldIgw"
+        }
+      }
+    },
+    "OldRt": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "OldVpc"
+        }
+      }
+    },
+    "OldRoute": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "OldAttach",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "OldRt"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "OldIgw"
+        }
+      }
+    },
+    "OldSubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "OldVpc"
+        },
+        "CidrBlock": "172.31.1.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "MapPublicIpOnLaunch": true
+      }
+    },
+    "OldAssoc": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "OldSubnet"
+        },
+        "RouteTableId": {
+          "Ref": "OldRt"
+        }
+      }
+    },
+    "OldWebServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}",
+        "InstanceType": "t3.micro",
+        "SubnetId": {
+          "Ref": "OldSubnet"
+        },
+        "BlockDeviceMappings": [
+          {
+            "Ebs": {
+              "VolumeSize": 12,
+              "Encrypted": true,
+              "VolumeType": "gp3"
+            },
+            "DeviceName": "/dev/xvda"
+          }
+        ],
+        "MetadataOptions": {
+          "HttpTokens": "required"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "web-1"
+          }
+        ]
+      }
+    },
+    "OldBalancer": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "Subnets": [
+          {
+            "Ref": "OldSubnet"
+          }
+        ],
+        "Instances": [
+          {
+            "Ref": "OldWebServer"
+          }
+        ],
+        "HealthCheck": {
+          "Target": "HTTP:80/",
+          "Interval": "30",
+          "Timeout": "5",
+          "HealthyThreshold": "3",
+          "UnhealthyThreshold": "5"
+        },
+        "Listeners": [
+          {
+            "LoadBalancerPort": "80",
+            "InstancePort": "80",
+            "Protocol": "HTTP"
+          }
+        ]
+      }
+    }
+  }
+}

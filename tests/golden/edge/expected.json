@@ -1,0 +1,89 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "EDGE-FRONT",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "PublicZone": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "Name": "example.com"
+      }
+    },
+    "SiteCertificate": {
+      "Type": "AWS::CertificateManager::Certificate",
+      "Properties": {
+        "DomainName": "www.example.com",
+        "DomainValidationOptions": [
+          {
+            "HostedZoneId": {
+              "Ref": "PublicZone"
+            },
+            "DomainName": "www.example.com"
+          }
+        ],
+        "ValidationMethod": "DNS"
+      }
+    },
+    "SiteCdn": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [
+            "www.example.com"
+          ],
+          "PriceClass": "PriceClass_100",
+          "HttpVersion": "http2and3",
+          "Origins": [
+            {
+              "DomainName": "origin.example.com",
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "https-only"
+              },
+              "Id": "origin-1"
+            }
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "TargetOriginId": "origin-1"
+          },
+          "ViewerCertificate": {
+            "AcmCertificateArn": {
+              "Ref": "SiteCertificate"
+            },
+            "SslSupportMethod": "sni-only",
+            "MinimumProtocolVersion": "TLSv1.2_2021"
+          },
+          "Enabled": true
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "cobolform-edge"
+          }
+        ]
+      }
+    },
+    "SiteRecord": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "PublicZone"
+        },
+        "Name": "www.example.com",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "Z2FDTNDATAQYW2",
+          "DNSName": {
+            "Fn::GetAtt": [
+              "SiteCdn",
+              "DomainName"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,356 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "THREE-TIER",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "MainVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "cobolform-3tier"
+          }
+        ]
+      }
+    },
+    "MainIgw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "cobolform-3tier"
+          }
+        ]
+      }
+    },
+    "IgwAttach": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "InternetGatewayId": {
+          "Ref": "MainIgw"
+        }
+      }
+    },
+    "PublicRt": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "public"
+          }
+        ]
+      }
+    },
+    "PublicRoute": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "IgwAttach",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "PublicRt"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "MainIgw"
+        }
+      }
+    },
+    "PublicSubnetA": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "CidrBlock": "10.0.1.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "public-a"
+          }
+        ]
+      }
+    },
+    "PublicAssocA": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "PublicSubnetA"
+        },
+        "RouteTableId": {
+          "Ref": "PublicRt"
+        }
+      }
+    },
+    "PublicSubnetC": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": "ap-northeast-1c",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "public-c"
+          }
+        ]
+      }
+    },
+    "PublicAssocC": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "PublicSubnetC"
+        },
+        "RouteTableId": {
+          "Ref": "PublicRt"
+        }
+      }
+    },
+    "DataSubnetA": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "CidrBlock": "10.0.11.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "data-a"
+          }
+        ]
+      }
+    },
+    "DataSubnetC": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "CidrBlock": "10.0.12.0/24",
+        "AvailabilityZone": "ap-northeast-1c",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "data-c"
+          }
+        ]
+      }
+    },
+    "AlbSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Public web traffic",
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+    "WebSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Only from the load balancer",
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "SourceSecurityGroupId": {
+              "Ref": "AlbSecurityGroup"
+            }
+          }
+        ]
+      }
+    },
+    "DataSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Only from the web tier",
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 3306,
+            "ToPort": 3306,
+            "SourceSecurityGroupId": {
+              "Ref": "WebSecurityGroup"
+            }
+          }
+        ]
+      }
+    },
+    "WebTemplate": {
+      "Type": "AWS::EC2::LaunchTemplate",
+      "Properties": {
+        "LaunchTemplateData": {
+          "ImageId": "{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}",
+          "InstanceType": "t3.micro",
+          "SecurityGroupIds": [
+            {
+              "Ref": "WebSecurityGroup"
+            }
+          ],
+          "UserData": {
+            "Fn::Base64": "#!/bin/bash\ndnf install -y httpd\necho COBOL > /var/www/html/index.html\nsystemctl enable --now httpd"
+          },
+          "MetadataOptions": {
+            "HttpTokens": "required"
+          }
+        }
+      }
+    },
+    "MainLoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Type": "application",
+        "Scheme": "internet-facing",
+        "Subnets": [
+          {
+            "Ref": "PublicSubnetA"
+          },
+          {
+            "Ref": "PublicSubnetC"
+          }
+        ],
+        "SecurityGroups": [
+          {
+            "Ref": "AlbSecurityGroup"
+          }
+        ]
+      }
+    },
+    "WebTargets": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "VpcId": {
+          "Ref": "MainVpc"
+        },
+        "TargetType": "instance",
+        "HealthCheckPath": "/"
+      }
+    },
+    "HttpListener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "LoadBalancerArn": {
+          "Ref": "MainLoadBalancer"
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "WebTargets"
+            },
+            "Type": "forward"
+          }
+        ]
+      }
+    },
+    "WebFleet": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "MinSize": "1",
+        "MaxSize": "2",
+        "DesiredCapacity": "1",
+        "VPCZoneIdentifier": [
+          {
+            "Ref": "PublicSubnetA"
+          },
+          {
+            "Ref": "PublicSubnetC"
+          }
+        ],
+        "LaunchTemplate": {
+          "LaunchTemplateId": {
+            "Ref": "WebTemplate"
+          },
+          "Version": {
+            "Fn::GetAtt": [
+              "WebTemplate",
+              "LatestVersionNumber"
+            ]
+          }
+        },
+        "TargetGroupARNs": [
+          {
+            "Ref": "WebTargets"
+          }
+        ],
+        "HealthCheckType": "ELB",
+        "HealthCheckGracePeriod": 120
+      }
+    },
+    "MainDbSubnets": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "Data tier",
+        "SubnetIds": [
+          {
+            "Ref": "DataSubnetA"
+          },
+          {
+            "Ref": "DataSubnetC"
+          }
+        ]
+      }
+    },
+    "MainDatabase": {
+      "Type": "AWS::RDS::DBInstance",
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DBInstanceClass": "db.t4g.micro",
+        "Engine": "mysql",
+        "EngineVersion": "8.0",
+        "AllocatedStorage": "20",
+        "MasterUsername": "admin",
+        "DBName": "orders",
+        "DBSubnetGroupName": {
+          "Ref": "MainDbSubnets"
+        },
+        "VPCSecurityGroups": [
+          {
+            "Ref": "DataSecurityGroup"
+          }
+        ],
+        "StorageEncrypted": true,
+        "PubliclyAccessible": false,
+        "ManageMasterUserPassword": true
+      }
+    }
+  }
+}

@@ -18,7 +18,7 @@ describe("ブラウザ用の帳票（buildListing）", () => {
   });
 
   it("全行が 132 桁以内に収まる（長い ARN や ZipFile も折り返す）", () => {
-    for (const name of ["s3", "lambda", "policy-ref", "db-mrsc"]) {
+    for (const name of ["s3", "lambda", "policy-ref", "db-mrsc", "three-tier", "edge", "classic"]) {
       for (const l of buildListing(golden(name), "T.CBL", NOW).lines) {
         expect(l.text.length, `${name}: ${l.text}`).toBeLessThanOrEqual(WIDTH);
       }
@@ -61,6 +61,20 @@ describe("ブラウザ用の帳票（buildListing）", () => {
     const r = buildListing(noStop, "T.CBL", NOW);
     expect(r.ok).toBe(true);
     expect(r.lines.some((l) => l.cls === "warn" && l.text.includes("MISSING-STOP-RUN"))).toBe(true);
+  });
+
+  it("ALB + EC2 + RDS の王道の 3 層構成には、落ちが付く", () => {
+    const r = buildListing(golden("three-tier"), "T.CBL", NOW);
+    const text = r.lines.map((l) => l.text).join("\n");
+    expect(r.ok).toBe(true);
+    expect(text).toContain("1998 CALLED");
+    expect(r.lines.some((l) => l.cls === "ghost" && l.text.includes("THREE-TIER"))).toBe(true);
+  });
+
+  it("3 層でないものには、落ちが付かない", () => {
+    for (const name of ["s3", "lambda", "classic", "edge"]) {
+      expect(buildListing(golden(name), "T.CBL", NOW).lines.some((l) => l.text.includes("1998 CALLED")), name).toBe(false);
+    }
   });
 
   it("同じ入力と時刻なら同じ帳票になる（純粋関数）", () => {
