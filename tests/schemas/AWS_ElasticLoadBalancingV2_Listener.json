@@ -1,0 +1,328 @@
+{
+ "type": "AWS::ElasticLoadBalancingV2::Listener",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "DefaultActions",
+   "LoadBalancerArn"
+  ],
+  "Certificates.*": [],
+  "DefaultActions.*": [
+   "Type"
+  ],
+  "DefaultActions.*.AuthenticateCognitoConfig": [
+   "UserPoolArn",
+   "UserPoolClientId",
+   "UserPoolDomain"
+  ],
+  "DefaultActions.*.AuthenticateOidcConfig": [
+   "AuthorizationEndpoint",
+   "ClientId",
+   "Issuer",
+   "TokenEndpoint",
+   "UserInfoEndpoint"
+  ],
+  "DefaultActions.*.FixedResponseConfig": [
+   "StatusCode"
+  ],
+  "DefaultActions.*.ForwardConfig": [],
+  "DefaultActions.*.ForwardConfig.TargetGroupStickinessConfig": [],
+  "DefaultActions.*.ForwardConfig.TargetGroups.*": [],
+  "DefaultActions.*.JwtValidationConfig": [
+   "Issuer",
+   "JwksEndpoint"
+  ],
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*": [
+   "Format",
+   "Name",
+   "Values"
+  ],
+  "DefaultActions.*.RedirectConfig": [
+   "StatusCode"
+  ],
+  "ListenerAttributes.*": [],
+  "MutualAuthentication": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AlpnPolicy": {
+   "type": "array"
+  },
+  "AlpnPolicy.*": {
+   "type": "string"
+  },
+  "Certificates": {
+   "type": "array"
+  },
+  "Certificates.*": {
+   "type": "object"
+  },
+  "Certificates.*.CertificateArn": {
+   "type": "string"
+  },
+  "DefaultActions": {
+   "type": "array"
+  },
+  "DefaultActions.*": {
+   "type": "object"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.AuthenticationRequestExtraParams": {
+   "type": "object"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.OnUnauthenticatedRequest": {
+   "type": "string",
+   "enum": [
+    "allow",
+    "authenticate",
+    "deny"
+   ]
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.Scope": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.SessionCookieName": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.SessionTimeout": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.UserPoolArn": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.UserPoolClientId": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateCognitoConfig.UserPoolDomain": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.AuthenticationRequestExtraParams": {
+   "type": "object"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.AuthorizationEndpoint": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.ClientId": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.ClientSecret": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.Issuer": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.OnUnauthenticatedRequest": {
+   "type": "string",
+   "enum": [
+    "allow",
+    "authenticate",
+    "deny"
+   ]
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.Scope": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.SessionCookieName": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.SessionTimeout": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.TokenEndpoint": {
+   "type": "string"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.UseExistingClientSecret": {
+   "type": "boolean"
+  },
+  "DefaultActions.*.AuthenticateOidcConfig.UserInfoEndpoint": {
+   "type": "string"
+  },
+  "DefaultActions.*.FixedResponseConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.FixedResponseConfig.ContentType": {
+   "type": "string"
+  },
+  "DefaultActions.*.FixedResponseConfig.MessageBody": {
+   "type": "string"
+  },
+  "DefaultActions.*.FixedResponseConfig.StatusCode": {
+   "type": "string"
+  },
+  "DefaultActions.*.ForwardConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroupStickinessConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroupStickinessConfig.DurationSeconds": {
+   "type": "integer"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroupStickinessConfig.Enabled": {
+   "type": "boolean"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroups": {
+   "type": "array"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroups.*": {
+   "type": "object"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroups.*.TargetGroupArn": {
+   "type": "string"
+  },
+  "DefaultActions.*.ForwardConfig.TargetGroups.*.Weight": {
+   "type": "integer"
+  },
+  "DefaultActions.*.JwtValidationConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims": {
+   "type": "array"
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*": {
+   "type": "object"
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*.Format": {
+   "type": "string",
+   "enum": [
+    "single-string",
+    "space-separated-values",
+    "string-array"
+   ]
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*.Name": {
+   "type": "string"
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*.Values": {
+   "type": "array"
+  },
+  "DefaultActions.*.JwtValidationConfig.AdditionalClaims.*.Values.*": {
+   "type": "string"
+  },
+  "DefaultActions.*.JwtValidationConfig.Issuer": {
+   "type": "string"
+  },
+  "DefaultActions.*.JwtValidationConfig.JwksEndpoint": {
+   "type": "string"
+  },
+  "DefaultActions.*.Order": {
+   "type": "integer"
+  },
+  "DefaultActions.*.RedirectConfig": {
+   "type": "object"
+  },
+  "DefaultActions.*.RedirectConfig.Host": {
+   "type": "string"
+  },
+  "DefaultActions.*.RedirectConfig.Path": {
+   "type": "string"
+  },
+  "DefaultActions.*.RedirectConfig.Port": {
+   "type": "string"
+  },
+  "DefaultActions.*.RedirectConfig.Protocol": {
+   "type": "string"
+  },
+  "DefaultActions.*.RedirectConfig.Query": {
+   "type": "string"
+  },
+  "DefaultActions.*.RedirectConfig.StatusCode": {
+   "type": "string",
+   "enum": [
+    "HTTP_301",
+    "HTTP_302"
+   ]
+  },
+  "DefaultActions.*.TargetGroupArn": {
+   "type": "string"
+  },
+  "DefaultActions.*.Type": {
+   "type": "string",
+   "enum": [
+    "authenticate-cognito",
+    "authenticate-oidc",
+    "fixed-response",
+    "forward",
+    "jwt-validation",
+    "redirect"
+   ]
+  },
+  "ListenerArn": {
+   "type": "string"
+  },
+  "ListenerAttributes": {
+   "type": "array"
+  },
+  "ListenerAttributes.*": {
+   "type": "object"
+  },
+  "ListenerAttributes.*.Key": {
+   "type": "string"
+  },
+  "ListenerAttributes.*.Value": {
+   "type": "string"
+  },
+  "LoadBalancerArn": {
+   "type": "string"
+  },
+  "MutualAuthentication": {
+   "type": "object"
+  },
+  "MutualAuthentication.AdvertiseTrustStoreCaNames": {
+   "type": "string",
+   "enum": [
+    "off",
+    "on"
+   ]
+  },
+  "MutualAuthentication.IgnoreClientCertificateExpiry": {
+   "type": "boolean"
+  },
+  "MutualAuthentication.Mode": {
+   "type": "string"
+  },
+  "MutualAuthentication.TrustStoreArn": {
+   "type": "string"
+  },
+  "Port": {
+   "type": "integer"
+  },
+  "Protocol": {
+   "type": "string",
+   "enum": [
+    "GENEVE",
+    "HTTP",
+    "HTTPS",
+    "QUIC",
+    "TCP",
+    "TCP_QUIC",
+    "TCP_UDP",
+    "TLS",
+    "UDP"
+   ]
+  },
+  "SslPolicy": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

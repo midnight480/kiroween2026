@@ -1,0 +1,79 @@
+{
+ "type": "AWS::Route53::HostedZone",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "HostedZoneConfig": [],
+  "HostedZoneFeatures": [],
+  "HostedZoneTags.*": [
+   "Key",
+   "Value"
+  ],
+  "QueryLoggingConfig": [
+   "CloudWatchLogsLogGroupArn"
+  ],
+  "VPCs.*": [
+   "VPCId",
+   "VPCRegion"
+  ]
+ },
+ "paths": {
+  "DelegationSetId": {
+   "type": "string"
+  },
+  "HostedZoneConfig": {
+   "type": "object"
+  },
+  "HostedZoneConfig.Comment": {
+   "type": "string"
+  },
+  "HostedZoneFeatures": {
+   "type": "object"
+  },
+  "HostedZoneFeatures.EnableAcceleratedRecovery": {
+   "type": "boolean"
+  },
+  "HostedZoneTags": {
+   "type": "array"
+  },
+  "HostedZoneTags.*": {
+   "type": "object"
+  },
+  "HostedZoneTags.*.Key": {
+   "type": "string"
+  },
+  "HostedZoneTags.*.Value": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "Name": {
+   "type": "string"
+  },
+  "NameServers": {
+   "type": "array"
+  },
+  "NameServers.*": {
+   "type": "string"
+  },
+  "QueryLoggingConfig": {
+   "type": "object"
+  },
+  "QueryLoggingConfig.CloudWatchLogsLogGroupArn": {
+   "type": "string"
+  },
+  "VPCs": {
+   "type": "array"
+  },
+  "VPCs.*": {
+   "type": "object"
+  },
+  "VPCs.*.VPCId": {
+   "type": "string"
+  },
+  "VPCs.*.VPCRegion": {
+   "type": "string"
+  }
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "type": "AWS::EC2::SubnetRouteTableAssociation",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "RouteTableId",
+   "SubnetId"
+  ]
+ },
+ "paths": {
+  "Id": {
+   "type": "string"
+  },
+  "RouteTableId": {
+   "type": "string"
+  },
+  "SubnetId": {
+   "type": "string"
+  }
+ }
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COBOL DEPLOY DIVISION — cobolform</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <h1>COBOL DEPLOY DIVISION <span class="sub">cobolform</span></h1>
+      <div class="controls">
+        <label for="sample" data-i18n="sample">Sample</label>
+        <select id="sample"></select>
+        <button id="mute" type="button" aria-pressed="true" data-i18n-title="soundTitle" title="Toggle the dot-matrix printer sound">Sound: OFF</button>
+        <button id="lang" type="button" lang="ja" aria-label="Switch language">日本語</button>
+      </div>
+    </header>
+
+    <main class="panes">
+      <section class="pane crt" aria-labelledby="editor-title">
+        <h2 id="editor-title"><span data-i18n="editor">EDITOR</span> <span class="hint" data-i18n="editorHint">80 columns · col 7 = indicator · col 12 = Area B · col 72 = last</span></h2>
+        <div class="editor">
+          <pre class="ruler" aria-hidden="true"></pre>
+          <div class="editor-body">
+            <div class="guides" aria-hidden="true"><i class="g7"></i><i class="g12"></i><i class="g72"></i></div>
+            <textarea
+              id="source"
+              spellcheck="false"
+              autocapitalize="characters"
+              autocomplete="off"
+              wrap="off"
+              data-i18n-label="editorLabel"
+              aria-label="COBOL source (fixed format)"
+            ></textarea>
+          </div>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="pane printer" aria-labelledby="printer-title">
+        <h2 id="printer-title"><span data-i18n="printer">LINE PRINTER</span> <span class="hint" data-i18n="printerHint">132-column continuous form</span></h2>
+        <div class="paper" id="paper" tabindex="0" data-i18n-label="printerLabel" aria-label="Line printer output" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="foot" data-i18n="footer">
+      Compilation runs entirely in this page, so no AWS credentials ever reach the browser. Deployment is done with the CLI (cobf deploy) or an authenticated backend.
+    </footer>
+
+    <script src="dist/app.js"></script>
+  </body>
+</html>

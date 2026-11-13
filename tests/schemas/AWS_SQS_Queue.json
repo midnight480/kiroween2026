@@ -1,0 +1,83 @@
+{
+ "type": "AWS::SQS::Queue",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "RedrivePolicy": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "ContentBasedDeduplication": {
+   "type": "boolean"
+  },
+  "DeduplicationScope": {
+   "type": "string"
+  },
+  "DelaySeconds": {
+   "type": "integer"
+  },
+  "FifoQueue": {
+   "type": "boolean"
+  },
+  "FifoThroughputLimit": {
+   "type": "string"
+  },
+  "KmsDataKeyReusePeriodSeconds": {
+   "type": "integer"
+  },
+  "KmsMasterKeyId": {
+   "type": "string"
+  },
+  "MaximumMessageSize": {
+   "type": "integer"
+  },
+  "MessageRetentionPeriod": {
+   "type": "integer"
+  },
+  "QueueName": {
+   "type": "string"
+  },
+  "QueueUrl": {
+   "type": "string"
+  },
+  "ReceiveMessageWaitTimeSeconds": {
+   "type": "integer"
+  },
+  "RedriveAllowPolicy": {
+   "type": "object"
+  },
+  "RedrivePolicy": {
+   "type": "object"
+  },
+  "RedrivePolicy.deadLetterTargetArn": {
+   "type": "string"
+  },
+  "RedrivePolicy.maxReceiveCount": {
+   "type": "integer"
+  },
+  "SqsManagedSseEnabled": {
+   "type": "boolean"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VisibilityTimeout": {
+   "type": "integer"
+  }
+ }
+}

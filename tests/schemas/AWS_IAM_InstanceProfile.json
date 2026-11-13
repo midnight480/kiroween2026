@@ -1,0 +1,26 @@
+{
+ "type": "AWS::IAM::InstanceProfile",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Roles"
+  ]
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "InstanceProfileName": {
+   "type": "string"
+  },
+  "Path": {
+   "type": "string"
+  },
+  "Roles": {
+   "type": "array"
+  },
+  "Roles.*": {
+   "type": "string"
+  }
+ }
+}

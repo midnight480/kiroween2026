@@ -1,0 +1,126 @@
+{
+ "type": "AWS::Route53::RecordSet",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Name",
+   "Type"
+  ],
+  "AliasTarget": [
+   "DNSName",
+   "HostedZoneId"
+  ],
+  "CidrRoutingConfig": [
+   "CollectionId",
+   "LocationName"
+  ],
+  "GeoLocation": [],
+  "GeoProximityLocation": [],
+  "GeoProximityLocation.Coordinates": [
+   "Latitude",
+   "Longitude"
+  ]
+ },
+ "paths": {
+  "AliasTarget": {
+   "type": "object"
+  },
+  "AliasTarget.DNSName": {
+   "type": "string"
+  },
+  "AliasTarget.EvaluateTargetHealth": {
+   "type": "boolean"
+  },
+  "AliasTarget.HostedZoneId": {
+   "type": "string"
+  },
+  "CidrRoutingConfig": {
+   "type": "object"
+  },
+  "CidrRoutingConfig.CollectionId": {
+   "type": "string"
+  },
+  "CidrRoutingConfig.LocationName": {
+   "type": "string"
+  },
+  "Comment": {
+   "type": "string"
+  },
+  "Failover": {
+   "type": "string",
+   "enum": [
+    "PRIMARY",
+    "SECONDARY"
+   ]
+  },
+  "GeoLocation": {
+   "type": "object"
+  },
+  "GeoLocation.ContinentCode": {
+   "type": "string"
+  },
+  "GeoLocation.CountryCode": {
+   "type": "string"
+  },
+  "GeoLocation.SubdivisionCode": {
+   "type": "string"
+  },
+  "GeoProximityLocation": {
+   "type": "object"
+  },
+  "GeoProximityLocation.AWSRegion": {
+   "type": "string"
+  },
+  "GeoProximityLocation.Bias": {
+   "type": "integer"
+  },
+  "GeoProximityLocation.Coordinates": {
+   "type": "object"
+  },
+  "GeoProximityLocation.Coordinates.Latitude": {
+   "type": "string"
+  },
+  "GeoProximityLocation.Coordinates.Longitude": {
+   "type": "string"
+  },
+  "GeoProximityLocation.LocalZoneGroup": {
+   "type": "string"
+  },
+  "HealthCheckId": {
+   "type": "string"
+  },
+  "HostedZoneId": {
+   "type": "string"
+  },
+  "HostedZoneName": {
+   "type": "string"
+  },
+  "MultiValueAnswer": {
+   "type": "boolean"
+  },
+  "Name": {
+   "type": "string"
+  },
+  "Region": {
+   "type": "string"
+  },
+  "ResourceRecords": {
+   "type": "array"
+  },
+  "ResourceRecords.*": {
+   "type": "string"
+  },
+  "SetIdentifier": {
+   "type": "string"
+  },
+  "TTL": {
+   "type": "string"
+  },
+  "Type": {
+   "type": "string"
+  },
+  "Weight": {
+   "type": "integer"
+  }
+ }
+}

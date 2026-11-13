@@ -1,0 +1,287 @@
+:root {
+  --green: #5dff7a;
+  --green-dim: #2fa84a;
+  --bg: #031007;
+  --ink: #1b1b1b;
+  --blood: #8b0000;
+  --warn: #7a5200;
+  --paper: #f4f1e6;
+  --bar: #dcebd5;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --pad: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  color: var(--green);
+  font-family: var(--mono);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--green-dim);
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+h1 .sub {
+  color: var(--green-dim);
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+h2 .hint {
+  font-weight: normal;
+  font-size: 0.75rem;
+  color: var(--green-dim);
+  margin-left: 8px;
+  letter-spacing: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+select,
+button {
+  font: inherit;
+  color: var(--green);
+  background: var(--bg);
+  border: 1px solid var(--green-dim);
+  padding: 4px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+select:focus-visible,
+button:focus-visible,
+textarea:focus-visible,
+.paper:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.panes {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+}
+
+@media (max-width: 960px) {
+  .panes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pane {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------- CRT ---------- */
+
+.crt {
+  position: relative;
+  background: var(--bg);
+  border: 2px solid #0c2a14;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.9), 0 0 24px rgba(93, 255, 122, 0.12);
+  overflow: hidden;
+}
+
+/* 走査線とビネット。クリックは通す */
+.crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  animation: flicker 6s infinite;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crt::after {
+    animation: none;
+  }
+}
+
+.editor {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-x: auto;
+}
+
+.ruler,
+textarea {
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: 0;
+  tab-size: 8;
+}
+
+.ruler {
+  margin: 0;
+  padding: 0 var(--pad);
+  color: var(--green-dim);
+  width: calc(80ch + 2 * var(--pad));
+  user-select: none;
+}
+
+.editor-body {
+  position: relative;
+  width: calc(80ch + 2 * var(--pad));
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 52vh;
+  padding: var(--pad);
+  background: transparent;
+  color: var(--green);
+  border: 0;
+  resize: vertical;
+  white-space: pre;
+  overflow: auto;
+  caret-color: var(--green);
+  text-shadow: 0 0 6px rgba(93, 255, 122, 0.55);
+}
+
+/* 7・12・72 桁目の縦線（各桁の直前に引く） */
+.guides i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(93, 255, 122, 0.32);
+  pointer-events: none;
+}
+.guides .g7 {
+  left: calc(var(--pad) + 6ch);
+}
+.guides .g12 {
+  left: calc(var(--pad) + 11ch);
+  background: rgba(93, 255, 122, 0.18);
+}
+.guides .g72 {
+  left: calc(var(--pad) + 72ch);
+  background: rgba(255, 90, 90, 0.5);
+}
+
+.status {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 0.8rem;
+  color: var(--green-dim);
+}
+
+/* ---------- ラインプリンター ---------- */
+
+.paper {
+  flex: 1;
+  min-height: 52vh;
+  max-height: 78vh;
+  overflow: auto;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+  /* グリーンバー用紙: 3 行ごとに帯 */
+  background-color: var(--paper);
+  background-image: linear-gradient(to bottom, var(--bar) 50%, transparent 50%);
+  background-size: 100% 9em;
+  padding: 0;
+  position: relative;
+  border-radius: 2px;
+}
+
+/* ピンフィード穴は .sheet の背景で描く */
+.sheet {
+  position: relative;
+  min-width: calc(132ch + 64px);
+  padding: 6px 32px 24px;
+  background-image:
+    radial-gradient(circle at 10px 12px, #6a6a5a 3px, transparent 4px),
+    radial-gradient(circle at calc(100% - 10px) 12px, #6a6a5a 3px, transparent 4px);
+  background-size: 100% 24px;
+  background-repeat: repeat-y;
+}
+
+.sheet .line {
+  display: block;
+  margin: 0;
+  white-space: pre;
+  min-height: 1.5em;
+}
+
+.line.rule {
+  color: #2d2d2d;
+}
+.line.warn {
+  color: var(--warn);
+  font-weight: bold;
+}
+.line.blood {
+  color: var(--blood);
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(139, 0, 0, 0.35), 0 3px 3px rgba(139, 0, 0, 0.35);
+}
+.line.ghost {
+  color: #4b0f4b;
+  font-weight: bold;
+}
+
+.perf {
+  display: block;
+  border-top: 1px dashed #8a8a78;
+  margin: 6px 0;
+}
+
+.foot {
+  padding: 8px 16px 14px;
+  font-size: 0.75rem;
+  color: var(--green-dim);
+}
+
+code {
+  color: var(--green);
+}

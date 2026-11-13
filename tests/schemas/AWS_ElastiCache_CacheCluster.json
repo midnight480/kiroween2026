@@ -1,0 +1,173 @@
+{
+ "type": "AWS::ElastiCache::CacheCluster",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "CacheNodeType",
+   "Engine",
+   "NumCacheNodes"
+  ],
+  "ConfigurationEndpoint": [],
+  "LogDeliveryConfigurations.*": [
+   "DestinationDetails",
+   "DestinationType",
+   "LogFormat",
+   "LogType"
+  ],
+  "LogDeliveryConfigurations.*.DestinationDetails": [],
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails": [
+   "LogGroup"
+  ],
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails": [
+   "DeliveryStream"
+  ],
+  "RedisEndpoint": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AZMode": {
+   "type": "string"
+  },
+  "AutoMinorVersionUpgrade": {
+   "type": "boolean"
+  },
+  "CacheNodeType": {
+   "type": "string"
+  },
+  "CacheParameterGroupName": {
+   "type": "string"
+  },
+  "CacheSecurityGroupNames": {
+   "type": "array"
+  },
+  "CacheSecurityGroupNames.*": {
+   "type": "string"
+  },
+  "CacheSubnetGroupName": {
+   "type": "string"
+  },
+  "ClusterName": {
+   "type": "string"
+  },
+  "ConfigurationEndpoint": {
+   "type": "object"
+  },
+  "ConfigurationEndpoint.Address": {
+   "type": "string"
+  },
+  "ConfigurationEndpoint.Port": {
+   "type": "string"
+  },
+  "Engine": {
+   "type": "string"
+  },
+  "EngineVersion": {
+   "type": "string"
+  },
+  "IpDiscovery": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations": {
+   "type": "array"
+  },
+  "LogDeliveryConfigurations.*": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails.LogGroup": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails.DeliveryStream": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.DestinationType": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.LogFormat": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.LogType": {
+   "type": "string"
+  },
+  "NetworkType": {
+   "type": "string"
+  },
+  "NotificationTopicArn": {
+   "type": "string"
+  },
+  "NumCacheNodes": {
+   "type": "integer"
+  },
+  "Port": {
+   "type": "integer"
+  },
+  "PreferredAvailabilityZone": {
+   "type": "string"
+  },
+  "PreferredAvailabilityZones": {
+   "type": "array"
+  },
+  "PreferredAvailabilityZones.*": {
+   "type": "string"
+  },
+  "PreferredMaintenanceWindow": {
+   "type": "string"
+  },
+  "RedisEndpoint": {
+   "type": "object"
+  },
+  "RedisEndpoint.Address": {
+   "type": "string"
+  },
+  "RedisEndpoint.Port": {
+   "type": "string"
+  },
+  "SnapshotArns": {
+   "type": "array"
+  },
+  "SnapshotArns.*": {
+   "type": "string"
+  },
+  "SnapshotName": {
+   "type": "string"
+  },
+  "SnapshotRetentionLimit": {
+   "type": "integer"
+  },
+  "SnapshotWindow": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TransitEncryptionEnabled": {
+   "type": "boolean"
+  },
+  "VpcSecurityGroupIds": {
+   "type": "array"
+  },
+  "VpcSecurityGroupIds.*": {
+   "type": "string"
+  }
+ }
+}

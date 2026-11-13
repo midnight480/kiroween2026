@@ -1,0 +1,655 @@
+{
+ "type": "AWS::AutoScaling::AutoScalingGroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "MaxSize",
+   "MinSize"
+  ],
+  "AvailabilityZoneDistribution": [],
+  "AvailabilityZoneImpairmentPolicy": [
+   "ImpairedZoneHealthCheckBehavior",
+   "ZonalShiftEnabled"
+  ],
+  "CapacityReservationSpecification": [
+   "CapacityReservationPreference"
+  ],
+  "CapacityReservationSpecification.CapacityReservationTarget": [],
+  "InstanceLifecyclePolicy": [],
+  "InstanceLifecyclePolicy.RetentionTriggers": [],
+  "InstanceMaintenancePolicy": [],
+  "LaunchTemplate": [
+   "Version"
+  ],
+  "LifecycleHookSpecificationList.*": [
+   "LifecycleHookName",
+   "LifecycleTransition"
+  ],
+  "MetricsCollection.*": [
+   "Granularity"
+  ],
+  "MixedInstancesPolicy": [
+   "LaunchTemplate"
+  ],
+  "MixedInstancesPolicy.InstancesDistribution": [],
+  "MixedInstancesPolicy.InstancesDistribution.DistributionSegments.*": [
+   "TargetCapacityTypes"
+  ],
+  "MixedInstancesPolicy.LaunchTemplate": [
+   "LaunchTemplateSpecification"
+  ],
+  "MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification": [
+   "Version"
+  ],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements": [
+   "MemoryMiB",
+   "VCpuCount"
+  ],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorCount": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTotalMemoryMiB": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselineEbsBandwidthMbps": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselinePerformanceFactors": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselinePerformanceFactors.Cpu": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryGiBPerVCpu": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryMiB": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkBandwidthGbps": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkInterfaceCount": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.TotalLocalStorageGB": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.VCpuCount": [],
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.LaunchTemplateSpecification": [
+   "Version"
+  ],
+  "NotificationConfiguration": [
+   "TopicARN"
+  ],
+  "NotificationConfigurations.*": [
+   "TopicARN"
+  ],
+  "Tags.*": [
+   "Key",
+   "PropagateAtLaunch",
+   "Value"
+  ],
+  "TrafficSources.*": [
+   "Identifier",
+   "Type"
+  ]
+ },
+ "paths": {
+  "AutoScalingGroupARN": {
+   "type": "string"
+  },
+  "AutoScalingGroupName": {
+   "type": "string"
+  },
+  "AvailabilityZoneDistribution": {
+   "type": "object"
+  },
+  "AvailabilityZoneDistribution.CapacityDistributionStrategy": {
+   "type": "string",
+   "enum": [
+    "balanced-best-effort",
+    "balanced-only",
+    "reservations-then-balanced"
+   ]
+  },
+  "AvailabilityZoneIds": {
+   "type": "array"
+  },
+  "AvailabilityZoneIds.*": {
+   "type": "string"
+  },
+  "AvailabilityZoneImpairmentPolicy": {
+   "type": "object"
+  },
+  "AvailabilityZoneImpairmentPolicy.ImpairedZoneHealthCheckBehavior": {
+   "type": "string",
+   "enum": [
+    "IgnoreUnhealthy",
+    "ReplaceUnhealthy"
+   ]
+  },
+  "AvailabilityZoneImpairmentPolicy.ZonalShiftEnabled": {
+   "type": "boolean"
+  },
+  "AvailabilityZones": {
+   "type": "array"
+  },
+  "AvailabilityZones.*": {
+   "type": "string"
+  },
+  "CapacityRebalance": {
+   "type": "boolean"
+  },
+  "CapacityReservationSpecification": {
+   "type": "object"
+  },
+  "CapacityReservationSpecification.CapacityReservationPreference": {
+   "type": "string",
+   "enum": [
+    "capacity-reservations-first",
+    "capacity-reservations-only",
+    "default",
+    "none"
+   ]
+  },
+  "CapacityReservationSpecification.CapacityReservationTarget": {
+   "type": "object"
+  },
+  "CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationIds": {
+   "type": "array"
+  },
+  "CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationIds.*": {
+   "type": "string"
+  },
+  "CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationResourceGroupArns": {
+   "type": "array"
+  },
+  "CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationResourceGroupArns.*": {
+   "type": "string"
+  },
+  "Context": {
+   "type": "string"
+  },
+  "Cooldown": {
+   "type": "string"
+  },
+  "DefaultInstanceWarmup": {
+   "type": "integer"
+  },
+  "DeletionProtection": {
+   "type": "string",
+   "enum": [
+    "none",
+    "prevent-all-deletion",
+    "prevent-force-deletion"
+   ]
+  },
+  "DesiredCapacity": {
+   "type": "string"
+  },
+  "DesiredCapacityType": {
+   "type": "string"
+  },
+  "HealthCheckGracePeriod": {
+   "type": "integer"
+  },
+  "HealthCheckType": {
+   "type": "string"
+  },
+  "InstanceId": {
+   "type": "string"
+  },
+  "InstanceLifecyclePolicy": {
+   "type": "object"
+  },
+  "InstanceLifecyclePolicy.RetentionTriggers": {
+   "type": "object"
+  },
+  "InstanceLifecyclePolicy.RetentionTriggers.TerminateHookAbandon": {
+   "type": "string",
+   "enum": [
+    "retain",
+    "terminate"
+   ]
+  },
+  "InstanceMaintenancePolicy": {
+   "type": "object"
+  },
+  "InstanceMaintenancePolicy.MaxHealthyPercentage": {
+   "type": "integer"
+  },
+  "InstanceMaintenancePolicy.MinHealthyPercentage": {
+   "type": "integer"
+  },
+  "LaunchConfigurationName": {
+   "type": "string"
+  },
+  "LaunchTemplate": {
+   "type": "object"
+  },
+  "LaunchTemplate.LaunchTemplateId": {
+   "type": "string"
+  },
+  "LaunchTemplate.LaunchTemplateName": {
+   "type": "string"
+  },
+  "LaunchTemplate.Version": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList": {
+   "type": "array"
+  },
+  "LifecycleHookSpecificationList.*": {
+   "type": "object"
+  },
+  "LifecycleHookSpecificationList.*.DefaultResult": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList.*.HeartbeatTimeout": {
+   "type": "integer"
+  },
+  "LifecycleHookSpecificationList.*.LifecycleHookName": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList.*.LifecycleTransition": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList.*.NotificationMetadata": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList.*.NotificationTargetARN": {
+   "type": "string"
+  },
+  "LifecycleHookSpecificationList.*.RoleARN": {
+   "type": "string"
+  },
+  "LoadBalancerNames": {
+   "type": "array"
+  },
+  "LoadBalancerNames.*": {
+   "type": "string"
+  },
+  "MaxInstanceLifetime": {
+   "type": "integer"
+  },
+  "MaxSize": {
+   "type": "string"
+  },
+  "MetricsCollection": {
+   "type": "array"
+  },
+  "MetricsCollection.*": {
+   "type": "object"
+  },
+  "MetricsCollection.*.Granularity": {
+   "type": "string"
+  },
+  "MetricsCollection.*.Metrics": {
+   "type": "array"
+  },
+  "MetricsCollection.*.Metrics.*": {
+   "type": "string"
+  },
+  "MinSize": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.InstancesDistribution": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.DistributionSegments": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.DistributionSegments.*": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.DistributionSegments.*.TargetCapacityTypes": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.DistributionSegments.*.TargetCapacityTypes.*": {
+   "type": "string",
+   "enum": [
+    "on-demand-capacity-reservation",
+    "capacity-block",
+    "interruptible-capacity-reservation",
+    "on-demand"
+   ]
+  },
+  "MixedInstancesPolicy.InstancesDistribution.OnDemandAllocationStrategy": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.OnDemandBaseCapacity": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.OnDemandPercentageAboveBaseCapacity": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.SpotAllocationStrategy": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.SpotInstancePools": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.InstancesDistribution.SpotMaxPrice": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateId": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateName": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.Version": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.ImageId": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorCount": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorCount.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorCount.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorManufacturers": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorManufacturers.*": {
+   "type": "string",
+   "enum": [
+    "amazon-web-services",
+    "amd",
+    "nvidia",
+    "xilinx"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorNames": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorNames.*": {
+   "type": "string",
+   "enum": [
+    "a100",
+    "k80",
+    "m60",
+    "radeon-pro-v520",
+    "t4",
+    "v100",
+    "vu9p"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTotalMemoryMiB": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTotalMemoryMiB.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTotalMemoryMiB.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTypes": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AcceleratorTypes.*": {
+   "type": "string",
+   "enum": [
+    "fpga",
+    "gpu",
+    "inference"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AllowedInstanceTypes": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.AllowedInstanceTypes.*": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BareMetal": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselineEbsBandwidthMbps": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselineEbsBandwidthMbps.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselineEbsBandwidthMbps.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselinePerformanceFactors": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BaselinePerformanceFactors.Cpu": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.BurstablePerformance": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.CpuManufacturers": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.CpuManufacturers.*": {
+   "type": "string",
+   "enum": [
+    "amazon-web-services",
+    "amd",
+    "apple",
+    "intel"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.ExcludedInstanceTypes": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.ExcludedInstanceTypes.*": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.InstanceGenerations": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.InstanceGenerations.*": {
+   "type": "string",
+   "enum": [
+    "current",
+    "previous"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.LocalStorage": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.LocalStorageTypes": {
+   "type": "array"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.LocalStorageTypes.*": {
+   "type": "string",
+   "enum": [
+    "hdd",
+    "ssd"
+   ]
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryGiBPerVCpu": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryGiBPerVCpu.Max": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryGiBPerVCpu.Min": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryMiB": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryMiB.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.MemoryMiB.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkBandwidthGbps": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkBandwidthGbps.Max": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkBandwidthGbps.Min": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkInterfaceCount": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkInterfaceCount.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.NetworkInterfaceCount.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.OnDemandMaxPricePercentageOverLowestPrice": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.RequireHibernateSupport": {
+   "type": "boolean"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.SpotMaxPricePercentageOverLowestPrice": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.TotalLocalStorageGB": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.TotalLocalStorageGB.Max": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.TotalLocalStorageGB.Min": {
+   "type": "number"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.VCpuCount": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.VCpuCount.Max": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceRequirements.VCpuCount.Min": {
+   "type": "integer"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceType": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.LaunchTemplateSpecification": {
+   "type": "object"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.LaunchTemplateSpecification.LaunchTemplateId": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.LaunchTemplateSpecification.LaunchTemplateName": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.LaunchTemplateSpecification.Version": {
+   "type": "string"
+  },
+  "MixedInstancesPolicy.LaunchTemplate.Overrides.*.WeightedCapacity": {
+   "type": "string"
+  },
+  "NewInstancesProtectedFromScaleIn": {
+   "type": "boolean"
+  },
+  "NotificationConfiguration": {
+   "type": "object"
+  },
+  "NotificationConfiguration.NotificationTypes": {
+   "type": "array"
+  },
+  "NotificationConfiguration.NotificationTypes.*": {
+   "type": "string"
+  },
+  "NotificationConfiguration.TopicARN": {
+   "type": "string"
+  },
+  "NotificationConfigurations": {
+   "type": "array"
+  },
+  "NotificationConfigurations.*": {
+   "type": "object"
+  },
+  "NotificationConfigurations.*.NotificationTypes": {
+   "type": "array"
+  },
+  "NotificationConfigurations.*.NotificationTypes.*": {
+   "type": "string"
+  },
+  "NotificationConfigurations.*.TopicARN": {
+   "type": "string"
+  },
+  "PlacementGroup": {
+   "type": "string"
+  },
+  "ServiceLinkedRoleARN": {
+   "type": "string"
+  },
+  "SkipZonalShiftValidation": {
+   "type": "boolean"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.PropagateAtLaunch": {
+   "type": "boolean"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TargetGroupARNs": {
+   "type": "array"
+  },
+  "TargetGroupARNs.*": {
+   "type": "string"
+  },
+  "TerminationPolicies": {
+   "type": "array"
+  },
+  "TerminationPolicies.*": {
+   "type": "string"
+  },
+  "TrafficSources": {
+   "type": "array"
+  },
+  "TrafficSources.*": {
+   "type": "object"
+  },
+  "TrafficSources.*.Identifier": {
+   "type": "string"
+  },
+  "TrafficSources.*.Type": {
+   "type": "string"
+  },
+  "VPCZoneIdentifier": {
+   "type": "array"
+  },
+  "VPCZoneIdentifier.*": {
+   "type": "string"
+  }
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "type": "AWS::EC2::Route",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "RouteTableId"
+  ]
+ },
+ "paths": {
+  "CarrierGatewayId": {
+   "type": "string"
+  },
+  "CidrBlock": {
+   "type": "string"
+  },
+  "CoreNetworkArn": {
+   "type": "string"
+  },
+  "DestinationCidrBlock": {
+   "type": "string"
+  },
+  "DestinationIpv6CidrBlock": {
+   "type": "string"
+  },
+  "DestinationPrefixListId": {
+   "type": "string"
+  },
+  "EgressOnlyInternetGatewayId": {
+   "type": "string"
+  },
+  "GatewayId": {
+   "type": "string"
+  },
+  "InstanceId": {
+   "type": "string"
+  },
+  "LocalGatewayId": {
+   "type": "string"
+  },
+  "NatGatewayId": {
+   "type": "string"
+  },
+  "NetworkInterfaceId": {
+   "type": "string"
+  },
+  "OdbNetworkArn": {
+   "type": "string"
+  },
+  "RouteTableId": {
+   "type": "string"
+  },
+  "TransitGatewayId": {
+   "type": "string"
+  },
+  "VpcEndpointId": {
+   "type": "string"
+  },
+  "VpcPeeringConnectionId": {
+   "type": "string"
+  }
+ }
+}

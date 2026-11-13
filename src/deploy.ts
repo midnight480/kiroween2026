@@ -89,14 +89,22 @@ function needsIam(template: JsonObject): boolean {
   return Object.values(resources).some((r) => typeof r.Type === "string" && r.Type.startsWith("AWS::IAM::"));
 }
 
-async function stackStatus(client: CloudFormationClient, name: string): Promise<string | undefined> {
+async function describeStack(
+  client: CloudFormationClient,
+  name: string,
+): Promise<{ status: string | undefined; id: string | undefined } | undefined> {
   try {
     const r = await client.send(new DescribeStacksCommand({ StackName: name }));
-    return r.Stacks?.[0]?.StackStatus;
+    const st = r.Stacks?.[0];
+    return { status: st?.StackStatus, id: st?.StackId };
   } catch (e) {
     if (e instanceof Error && /does not exist/.test(e.message)) return undefined;
     throw e;
   }
+}
+
+async function stackStatus(client: CloudFormationClient, name: string): Promise<string | undefined> {
+  return (await describeStack(client, name))?.status;
 }
 
 /** 新規イベント（古い順）を取り出す。 */
@@ -204,25 +212,28 @@ export async function destroy(opts: Omit<DeployOptions, "template">): Promise<De
   const { stackName } = opts;
 
   try {
-    const existing = await stackStatus(client, stackName);
-    if (existing === undefined) return { kind: "not-found" };
+    const found = await describeStack(client, stackName);
+    if (found === undefined) return { kind: "not-found" };
+    // 削除が済むとスタック名ではイベントを引けない。スタック ID なら削除後も引けるので、
+    // 最後のイベント（DELETE_COMPLETE）を取りこぼさないよう ID で追う
+    const ref = found.id ?? stackName;
 
     const seen = new Set<string>();
-    await newEvents(client, stackName, seen);
+    await newEvents(client, ref, seen);
     await client.send(new DeleteStackCommand({ StackName: stackName }));
 
     for (;;) {
-      // 削除が完了するとスタック名でイベントを引けなくなる。それは失敗ではなく完了の合図
       try {
-        for (const e of await newEvents(client, stackName, seen)) opts.onEvent?.(view(e));
+        for (const e of await newEvents(client, ref, seen)) opts.onEvent?.(view(e));
       } catch (e) {
+        // ID が使えない環境（古い応答など）では、名前が引けなくなったことを完了の合図とみなす
         if (e instanceof Error && /does not exist/.test(e.message)) return { kind: "ok" };
         throw e;
       }
-      const status = await stackStatus(client, stackName);
+      const status = (await describeStack(client, ref))?.status;
       if (status === undefined || status === "DELETE_COMPLETE") return { kind: "ok" };
       if (status === "DELETE_FAILED") {
-        const all = await client.send(new DescribeStackEventsCommand({ StackName: stackName }));
+        const all = await client.send(new DescribeStackEventsCommand({ StackName: ref }));
         const failures = (all.StackEvents ?? [])
           .filter((e) => e.ResourceStatus === "DELETE_FAILED" && e.ResourceType !== "AWS::CloudFormation::Stack")
           .map((e) => ({ logicalId: e.LogicalResourceId ?? "?", type: e.ResourceType ?? "?", reason: e.ResourceStatusReason ?? "" }));
@@ -243,4 +254,82 @@ function classify(e: unknown): { kind: "no-credentials"; detail: string } | { ki
     return { kind: "no-credentials", detail: e instanceof Error ? e.name : "CredentialsError" };
   }
   return { kind: "aws-error", detail: e instanceof Error ? e.message : String(e) };
+}
+
+// ---------------------------------------------------------------- diff
+
+export interface ChangeView {
+  action: string;
+  logicalId: string;
+  type: string;
+  /** "True" | "False" | "Conditional" | undefined */
+  replacement: string | undefined;
+}
+
+export type DiffOutcome =
+  | { kind: "changes"; stackExists: boolean; changes: ChangeView[] }
+  | { kind: "no-changes"; stackExists: boolean }
+  | { kind: "changeset-rejected"; reason: string }
+  | { kind: "stack-unusable"; stackStatus: string; advice: string }
+  | { kind: "no-credentials"; detail: string }
+  | { kind: "aws-error"; detail: string };
+
+/**
+ * 既存スタックとの差分を ChangeSet で調べる。実行はせず、必ず ChangeSet を消す。
+ * スタックが無いときは新規作成として扱い、作りかけの REVIEW_IN_PROGRESS スタックも消す。
+ */
+export async function diff(opts: Omit<DeployOptions, "onEvent">): Promise<DiffOutcome> {
+  const client = opts.client ?? new CloudFormationClient({ region: opts.region });
+  const pollMs = opts.pollMs ?? 2000;
+  const { stackName } = opts;
+
+  try {
+    const existing = await stackStatus(client, stackName);
+    if (existing !== undefined && /^(REVIEW_IN_PROGRESS|ROLLBACK_COMPLETE|ROLLBACK_FAILED|DELETE_FAILED)$|_IN_PROGRESS$/.test(existing)) {
+      return { kind: "stack-unusable", stackStatus: existing, advice: `スタック ${stackName} は ${existing} です。比較できません` };
+    }
+
+    const stackExists = existing !== undefined;
+    const changeSetName = `cobolform-diff-${Date.now()}`;
+    await client.send(
+      new CreateChangeSetCommand({
+        StackName: stackName,
+        ChangeSetName: changeSetName,
+        ChangeSetType: stackExists ? "UPDATE" : "CREATE",
+        TemplateBody: JSON.stringify(opts.template),
+        Capabilities: needsIam(opts.template) ? ["CAPABILITY_IAM"] : [],
+      }),
+    );
+
+    const cleanup = async (): Promise<void> => {
+      await client.send(new DeleteChangeSetCommand({ StackName: stackName, ChangeSetName: changeSetName })).catch(() => undefined);
+      // 新規作成の確認で作られた空のスタックを残さない
+      if (!stackExists) await client.send(new DeleteStackCommand({ StackName: stackName })).catch(() => undefined);
+    };
+
+    try {
+      for (;;) {
+        const cs = await client.send(new DescribeChangeSetCommand({ StackName: stackName, ChangeSetName: changeSetName }));
+        if (cs.Status === "CREATE_COMPLETE") {
+          const changes: ChangeView[] = (cs.Changes ?? []).map((c) => ({
+            action: c.ResourceChange?.Action ?? "?",
+            logicalId: c.ResourceChange?.LogicalResourceId ?? "?",
+            type: c.ResourceChange?.ResourceType ?? "?",
+            replacement: c.ResourceChange?.Replacement,
+          }));
+          return changes.length === 0 ? { kind: "no-changes", stackExists } : { kind: "changes", stackExists, changes };
+        }
+        if (cs.Status === "FAILED") {
+          const reason = cs.StatusReason ?? "";
+          if (/didn't contain changes|No updates/i.test(reason)) return { kind: "no-changes", stackExists };
+          return { kind: "changeset-rejected", reason };
+        }
+        await sleep(pollMs);
+      }
+    } finally {
+      await cleanup();
+    }
+  } catch (e) {
+    return classify(e);
+  }
 }

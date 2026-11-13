@@ -263,6 +263,23 @@ cobf deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定�
 
 `DYNAMODB`（単一）と `DYNAMODB-MRSC` の分岐は Emitter が `ASSIGN TO` の外部名で判定し、前者は `Replicas`/`Witness` を出さない。`DYNAMODB-MRSC` は `MultiRegionConsistency: STRONG` を固定出力する。
 
+#### (e) 宣言的な対応表（`src/mapping/`）と Network / Compute / Databases / コンテナ / メッセージングの拡張 ✅ 実装済み（2026-11-13）
+
+(a)〜(d) は手書きの変換だが、それ以外の型は**データ駆動の対応表**で持つ。1 行が「COBOL の項目名 → CFN のプロパティのパス → 型・必須・列挙・既定値」で、読み取るエンジンは 1 つ（`engine.ts`）。型を足すときはコードではなく表に行を足す。
+
+- **対応型（表で動くもの 40 型）**: Network＝VPC / Subnet / InternetGateway / VPCGatewayAttachment / RouteTable / Route / SubnetRouteTableAssociation / EIP / NatGateway / SecurityGroup（インラインのルール）/ SecurityGroupIngress・Egress。エッジ＝Route 53 HostedZone・RecordSet / ACM Certificate / CloudFront Distribution。Compute＝EC2 Instance / InstanceProfile / LaunchTemplate / AutoScalingGroup / ELBv2 LoadBalancer（`LB-TYPE` で ALB・NLB を切り替え）・TargetGroup・Listener / Classic LoadBalancer。Databases＝RDS DBInstance・DBSubnetGroup / Aurora DBCluster / ElastiCache SubnetGroup・ReplicationGroup・CacheCluster。コンテナ＝ECS Cluster・TaskDefinition（コンテナ 1 つ＋環境変数の OCCURS 表）・Service / EKS Cluster・Nodegroup / CloudWatch Logs LogGroup。メッセージング＝SQS Queue・QueuePolicy / SNS Topic・Subscription。手書きの 6 型と合わせて 46 型。
+- **項目の型（`Kind`）**: `string` / `number` / `numstr`（CFN が文字列で受ける数値）/ `bool`（`"Y"`/`"N"`）/ `ref`（`REF:`・`GETATT:`）/ `strings`（カンマ区切り。要素ごとに参照を解決）/ `ssm`（`SSM:`・`SECRET:` を動的参照に）/ `userdata`（`\n` を改行にして `Fn::Base64`）/ `secret`（動的参照のみ許す）/ `targets`（`[{Id}]`）。パスの数字の区切りは配列の添字（`Origins.0.DomainName`）。
+- **リスト**: OCCURS の表 → オブジェクトの配列（SG のルール、CLB のリスナー）。要素の項目名は**接尾辞**で、互いに他の接尾辞にならない（テストで検査）。値は §5.3 と同じく `MOVE` で入れる。
+- **綴り間違いは黙って捨てない**: 表に無い項目は `UNKNOWN-PROPERTY`（近い名前を「もしかして」で提示）。安全設定の書き損じを見逃さないため。
+- **Security by default**: EC2・起動テンプレートは IMDSv2 必須、EBS は暗号化、RDS は暗号化あり・非公開、ユーザー名だけでパスワードが無い DB は `ManageMasterUserPassword`。平文パスワードは `PLAIN-PASSWORD` エラー（`SECRET:` / `SSM:` のみ）。SSH・RDP・DB ポートの `0.0.0.0/0` 開放、DB の公開、IMDSv1、Classic LB は警告。
+- **スキーマが中身を持たない object**: `RedrivePolicy`・ログの `Options`・`PolicyDocument` のように公式スキーマが `object` としか書かない所は、`Field.schemaPath` で親のパスを指定し、末端の型検査だけを省く（存在検査は親で行う）。
+- **IAM ロールの複数ポリシー**: `MANAGED-POLICY` はカンマ区切りで複数の管理ポリシーを付けられる（EKS のノードロールは 3 つ要る）。
+- **リソース属性**: `DEPENDS-ON`（論理 ID の `DependsOn`。IGW への Route には必須）、`DELETION-POLICY`（`Delete`/`Retain`/`Snapshot`）、`NAME-TAG`（`Tags`）は全リソース共通。
+- **リージョンの制約**: 証明書つきの CloudFront は `AWS-US-EAST-1` 必須（`CLOUDFRONT-CERT-REGION`）。
+- **公式スキーマとの突き合わせ**: `scripts/extract-schemas.py` が cfn-lint 同梱の公式スキーマから `tests/schemas/` に地図を作り、テストが「表のプロパティが実在する」「列挙値・既定値が許す範囲」「`numstr` は文字列・`number` は数値・`bool` は真偽値」「COBOL 名が予約語・既存名と衝突しない」を検査する。表の誤りはデプロイ前にテストで落ちる（実際に Egress の `SourceSecurityGroupId` の誤りをこれで検出した）。必須項目の過不足は、ゴールデン出力を `cfn-lint` にかけて確かめる。
+- **落ち**: ロードバランサー・EC2/ASG・RDS が 1 プログラムにそろうと、警告 `CLASSIC-THREE-TIER`（「1998 年が構成を返してほしがっています」）を出す。ブラウザデモでは帳票の末尾に図つきで印字する。
+- **検証状況**: ゴールデン（3 層構成・エッジ・いにしえ）が `cfn-lint` を通り、`cobf diff` で CloudFormation が ChangeSet として受け付けることを確認。**実デプロイは未実施**（費用と時間のため）。
+
 ### 4.8 パーサ MVP 受理サブセット（受理／明示エラーの線引き）
 
 「パーサが沼る」リスク（§13）への具体的な防波堤として、MVP で**受理する構文**と**明示エラーにする構文**の境界を固定する。GnuCOBOL を「正」としつつ、トランスパイラの意味解釈は下表のサブセットに限定する。
@@ -453,13 +470,13 @@ cobf deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定�
 
 | 機能 | 内容 |
 |---|---|
-| 桁ずれエラー | `01` が B 領域、7桁目に不正文字など。IBM 風パロディコード（`CDC-0007-S` 等。実在コードは流用しない） |
-| 大文字強制 | 小文字 1 文字で `SEVERITY 12: LOWERCASE IS HERESY` |
-| 132桁ラインプリンター帳票 | デプロイ結果をページヘッダ・頁番号・`TOTAL RESOURCES CREATED` つきの連続帳票で出力（ターミナル＋HTML） |
-| 連番チェック | `--strict-sequence`: 「カードデッキが乱れています。ソーターにかけてください」 |
+| 桁ずれエラー | `01` が B 領域、7桁目に不正文字など。IBM 風パロディコード（実在コードは流用しない）。✅ 実装済み: 接頭辞は独自の `CBF`（例 `CBF-0003-S`、エラーは `SEVERITY 12`、警告は `CBF-…-W`・`SEVERITY 4`）。番号表は `src/errors.ts`、追加は末尾に足す（順序を変えると番号が変わる）。表の網羅はテストで検査 |
+| 大文字強制 | 小文字 1 文字で `SEVERITY 12: LOWERCASE IS HERESY`。✅ 実装済み |
+| 132桁ラインプリンター帳票 | デプロイ結果をページヘッダ・頁番号・`TOTAL RESOURCES CREATED` つきの連続帳票で出力（ターミナル＋HTML）。✅ ターミナル版は実装済み（50 行ごとに改頁、合計は作成／更新／削除を論理 ID で数える）。HTML 版は未着手 |
+| 連番チェック | `--strict-sequence`: 「カードデッキが乱れています。ソーターにかけてください」。✅ 実装済み（1〜6 桁目が数字の行で、直前以下ならエラー。連番が空の行は無視） |
 | 73–80 桁の罠 | 書いた値は無視＋警告 |
 | DB LINK 禁止令 | `ASSIGN TO "DBLINK"` でエラー（§4.5） |
-| `STOP RUN` 忘れ | 「ジョブが終わらない」演出 |
+| `STOP RUN` 忘れ | 「ジョブが終わらない」演出。✅ 警告（`MISSING-STOP-RUN`）として実装済み。`PROCEDURE DIVISION` があり `STOP RUN`/`GOBACK` が無いときだけ |
 | ABEND 演出 | CFN ロールバック時に `ABEND S0C7` 風ダンプ |
 
 ---

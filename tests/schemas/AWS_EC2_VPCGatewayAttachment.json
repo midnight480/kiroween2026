@@ -1,0 +1,23 @@
+{
+ "type": "AWS::EC2::VPCGatewayAttachment",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "VpcId"
+  ]
+ },
+ "paths": {
+  "AttachmentType": {
+   "type": "string"
+  },
+  "InternetGatewayId": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  },
+  "VpnGatewayId": {
+   "type": "string"
+  }
+ }
+}

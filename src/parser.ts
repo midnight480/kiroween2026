@@ -57,6 +57,8 @@ export interface Program {
   fds: FileDescription[];
   workingStorage: DataItem[];
   procedure: Statement[];
+  /** PROCEDURE DIVISION が書かれているか */
+  hasProcedure: boolean;
   warnings: Diagnostic[];
 }
 
@@ -320,6 +322,7 @@ export function parse(tokens: Token[], inheritedWarnings: Diagnostic[] = []): Pr
     fds: [],
     workingStorage: [],
     procedure: [],
+    hasProcedure: false,
     warnings,
   };
 
@@ -363,6 +366,7 @@ export function parse(tokens: Token[], inheritedWarnings: Diagnostic[] = []): Pr
         throw new CobolError("SYNTAX", `未知の DIVISION です: ${t0.value}`, t0.line, t0.col);
       }
       division = t0.value;
+      if (division === "PROCEDURE") program.hasProcedure = true;
       section = "";
       continue;
     }
@@ -431,6 +435,13 @@ export function parse(tokens: Token[], inheritedWarnings: Diagnostic[] = []): Pr
 
   if (program.programId === "") {
     throw new CobolError("MISSING-PROGRAM-ID", "PROGRAM-ID がありません", 1, 8);
+  }
+  // STOP RUN / GOBACK が無いと本物の COBOL ではジョブが終わらない（§7 の演出）
+  if (program.hasProcedure && !program.procedure.some((st) => st.kind === "stop" || st.kind === "goback")) {
+    warnings.push({
+      code: "MISSING-STOP-RUN",
+      message: "STOP RUN がありません。このジョブは終了しません（JOB DID NOT TERMINATE — 夜間バッチが朝まで回り続けます）",
+    });
   }
   return program;
 }

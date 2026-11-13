@@ -25,10 +25,16 @@ function hasOpenLiteral(text: string): boolean {
  * 固定形式カードリーダ（§4.2）。
  * 1–6 連番 / 7 標識 / 8–72 コード / 73–80 識別（無視）。
  */
-export function readCards(source: string): CardResult {
+export interface CardOptions {
+  /** 1〜6 桁目の連番が昇順でなければエラーにする（§7 `--strict-sequence`） */
+  strictSequence?: boolean;
+}
+
+export function readCards(source: string, options: CardOptions = {}): CardResult {
   const lines: LogicalLine[] = [];
   const warnings: Diagnostic[] = [];
   const raw = source.split(/\r?\n/);
+  let lastSequence = -1;
 
   raw.forEach((card, i) => {
     const lineNo = i + 1;
@@ -39,6 +45,18 @@ export function readCards(source: string): CardResult {
     }
     if (card.length > 80) {
       throw new CobolError("LINE-TOO-LONG", `80 桁を超えています（${card.length} 桁）`, lineNo, 81);
+    }
+    if (options.strictSequence && /^\d{6}$/.test(card.slice(0, 6))) {
+      const seq = Number(card.slice(0, 6));
+      if (seq <= lastSequence) {
+        throw new CobolError(
+          "SEQUENCE-ERROR",
+          `連番 ${card.slice(0, 6)} は直前の ${String(lastSequence).padStart(6, "0")} 以下です。カードデッキが乱れています。ソーターにかけてください`,
+          lineNo,
+          1,
+        );
+      }
+      lastSequence = seq;
     }
     if (card.slice(6).trim() === "") return; // 空行・連番だけの行
 

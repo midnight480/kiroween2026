@@ -1,0 +1,33 @@
+{
+ "type": "AWS::EC2::RouteTable",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "VpcId"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "RouteTableId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

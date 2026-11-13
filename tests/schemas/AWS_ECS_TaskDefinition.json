@@ -1,0 +1,796 @@
+{
+ "type": "AWS::ECS::TaskDefinition",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "ContainerDefinitions.*": [
+   "Image",
+   "Name"
+  ],
+  "ContainerDefinitions.*.DependsOn.*": [],
+  "ContainerDefinitions.*.Environment.*": [],
+  "ContainerDefinitions.*.EnvironmentFiles.*": [],
+  "ContainerDefinitions.*.ExtraHosts.*": [],
+  "ContainerDefinitions.*.FirelensConfiguration": [],
+  "ContainerDefinitions.*.HealthCheck": [],
+  "ContainerDefinitions.*.LinuxParameters": [],
+  "ContainerDefinitions.*.LinuxParameters.Capabilities": [],
+  "ContainerDefinitions.*.LinuxParameters.Devices.*": [],
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*": [
+   "Size"
+  ],
+  "ContainerDefinitions.*.LogConfiguration": [
+   "LogDriver"
+  ],
+  "ContainerDefinitions.*.LogConfiguration.SecretOptions.*": [
+   "Name",
+   "ValueFrom"
+  ],
+  "ContainerDefinitions.*.MountPoints.*": [],
+  "ContainerDefinitions.*.PortMappings.*": [],
+  "ContainerDefinitions.*.RepositoryCredentials": [],
+  "ContainerDefinitions.*.ResourceRequirements.*": [
+   "Type"
+  ],
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy": [
+   "NvidiaMps"
+  ],
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy.NvidiaMps": [
+   "Memory"
+  ],
+  "ContainerDefinitions.*.RestartPolicy": [],
+  "ContainerDefinitions.*.Secrets.*": [
+   "Name",
+   "ValueFrom"
+  ],
+  "ContainerDefinitions.*.SystemControls.*": [],
+  "ContainerDefinitions.*.Ulimits.*": [
+   "HardLimit",
+   "Name",
+   "SoftLimit"
+  ],
+  "ContainerDefinitions.*.VolumesFrom.*": [],
+  "EphemeralStorage": [],
+  "InferenceAccelerators.*": [],
+  "PlacementConstraints.*": [
+   "Type"
+  ],
+  "ProxyConfiguration": [
+   "ContainerName"
+  ],
+  "ProxyConfiguration.ProxyConfigurationProperties.*": [],
+  "RuntimePlatform": [],
+  "Tags.*": [],
+  "Volumes.*": [],
+  "Volumes.*.DockerVolumeConfiguration": [],
+  "Volumes.*.EFSVolumeConfiguration": [
+   "FilesystemId"
+  ],
+  "Volumes.*.EFSVolumeConfiguration.AuthorizationConfig": [],
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration": [
+   "FileSystemId",
+   "RootDirectory"
+  ],
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.AuthorizationConfig": [
+   "CredentialsParameter",
+   "Domain"
+  ],
+  "Volumes.*.Host": [],
+  "Volumes.*.S3FilesVolumeConfiguration": [
+   "FileSystemArn"
+  ]
+ },
+ "paths": {
+  "ContainerDefinitions": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.Command": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.Command.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Cpu": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.CredentialSpecs": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.CredentialSpecs.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.DependsOn": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.DependsOn.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.DependsOn.*.Condition": {
+   "type": "string",
+   "enum": [
+    "COMPLETE",
+    "HEALTHY",
+    "START",
+    "SUCCESS"
+   ]
+  },
+  "ContainerDefinitions.*.DependsOn.*.ContainerName": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.DisableNetworking": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.DnsSearchDomains": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.DnsSearchDomains.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.DnsServers": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.DnsServers.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.DockerLabels": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.DockerSecurityOptions": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.DockerSecurityOptions.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.EntryPoint": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.EntryPoint.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Environment": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.Environment.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.Environment.*.Name": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Environment.*.Value": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.EnvironmentFiles": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.EnvironmentFiles.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.EnvironmentFiles.*.Type": {
+   "type": "string",
+   "enum": [
+    "s3"
+   ]
+  },
+  "ContainerDefinitions.*.EnvironmentFiles.*.Value": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Essential": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.ExtraHosts": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.ExtraHosts.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.ExtraHosts.*.Hostname": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.ExtraHosts.*.IpAddress": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.FirelensConfiguration": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.FirelensConfiguration.Options": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.FirelensConfiguration.Type": {
+   "type": "string",
+   "enum": [
+    "fluentbit",
+    "fluentd"
+   ]
+  },
+  "ContainerDefinitions.*.HealthCheck": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.HealthCheck.Command": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.HealthCheck.Command.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.HealthCheck.Interval": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.HealthCheck.Retries": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.HealthCheck.StartPeriod": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.HealthCheck.Timeout": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.Hostname": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Image": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Interactive": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.Links": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.Links.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Capabilities": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Capabilities.Add": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Capabilities.Add.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Capabilities.Drop": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Capabilities.Drop.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices.*.ContainerPath": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices.*.HostPath": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices.*.Permissions": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Devices.*.Permissions.*": {
+   "type": "string",
+   "enum": [
+    "mknod",
+    "read",
+    "write"
+   ]
+  },
+  "ContainerDefinitions.*.LinuxParameters.InitProcessEnabled": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.LinuxParameters.MaxSwap": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.LinuxParameters.SharedMemorySize": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Swappiness": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*.ContainerPath": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*.MountOptions": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*.MountOptions.*": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LinuxParameters.Tmpfs.*.Size": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.LogConfiguration": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LogConfiguration.LogDriver": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LogConfiguration.Options": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LogConfiguration.SecretOptions": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.LogConfiguration.SecretOptions.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.LogConfiguration.SecretOptions.*.Name": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.LogConfiguration.SecretOptions.*.ValueFrom": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Memory": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.MemoryReservation": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.MountPoints": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.MountPoints.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.MountPoints.*.ContainerPath": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.MountPoints.*.ReadOnly": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.MountPoints.*.SourceVolume": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Name": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.PortMappings": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.PortMappings.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.PortMappings.*.AppProtocol": {
+   "type": "string",
+   "enum": [
+    "http",
+    "http2",
+    "grpc"
+   ]
+  },
+  "ContainerDefinitions.*.PortMappings.*.ContainerPort": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.PortMappings.*.ContainerPortRange": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.PortMappings.*.HostPort": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.PortMappings.*.Name": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.PortMappings.*.Protocol": {
+   "type": "string",
+   "enum": [
+    "tcp",
+    "udp"
+   ]
+  },
+  "ContainerDefinitions.*.Privileged": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.PseudoTerminal": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.ReadonlyRootFilesystem": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.RepositoryCredentials": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.RepositoryCredentials.CredentialsParameter": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.ResourceRequirements": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy.NvidiaMps": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy.NvidiaMps.MaxComputePercent": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.SharingStrategy.NvidiaMps.Memory": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.Type": {
+   "type": "string",
+   "enum": [
+    "GPU",
+    "InferenceAccelerator",
+    "NeuronDevice"
+   ]
+  },
+  "ContainerDefinitions.*.ResourceRequirements.*.Value": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.RestartPolicy": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.RestartPolicy.Enabled": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.RestartPolicy.IgnoredExitCodes": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.RestartPolicy.IgnoredExitCodes.*": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.RestartPolicy.RestartAttemptPeriod": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.Secrets": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.Secrets.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.Secrets.*.Name": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Secrets.*.ValueFrom": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.StartTimeout": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.StopTimeout": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.SystemControls": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.SystemControls.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.SystemControls.*.Namespace": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.SystemControls.*.Value": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.Ulimits": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.Ulimits.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.Ulimits.*.HardLimit": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.Ulimits.*.Name": {
+   "type": "string",
+   "enum": [
+    "core",
+    "cpu",
+    "data",
+    "fsize",
+    "locks",
+    "memlock",
+    "msgqueue",
+    "nice",
+    "nofile",
+    "nproc",
+    "rss",
+    "rtprio",
+    "rttime",
+    "sigpending",
+    "stack"
+   ]
+  },
+  "ContainerDefinitions.*.Ulimits.*.SoftLimit": {
+   "type": "integer"
+  },
+  "ContainerDefinitions.*.User": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.VersionConsistency": {
+   "type": "string",
+   "enum": [
+    "enabled",
+    "disabled"
+   ]
+  },
+  "ContainerDefinitions.*.VolumesFrom": {
+   "type": "array"
+  },
+  "ContainerDefinitions.*.VolumesFrom.*": {
+   "type": "object"
+  },
+  "ContainerDefinitions.*.VolumesFrom.*.ReadOnly": {
+   "type": "boolean"
+  },
+  "ContainerDefinitions.*.VolumesFrom.*.SourceContainer": {
+   "type": "string"
+  },
+  "ContainerDefinitions.*.WorkingDirectory": {
+   "type": "string"
+  },
+  "Cpu": {
+   "type": "string"
+  },
+  "EnableFaultInjection": {
+   "type": "boolean"
+  },
+  "EphemeralStorage": {
+   "type": "object"
+  },
+  "EphemeralStorage.SizeInGiB": {
+   "type": "integer"
+  },
+  "ExecutionRoleArn": {
+   "type": "string"
+  },
+  "Family": {
+   "type": "string"
+  },
+  "InferenceAccelerators": {
+   "type": "array"
+  },
+  "InferenceAccelerators.*": {
+   "type": "object"
+  },
+  "InferenceAccelerators.*.DeviceName": {
+   "type": "string"
+  },
+  "InferenceAccelerators.*.DeviceType": {
+   "type": "string"
+  },
+  "IpcMode": {
+   "type": "string",
+   "enum": [
+    "host",
+    "none",
+    "task"
+   ]
+  },
+  "Memory": {
+   "type": "string"
+  },
+  "NetworkMode": {
+   "type": "string",
+   "enum": [
+    "awsvpc",
+    "bridge",
+    "host",
+    "none"
+   ]
+  },
+  "PidMode": {
+   "type": "string",
+   "enum": [
+    "host",
+    "task"
+   ]
+  },
+  "PlacementConstraints": {
+   "type": "array"
+  },
+  "PlacementConstraints.*": {
+   "type": "object"
+  },
+  "PlacementConstraints.*.Expression": {
+   "type": "string"
+  },
+  "PlacementConstraints.*.Type": {
+   "type": "string",
+   "enum": [
+    "memberOf"
+   ]
+  },
+  "ProxyConfiguration": {
+   "type": "object"
+  },
+  "ProxyConfiguration.ContainerName": {
+   "type": "string"
+  },
+  "ProxyConfiguration.ProxyConfigurationProperties": {
+   "type": "array"
+  },
+  "ProxyConfiguration.ProxyConfigurationProperties.*": {
+   "type": "object"
+  },
+  "ProxyConfiguration.ProxyConfigurationProperties.*.Name": {
+   "type": "string"
+  },
+  "ProxyConfiguration.ProxyConfigurationProperties.*.Value": {
+   "type": "string"
+  },
+  "ProxyConfiguration.Type": {
+   "type": "string",
+   "enum": [
+    "APPMESH"
+   ]
+  },
+  "RequiresCompatibilities": {
+   "type": "array"
+  },
+  "RequiresCompatibilities.*": {
+   "type": "string",
+   "enum": [
+    "EC2",
+    "EXTERNAL",
+    "FARGATE",
+    "MANAGED_INSTANCES"
+   ]
+  },
+  "RuntimePlatform": {
+   "type": "object"
+  },
+  "RuntimePlatform.CpuArchitecture": {
+   "type": "string",
+   "enum": [
+    "ARM64",
+    "X86_64"
+   ]
+  },
+  "RuntimePlatform.OperatingSystemFamily": {
+   "type": "string",
+   "enum": [
+    "LINUX",
+    "WINDOWS_SERVER_2004_CORE",
+    "WINDOWS_SERVER_2016_FULL",
+    "WINDOWS_SERVER_2019_CORE",
+    "WINDOWS_SERVER_2019_FULL",
+    "WINDOWS_SERVER_2022_CORE",
+    "WINDOWS_SERVER_2022_FULL",
+    "WINDOWS_SERVER_2025_CORE",
+    "WINDOWS_SERVER_2025_FULL",
+    "WINDOWS_SERVER_20H2_CORE"
+   ]
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TaskDefinitionArn": {
+   "type": "string"
+  },
+  "TaskRoleArn": {
+   "type": "string"
+  },
+  "Volumes": {
+   "type": "array"
+  },
+  "Volumes.*": {
+   "type": "object"
+  },
+  "Volumes.*.ConfiguredAtLaunch": {
+   "type": "boolean"
+  },
+  "Volumes.*.DockerVolumeConfiguration": {
+   "type": "object"
+  },
+  "Volumes.*.DockerVolumeConfiguration.Autoprovision": {
+   "type": "boolean"
+  },
+  "Volumes.*.DockerVolumeConfiguration.Driver": {
+   "type": "string"
+  },
+  "Volumes.*.DockerVolumeConfiguration.DriverOpts": {
+   "type": "object"
+  },
+  "Volumes.*.DockerVolumeConfiguration.Labels": {
+   "type": "object"
+  },
+  "Volumes.*.DockerVolumeConfiguration.Scope": {
+   "type": "string",
+   "enum": [
+    "shared",
+    "task"
+   ]
+  },
+  "Volumes.*.EFSVolumeConfiguration": {
+   "type": "object"
+  },
+  "Volumes.*.EFSVolumeConfiguration.AuthorizationConfig": {
+   "type": "object"
+  },
+  "Volumes.*.EFSVolumeConfiguration.AuthorizationConfig.AccessPointId": {
+   "type": "string"
+  },
+  "Volumes.*.EFSVolumeConfiguration.AuthorizationConfig.IAM": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "Volumes.*.EFSVolumeConfiguration.FilesystemId": {
+   "type": "string"
+  },
+  "Volumes.*.EFSVolumeConfiguration.RootDirectory": {
+   "type": "string"
+  },
+  "Volumes.*.EFSVolumeConfiguration.TransitEncryption": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "Volumes.*.EFSVolumeConfiguration.TransitEncryptionPort": {
+   "type": "integer"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration": {
+   "type": "object"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.AuthorizationConfig": {
+   "type": "object"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.AuthorizationConfig.CredentialsParameter": {
+   "type": "string"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.AuthorizationConfig.Domain": {
+   "type": "string"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.FileSystemId": {
+   "type": "string"
+  },
+  "Volumes.*.FSxWindowsFileServerVolumeConfiguration.RootDirectory": {
+   "type": "string"
+  },
+  "Volumes.*.Host": {
+   "type": "object"
+  },
+  "Volumes.*.Host.SourcePath": {
+   "type": "string"
+  },
+  "Volumes.*.Name": {
+   "type": "string"
+  },
+  "Volumes.*.S3FilesVolumeConfiguration": {
+   "type": "object"
+  },
+  "Volumes.*.S3FilesVolumeConfiguration.AccessPointArn": {
+   "type": "string"
+  },
+  "Volumes.*.S3FilesVolumeConfiguration.FileSystemArn": {
+   "type": "string"
+  },
+  "Volumes.*.S3FilesVolumeConfiguration.RootDirectory": {
+   "type": "string"
+  },
+  "Volumes.*.S3FilesVolumeConfiguration.TransitEncryptionPort": {
+   "type": "integer"
+  }
+ }
+}

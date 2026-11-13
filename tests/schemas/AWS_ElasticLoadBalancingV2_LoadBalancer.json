@@ -1,0 +1,139 @@
+{
+ "type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "LoadBalancerAttributes.*": [],
+  "MinimumLoadBalancerCapacity": [
+   "CapacityUnits"
+  ],
+  "SubnetMappings.*": [
+   "SubnetId"
+  ],
+  "Tags.*": [
+   "Key"
+  ]
+ },
+ "paths": {
+  "CanonicalHostedZoneID": {
+   "type": "string"
+  },
+  "DNSName": {
+   "type": "string"
+  },
+  "EnableCapacityReservationProvisionStabilize": {
+   "type": "boolean"
+  },
+  "EnablePrefixForIpv6SourceNat": {
+   "type": "string",
+   "enum": [
+    "off",
+    "on"
+   ]
+  },
+  "EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic": {
+   "type": "string"
+  },
+  "IpAddressType": {
+   "type": "string",
+   "enum": [
+    "dualstack",
+    "dualstack-without-public-ipv4",
+    "ipv4"
+   ]
+  },
+  "Ipv4IpamPoolId": {
+   "type": "string"
+  },
+  "LoadBalancerArn": {
+   "type": "string"
+  },
+  "LoadBalancerAttributes": {
+   "type": "array"
+  },
+  "LoadBalancerAttributes.*": {
+   "type": "object"
+  },
+  "LoadBalancerAttributes.*.Key": {
+   "type": "string"
+  },
+  "LoadBalancerAttributes.*.Value": {
+   "type": "string"
+  },
+  "LoadBalancerFullName": {
+   "type": "string"
+  },
+  "LoadBalancerName": {
+   "type": "string"
+  },
+  "MinimumLoadBalancerCapacity": {
+   "type": "object"
+  },
+  "MinimumLoadBalancerCapacity.CapacityUnits": {
+   "type": "integer"
+  },
+  "Name": {
+   "type": "string"
+  },
+  "Scheme": {
+   "type": "string",
+   "enum": [
+    "internal",
+    "internet-facing"
+   ]
+  },
+  "SecurityGroups": {
+   "type": "array"
+  },
+  "SecurityGroups.*": {
+   "type": "string"
+  },
+  "SubnetMappings": {
+   "type": "array"
+  },
+  "SubnetMappings.*": {
+   "type": "object"
+  },
+  "SubnetMappings.*.AllocationId": {
+   "type": "string"
+  },
+  "SubnetMappings.*.IPv6Address": {
+   "type": "string"
+  },
+  "SubnetMappings.*.PrivateIPv4Address": {
+   "type": "string"
+  },
+  "SubnetMappings.*.SourceNatIpv6Prefix": {
+   "type": "string"
+  },
+  "SubnetMappings.*.SubnetId": {
+   "type": "string"
+  },
+  "Subnets": {
+   "type": "array"
+  },
+  "Subnets.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "Type": {
+   "type": "string",
+   "enum": [
+    "application",
+    "gateway",
+    "network"
+   ]
+  }
+ }
+}

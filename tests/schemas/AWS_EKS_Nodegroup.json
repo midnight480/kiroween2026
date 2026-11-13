@@ -1,0 +1,241 @@
+{
+ "type": "AWS::EKS::Nodegroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "ClusterName",
+   "NodeRole",
+   "Subnets"
+  ],
+  "LaunchTemplate": [],
+  "NodeRepairConfig": [],
+  "NodeRepairConfig.NodeRepairConfigOverrides.*": [],
+  "RemoteAccess": [
+   "Ec2SshKey"
+  ],
+  "ScalingConfig": [],
+  "Taints.*": [],
+  "UpdateConfig": [],
+  "WarmPoolConfig": []
+ },
+ "paths": {
+  "AmiType": {
+   "type": "string",
+   "enum": [
+    "AL2023_ARM_64_NVIDIA",
+    "AL2023_ARM_64_STANDARD",
+    "AL2023_x86_64_NEURON",
+    "AL2023_x86_64_NVIDIA",
+    "AL2023_x86_64_STANDARD",
+    "AL2_ARM_64",
+    "AL2_x86_64",
+    "AL2_x86_64_GPU",
+    "BOTTLEROCKET_ARM_64",
+    "BOTTLEROCKET_ARM_64_FIPS",
+    "BOTTLEROCKET_ARM_64_NVIDIA",
+    "BOTTLEROCKET_ARM_64_NVIDIA_FIPS",
+    "BOTTLEROCKET_x86_64",
+    "BOTTLEROCKET_x86_64_FIPS",
+    "BOTTLEROCKET_x86_64_NVIDIA",
+    "BOTTLEROCKET_x86_64_NVIDIA_FIPS",
+    "CUSTOM",
+    "WINDOWS_CORE_2019_x86_64",
+    "WINDOWS_CORE_2022_x86_64",
+    "WINDOWS_CORE_2025_x86_64",
+    "WINDOWS_FULL_2019_x86_64",
+    "WINDOWS_FULL_2022_x86_64",
+    "WINDOWS_FULL_2025_x86_64"
+   ]
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "CapacityType": {
+   "type": "string",
+   "enum": [
+    "CAPACITY_BLOCK",
+    "ON_DEMAND",
+    "OnDemand",
+    "SPOT"
+   ]
+  },
+  "ClusterName": {
+   "type": "string"
+  },
+  "DiskSize": {
+   "type": "integer"
+  },
+  "ForceUpdateEnabled": {
+   "type": "boolean"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "InstanceTypes": {
+   "type": "array"
+  },
+  "InstanceTypes.*": {
+   "type": "string"
+  },
+  "Labels": {
+   "type": "object"
+  },
+  "LaunchTemplate": {
+   "type": "object"
+  },
+  "LaunchTemplate.Id": {
+   "type": "string"
+  },
+  "LaunchTemplate.Name": {
+   "type": "string"
+  },
+  "LaunchTemplate.Version": {
+   "type": "string"
+  },
+  "NodeRepairConfig": {
+   "type": "object"
+  },
+  "NodeRepairConfig.Enabled": {
+   "type": "boolean"
+  },
+  "NodeRepairConfig.MaxParallelNodesRepairedCount": {
+   "type": "integer"
+  },
+  "NodeRepairConfig.MaxParallelNodesRepairedPercentage": {
+   "type": "integer"
+  },
+  "NodeRepairConfig.MaxUnhealthyNodeThresholdCount": {
+   "type": "integer"
+  },
+  "NodeRepairConfig.MaxUnhealthyNodeThresholdPercentage": {
+   "type": "integer"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides": {
+   "type": "array"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides.*": {
+   "type": "object"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides.*.MinRepairWaitTimeMins": {
+   "type": "integer"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides.*.NodeMonitoringCondition": {
+   "type": "string"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides.*.NodeUnhealthyReason": {
+   "type": "string"
+  },
+  "NodeRepairConfig.NodeRepairConfigOverrides.*.RepairAction": {
+   "type": "string",
+   "enum": [
+    "Replace",
+    "Reboot",
+    "NoAction"
+   ]
+  },
+  "NodeRole": {
+   "type": "string"
+  },
+  "NodegroupName": {
+   "type": "string"
+  },
+  "ReleaseVersion": {
+   "type": "string"
+  },
+  "RemoteAccess": {
+   "type": "object"
+  },
+  "RemoteAccess.Ec2SshKey": {
+   "type": "string"
+  },
+  "RemoteAccess.SourceSecurityGroups": {
+   "type": "array"
+  },
+  "RemoteAccess.SourceSecurityGroups.*": {
+   "type": "string"
+  },
+  "ScalingConfig": {
+   "type": "object"
+  },
+  "ScalingConfig.DesiredSize": {
+   "type": "integer"
+  },
+  "ScalingConfig.MaxSize": {
+   "type": "integer"
+  },
+  "ScalingConfig.MinSize": {
+   "type": "integer"
+  },
+  "Subnets": {
+   "type": "array"
+  },
+  "Subnets.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "object"
+  },
+  "Taints": {
+   "type": "array"
+  },
+  "Taints.*": {
+   "type": "object"
+  },
+  "Taints.*.Effect": {
+   "type": "string",
+   "enum": [
+    "NO_EXECUTE",
+    "NO_SCHEDULE",
+    "PREFER_NO_SCHEDULE"
+   ]
+  },
+  "Taints.*.Key": {
+   "type": "string"
+  },
+  "Taints.*.Value": {
+   "type": "string"
+  },
+  "UpdateConfig": {
+   "type": "object"
+  },
+  "UpdateConfig.MaxUnavailable": {
+   "type": "number"
+  },
+  "UpdateConfig.MaxUnavailablePercentage": {
+   "type": "number"
+  },
+  "UpdateConfig.UpdateStrategy": {
+   "type": "string",
+   "enum": [
+    "DEFAULT",
+    "MINIMAL"
+   ]
+  },
+  "Version": {
+   "type": "string"
+  },
+  "WarmPoolConfig": {
+   "type": "object"
+  },
+  "WarmPoolConfig.Enabled": {
+   "type": "boolean"
+  },
+  "WarmPoolConfig.MaxGroupPreparedCapacity": {
+   "type": "integer"
+  },
+  "WarmPoolConfig.MinSize": {
+   "type": "integer"
+  },
+  "WarmPoolConfig.PoolState": {
+   "type": "string",
+   "enum": [
+    "HIBERNATED",
+    "RUNNING",
+    "STOPPED"
+   ]
+  },
+  "WarmPoolConfig.ReuseOnScaleIn": {
+   "type": "boolean"
+  }
+ }
+}

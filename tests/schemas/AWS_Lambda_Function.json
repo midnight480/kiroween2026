@@ -1,0 +1,414 @@
+{
+ "type": "AWS::Lambda::Function",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Code",
+   "Role"
+  ],
+  "CapacityProviderConfig": [
+   "LambdaManagedInstancesCapacityProviderConfig"
+  ],
+  "CapacityProviderConfig.LambdaManagedInstancesCapacityProviderConfig": [
+   "CapacityProviderArn"
+  ],
+  "Code": [],
+  "DeadLetterConfig": [],
+  "DurableConfig": [
+   "ExecutionTimeout"
+  ],
+  "Environment": [],
+  "EphemeralStorage": [
+   "Size"
+  ],
+  "FileSystemConfigs.*": [
+   "Arn",
+   "LocalMountPath"
+  ],
+  "FileSystemConfigs.*.S3FilesConfig": [],
+  "FunctionScalingConfig": [],
+  "ImageConfig": [],
+  "LoggingConfig": [],
+  "RuntimeManagementConfig": [
+   "UpdateRuntimeOn"
+  ],
+  "SnapStart": [
+   "ApplyOn"
+  ],
+  "SnapStartResponse": [],
+  "Tags.*": [
+   "Key"
+  ],
+  "TenancyConfig": [
+   "TenantIsolationMode"
+  ],
+  "TracingConfig": [],
+  "VpcConfig": []
+ },
+ "paths": {
+  "Architectures": {
+   "type": "array"
+  },
+  "Architectures.*": {
+   "type": "string",
+   "enum": [
+    "x86_64",
+    "arm64"
+   ]
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "CapacityProviderConfig": {
+   "type": "object"
+  },
+  "CapacityProviderConfig.LambdaManagedInstancesCapacityProviderConfig": {
+   "type": "object"
+  },
+  "CapacityProviderConfig.LambdaManagedInstancesCapacityProviderConfig.CapacityProviderArn": {
+   "type": "string"
+  },
+  "CapacityProviderConfig.LambdaManagedInstancesCapacityProviderConfig.ExecutionEnvironmentMemoryGiBPerVCpu": {
+   "type": "number"
+  },
+  "CapacityProviderConfig.LambdaManagedInstancesCapacityProviderConfig.PerExecutionEnvironmentMaxConcurrency": {
+   "type": "integer"
+  },
+  "Code": {
+   "type": "object"
+  },
+  "Code.ImageUri": {
+   "type": "string"
+  },
+  "Code.S3Bucket": {
+   "type": "string"
+  },
+  "Code.S3Key": {
+   "type": "string"
+  },
+  "Code.S3ObjectStorageMode": {
+   "type": "string",
+   "enum": [
+    "COPY",
+    "REFERENCE"
+   ]
+  },
+  "Code.S3ObjectVersion": {
+   "type": "string"
+  },
+  "Code.SourceKMSKeyArn": {
+   "type": "string"
+  },
+  "Code.ZipFile": {
+   "type": "string"
+  },
+  "CodeSigningConfigArn": {
+   "type": "string"
+  },
+  "DeadLetterConfig": {
+   "type": "object"
+  },
+  "DeadLetterConfig.TargetArn": {
+   "type": "string"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "DurableConfig": {
+   "type": "object"
+  },
+  "DurableConfig.ExecutionTimeout": {
+   "type": "integer"
+  },
+  "DurableConfig.KMSKeyArn": {
+   "type": "string"
+  },
+  "DurableConfig.RetentionPeriodInDays": {
+   "type": "integer"
+  },
+  "Environment": {
+   "type": "object"
+  },
+  "Environment.Variables": {
+   "type": "object"
+  },
+  "EphemeralStorage": {
+   "type": "object"
+  },
+  "EphemeralStorage.Size": {
+   "type": "integer"
+  },
+  "FileSystemConfigs": {
+   "type": "array"
+  },
+  "FileSystemConfigs.*": {
+   "type": "object"
+  },
+  "FileSystemConfigs.*.Arn": {
+   "type": "string"
+  },
+  "FileSystemConfigs.*.LocalMountPath": {
+   "type": "string"
+  },
+  "FileSystemConfigs.*.S3FilesConfig": {
+   "type": "object"
+  },
+  "FileSystemConfigs.*.S3FilesConfig.DirectS3Read": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED",
+    "AUTO"
+   ]
+  },
+  "FunctionName": {
+   "type": "string"
+  },
+  "FunctionScalingConfig": {
+   "type": "object"
+  },
+  "FunctionScalingConfig.MaxExecutionEnvironments": {
+   "type": "integer"
+  },
+  "FunctionScalingConfig.MinExecutionEnvironments": {
+   "type": "integer"
+  },
+  "Handler": {
+   "type": "string"
+  },
+  "ImageConfig": {
+   "type": "object"
+  },
+  "ImageConfig.Command": {
+   "type": "array"
+  },
+  "ImageConfig.Command.*": {
+   "type": "string"
+  },
+  "ImageConfig.EntryPoint": {
+   "type": "array"
+  },
+  "ImageConfig.EntryPoint.*": {
+   "type": "string"
+  },
+  "ImageConfig.WorkingDirectory": {
+   "type": "string"
+  },
+  "KmsKeyArn": {
+   "type": "string"
+  },
+  "Layers": {
+   "type": "array"
+  },
+  "Layers.*": {
+   "type": "string"
+  },
+  "LoggingConfig": {
+   "type": "object"
+  },
+  "LoggingConfig.ApplicationLogLevel": {
+   "type": "string",
+   "enum": [
+    "TRACE",
+    "DEBUG",
+    "INFO",
+    "WARN",
+    "ERROR",
+    "FATAL"
+   ]
+  },
+  "LoggingConfig.LogFormat": {
+   "type": "string",
+   "enum": [
+    "Text",
+    "JSON"
+   ]
+  },
+  "LoggingConfig.LogGroup": {
+   "type": "string"
+  },
+  "LoggingConfig.SystemLogLevel": {
+   "type": "string",
+   "enum": [
+    "DEBUG",
+    "INFO",
+    "WARN"
+   ]
+  },
+  "MemorySize": {
+   "type": "integer"
+  },
+  "PackageType": {
+   "type": "string",
+   "enum": [
+    "Image",
+    "Zip"
+   ]
+  },
+  "PublishToLatestPublished": {
+   "type": "boolean"
+  },
+  "RecursiveLoop": {
+   "type": "string",
+   "enum": [
+    "Allow",
+    "Terminate"
+   ]
+  },
+  "ReservedConcurrentExecutions": {
+   "type": "integer"
+  },
+  "Role": {
+   "type": "string"
+  },
+  "Runtime": {
+   "type": "string",
+   "enum": [
+    "dotnet10",
+    "dotnet6",
+    "dotnet8",
+    "dotnetcore1.0",
+    "dotnetcore2.0",
+    "dotnetcore2.1",
+    "dotnetcore3.1",
+    "go1.x",
+    "java11",
+    "java11.al2023",
+    "java17",
+    "java17.al2023",
+    "java21",
+    "java25",
+    "java8",
+    "java8.al2",
+    "java8.al2023",
+    "nodejs",
+    "nodejs10.x",
+    "nodejs12.x",
+    "nodejs14.x",
+    "nodejs16.x",
+    "nodejs18.x",
+    "nodejs20.x",
+    "nodejs22.x",
+    "nodejs24.x",
+    "nodejs26.x",
+    "nodejs4.3",
+    "nodejs4.3-edge",
+    "nodejs6.10",
+    "nodejs8.10",
+    "provided",
+    "provided.al2",
+    "provided.al2023",
+    "python2.7",
+    "python3.10",
+    "python3.11",
+    "python3.12",
+    "python3.13",
+    "python3.14",
+    "python3.15",
+    "python3.6",
+    "python3.7",
+    "python3.8",
+    "python3.9",
+    "ruby2.5",
+    "ruby2.7",
+    "ruby3.2",
+    "ruby3.3",
+    "ruby3.4",
+    "ruby4.0"
+   ]
+  },
+  "RuntimeManagementConfig": {
+   "type": "object"
+  },
+  "RuntimeManagementConfig.RuntimeVersionArn": {
+   "type": "string"
+  },
+  "RuntimeManagementConfig.UpdateRuntimeOn": {
+   "type": "string",
+   "enum": [
+    "Auto",
+    "FunctionUpdate",
+    "Manual"
+   ]
+  },
+  "SnapStart": {
+   "type": "object"
+  },
+  "SnapStart.ApplyOn": {
+   "type": "string",
+   "enum": [
+    "PublishedVersions",
+    "None"
+   ]
+  },
+  "SnapStartResponse": {
+   "type": "object"
+  },
+  "SnapStartResponse.ApplyOn": {
+   "type": "string",
+   "enum": [
+    "PublishedVersions",
+    "None"
+   ]
+  },
+  "SnapStartResponse.OptimizationStatus": {
+   "type": "string",
+   "enum": [
+    "On",
+    "Off"
+   ]
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TenancyConfig": {
+   "type": "object"
+  },
+  "TenancyConfig.TenantIsolationMode": {
+   "type": "string",
+   "enum": [
+    "PER_TENANT"
+   ]
+  },
+  "Timeout": {
+   "type": "integer"
+  },
+  "TracingConfig": {
+   "type": "object"
+  },
+  "TracingConfig.Mode": {
+   "type": "string",
+   "enum": [
+    "Active",
+    "PassThrough"
+   ]
+  },
+  "VpcConfig": {
+   "type": "object"
+  },
+  "VpcConfig.Ipv6AllowedForDualStack": {
+   "type": "boolean"
+  },
+  "VpcConfig.SecurityGroupIds": {
+   "type": "array"
+  },
+  "VpcConfig.SecurityGroupIds.*": {
+   "type": "string"
+  },
+  "VpcConfig.SubnetIds": {
+   "type": "array"
+  },
+  "VpcConfig.SubnetIds.*": {
+   "type": "string"
+  }
+ }
+}

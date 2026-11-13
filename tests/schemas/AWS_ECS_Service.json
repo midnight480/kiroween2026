@@ -1,0 +1,774 @@
+{
+ "type": "AWS::ECS::Service",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "CapacityProviderStrategy.*": [],
+  "DeploymentConfiguration": [],
+  "DeploymentConfiguration.Alarms": [
+   "AlarmNames",
+   "Enable",
+   "Rollback"
+  ],
+  "DeploymentConfiguration.CanaryConfiguration": [],
+  "DeploymentConfiguration.DeploymentCircuitBreaker": [
+   "Enable",
+   "Rollback"
+  ],
+  "DeploymentConfiguration.DeploymentCircuitBreaker.ThresholdConfiguration": [
+   "Type",
+   "Value"
+  ],
+  "DeploymentConfiguration.EarlySuccessCriteria": [],
+  "DeploymentConfiguration.LifecycleHooks.*": [
+   "LifecycleStages"
+  ],
+  "DeploymentConfiguration.LifecycleHooks.*.TimeoutConfiguration": [],
+  "DeploymentConfiguration.LinearConfiguration": [],
+  "DeploymentController": [],
+  "ForceNewDeployment": [
+   "EnableForceNewDeployment"
+  ],
+  "GatewayConnectors.*": [
+   "PortName"
+  ],
+  "GatewayConnectors.*.Filters": [],
+  "GatewayConnectors.*.HealthCheck": [],
+  "GatewayConnectors.*.HealthCheck.Matcher": [],
+  "LoadBalancers.*": [],
+  "LoadBalancers.*.AdvancedConfiguration": [
+   "AlternateTargetGroupArn"
+  ],
+  "Monitoring": [
+   "MetricConfigurations"
+  ],
+  "Monitoring.MetricConfigurations.*": [
+   "MetricNames",
+   "ResolutionSeconds"
+  ],
+  "NetworkConfiguration": [],
+  "NetworkConfiguration.AwsvpcConfiguration": [],
+  "PlacementConstraints.*": [
+   "Type"
+  ],
+  "PlacementStrategies.*": [
+   "Type"
+  ],
+  "ServiceConnectConfiguration": [
+   "Enabled"
+  ],
+  "ServiceConnectConfiguration.AccessLogConfiguration": [
+   "Format"
+  ],
+  "ServiceConnectConfiguration.ContainerConfigurations.*": [],
+  "ServiceConnectConfiguration.LogConfiguration": [],
+  "ServiceConnectConfiguration.LogConfiguration.SecretOptions.*": [
+   "Name",
+   "ValueFrom"
+  ],
+  "ServiceConnectConfiguration.Services.*": [
+   "PortName"
+  ],
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*": [
+   "Port"
+  ],
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.TestTrafficRules": [
+   "Header"
+  ],
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.TestTrafficRules.Header": [
+   "Name"
+  ],
+  "ServiceConnectConfiguration.Services.*.Timeout": [],
+  "ServiceConnectConfiguration.Services.*.Tls": [
+   "IssuerCertificateAuthority"
+  ],
+  "ServiceConnectConfiguration.Services.*.Tls.IssuerCertificateAuthority": [],
+  "ServiceRegistries.*": [],
+  "Tags.*": [],
+  "VolumeConfigurations.*": [
+   "Name"
+  ],
+  "VolumeConfigurations.*.ManagedEBSVolume": [
+   "RoleArn"
+  ],
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*": [
+   "ResourceType"
+  ],
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*.Tags.*": [],
+  "VpcLatticeConfigurations.*": [
+   "PortName",
+   "RoleArn",
+   "TargetGroupArn"
+  ],
+  "VpcLatticeConfigurations.*.AdvancedConfiguration": []
+ },
+ "paths": {
+  "AvailabilityZoneRebalancing": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "CapacityProviderStrategy": {
+   "type": "array"
+  },
+  "CapacityProviderStrategy.*": {
+   "type": "object"
+  },
+  "CapacityProviderStrategy.*.Base": {
+   "type": "integer"
+  },
+  "CapacityProviderStrategy.*.CapacityProvider": {
+   "type": "string"
+  },
+  "CapacityProviderStrategy.*.Weight": {
+   "type": "integer"
+  },
+  "Cluster": {
+   "type": "string"
+  },
+  "DeploymentConfiguration": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.Alarms": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.Alarms.AlarmNames": {
+   "type": "array"
+  },
+  "DeploymentConfiguration.Alarms.AlarmNames.*": {
+   "type": "string"
+  },
+  "DeploymentConfiguration.Alarms.Enable": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.Alarms.Rollback": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.BakeTimeInMinutes": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.CanaryConfiguration": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.CanaryConfiguration.CanaryBakeTimeInMinutes": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.CanaryConfiguration.CanaryPercent": {
+   "type": "number"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.Enable": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.ResetOnHealthyTask": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.Rollback": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.ThresholdConfiguration": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.ThresholdConfiguration.Type": {
+   "type": "string",
+   "enum": [
+    "COUNT",
+    "BOUNDED_PERCENT",
+    "UNBOUNDED_PERCENT"
+   ]
+  },
+  "DeploymentConfiguration.DeploymentCircuitBreaker.ThresholdConfiguration.Value": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.EarlySuccessCriteria": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.EarlySuccessCriteria.Enable": {
+   "type": "boolean"
+  },
+  "DeploymentConfiguration.EarlySuccessCriteria.HealthyPercent": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.EarlySuccessCriteria.SourceServiceRevisionCleanup": {
+   "type": "string",
+   "enum": [
+    "BLOCKING",
+    "DEFERRED"
+   ]
+  },
+  "DeploymentConfiguration.LifecycleHooks": {
+   "type": "array"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.HookDetails": {
+   "type": "string"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.HookTargetArn": {
+   "type": "string"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.LifecycleStages": {
+   "type": "array"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.LifecycleStages.*": {
+   "type": "string",
+   "enum": [
+    "RECONCILE_SERVICE",
+    "PRE_SCALE_UP",
+    "POST_SCALE_UP",
+    "TEST_TRAFFIC_SHIFT",
+    "POST_TEST_TRAFFIC_SHIFT",
+    "PRE_PRODUCTION_TRAFFIC_SHIFT",
+    "PRODUCTION_TRAFFIC_SHIFT",
+    "POST_PRODUCTION_TRAFFIC_SHIFT"
+   ]
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.RoleArn": {
+   "type": "string"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.TargetType": {
+   "type": "string",
+   "enum": [
+    "AWS_LAMBDA",
+    "PAUSE"
+   ]
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.TimeoutConfiguration": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.TimeoutConfiguration.Action": {
+   "type": "string",
+   "enum": [
+    "ROLLBACK",
+    "CONTINUE"
+   ]
+  },
+  "DeploymentConfiguration.LifecycleHooks.*.TimeoutConfiguration.TimeoutInMinutes": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.LinearConfiguration": {
+   "type": "object"
+  },
+  "DeploymentConfiguration.LinearConfiguration.StepBakeTimeInMinutes": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.LinearConfiguration.StepPercent": {
+   "type": "number"
+  },
+  "DeploymentConfiguration.MaximumPercent": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.MinimumHealthyPercent": {
+   "type": "integer"
+  },
+  "DeploymentConfiguration.Strategy": {
+   "type": "string",
+   "enum": [
+    "ROLLING",
+    "BLUE_GREEN",
+    "LINEAR",
+    "CANARY"
+   ]
+  },
+  "DeploymentController": {
+   "type": "object"
+  },
+  "DeploymentController.Type": {
+   "type": "string",
+   "enum": [
+    "CODE_DEPLOY",
+    "ECS",
+    "EXTERNAL"
+   ]
+  },
+  "DesiredCount": {
+   "type": "integer"
+  },
+  "EnableECSManagedTags": {
+   "type": "boolean"
+  },
+  "EnableExecuteCommand": {
+   "type": "boolean"
+  },
+  "ForceNewDeployment": {
+   "type": "object"
+  },
+  "ForceNewDeployment.EnableForceNewDeployment": {
+   "type": "boolean"
+  },
+  "ForceNewDeployment.ForceNewDeploymentNonce": {
+   "type": "string"
+  },
+  "GatewayConnectors": {
+   "type": "array"
+  },
+  "GatewayConnectors.*": {
+   "type": "object"
+  },
+  "GatewayConnectors.*.Filters": {
+   "type": "object"
+  },
+  "GatewayConnectors.*.Filters.AccessTypes": {
+   "type": "array"
+  },
+  "GatewayConnectors.*.Filters.AccessTypes.*": {
+   "type": "string",
+   "enum": [
+    "PUBLIC",
+    "PRIVATE"
+   ]
+  },
+  "GatewayConnectors.*.HealthCheck": {
+   "type": "object"
+  },
+  "GatewayConnectors.*.HealthCheck.HealthCheckIntervalSeconds": {
+   "type": "integer"
+  },
+  "GatewayConnectors.*.HealthCheck.HealthCheckPath": {
+   "type": "string"
+  },
+  "GatewayConnectors.*.HealthCheck.HealthCheckPort": {
+   "type": "integer"
+  },
+  "GatewayConnectors.*.HealthCheck.HealthCheckProtocol": {
+   "type": "string",
+   "enum": [
+    "HTTP",
+    "HTTPS"
+   ]
+  },
+  "GatewayConnectors.*.HealthCheck.HealthCheckTimeoutSeconds": {
+   "type": "integer"
+  },
+  "GatewayConnectors.*.HealthCheck.HealthyThresholdCount": {
+   "type": "integer"
+  },
+  "GatewayConnectors.*.HealthCheck.Matcher": {
+   "type": "object"
+  },
+  "GatewayConnectors.*.HealthCheck.Matcher.GrpcCode": {
+   "type": "string"
+  },
+  "GatewayConnectors.*.HealthCheck.Matcher.HttpCode": {
+   "type": "string"
+  },
+  "GatewayConnectors.*.HealthCheck.UnhealthyThresholdCount": {
+   "type": "integer"
+  },
+  "GatewayConnectors.*.PortName": {
+   "type": "string"
+  },
+  "HealthCheckGracePeriodSeconds": {
+   "type": "integer"
+  },
+  "LaunchType": {
+   "type": "string",
+   "enum": [
+    "EC2",
+    "FARGATE",
+    "EXTERNAL"
+   ]
+  },
+  "LoadBalancers": {
+   "type": "array"
+  },
+  "LoadBalancers.*": {
+   "type": "object"
+  },
+  "LoadBalancers.*.AdvancedConfiguration": {
+   "type": "object"
+  },
+  "LoadBalancers.*.AdvancedConfiguration.AlternateTargetGroupArn": {
+   "type": "string"
+  },
+  "LoadBalancers.*.AdvancedConfiguration.ProductionListenerRule": {
+   "type": "string"
+  },
+  "LoadBalancers.*.AdvancedConfiguration.RoleArn": {
+   "type": "string"
+  },
+  "LoadBalancers.*.AdvancedConfiguration.TestListenerRule": {
+   "type": "string"
+  },
+  "LoadBalancers.*.ContainerName": {
+   "type": "string"
+  },
+  "LoadBalancers.*.ContainerPort": {
+   "type": "integer"
+  },
+  "LoadBalancers.*.LoadBalancerName": {
+   "type": "string"
+  },
+  "LoadBalancers.*.TargetGroupArn": {
+   "type": "string"
+  },
+  "Monitoring": {
+   "type": "object"
+  },
+  "Monitoring.MetricConfigurations": {
+   "type": "array"
+  },
+  "Monitoring.MetricConfigurations.*": {
+   "type": "object"
+  },
+  "Monitoring.MetricConfigurations.*.MetricNames": {
+   "type": "array"
+  },
+  "Monitoring.MetricConfigurations.*.MetricNames.*": {
+   "type": "string",
+   "enum": [
+    "CPUUtilization",
+    "MemoryUtilization"
+   ]
+  },
+  "Monitoring.MetricConfigurations.*.ResolutionSeconds": {
+   "type": "integer",
+   "enum": [
+    20,
+    60
+   ]
+  },
+  "Name": {
+   "type": "string"
+  },
+  "NetworkConfiguration": {
+   "type": "object"
+  },
+  "NetworkConfiguration.AwsvpcConfiguration": {
+   "type": "object"
+  },
+  "NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp": {
+   "type": "string",
+   "enum": [
+    "DISABLED",
+    "ENABLED"
+   ]
+  },
+  "NetworkConfiguration.AwsvpcConfiguration.SecurityGroups": {
+   "type": "array"
+  },
+  "NetworkConfiguration.AwsvpcConfiguration.SecurityGroups.*": {
+   "type": "string"
+  },
+  "NetworkConfiguration.AwsvpcConfiguration.Subnets": {
+   "type": "array"
+  },
+  "NetworkConfiguration.AwsvpcConfiguration.Subnets.*": {
+   "type": "string"
+  },
+  "PlacementConstraints": {
+   "type": "array"
+  },
+  "PlacementConstraints.*": {
+   "type": "object"
+  },
+  "PlacementConstraints.*.Expression": {
+   "type": "string"
+  },
+  "PlacementConstraints.*.Type": {
+   "type": "string",
+   "enum": [
+    "distinctInstance",
+    "memberOf"
+   ]
+  },
+  "PlacementStrategies": {
+   "type": "array"
+  },
+  "PlacementStrategies.*": {
+   "type": "object"
+  },
+  "PlacementStrategies.*.Field": {
+   "type": "string"
+  },
+  "PlacementStrategies.*.Type": {
+   "type": "string",
+   "enum": [
+    "binpack",
+    "random",
+    "spread"
+   ]
+  },
+  "PlatformVersion": {
+   "type": "string"
+  },
+  "PropagateTags": {
+   "type": "string",
+   "enum": [
+    "SERVICE",
+    "TASK_DEFINITION"
+   ]
+  },
+  "Role": {
+   "type": "string"
+  },
+  "SchedulingStrategy": {
+   "type": "string",
+   "enum": [
+    "DAEMON",
+    "REPLICA"
+   ]
+  },
+  "ServiceArn": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.AccessLogConfiguration": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.AccessLogConfiguration.Format": {
+   "type": "string",
+   "enum": [
+    "TEXT",
+    "JSON"
+   ]
+  },
+  "ServiceConnectConfiguration.AccessLogConfiguration.IncludeQueryParameters": {
+   "type": "string",
+   "enum": [
+    "DISABLED",
+    "ENABLED"
+   ]
+  },
+  "ServiceConnectConfiguration.ContainerConfigurations": {
+   "type": "array"
+  },
+  "ServiceConnectConfiguration.ContainerConfigurations.*": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.ContainerConfigurations.*.LogLevel": {
+   "type": "string",
+   "enum": [
+    "debug",
+    "info"
+   ]
+  },
+  "ServiceConnectConfiguration.Enabled": {
+   "type": "boolean"
+  },
+  "ServiceConnectConfiguration.LogConfiguration": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.LogDriver": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.Options": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.SecretOptions": {
+   "type": "array"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.SecretOptions.*": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.SecretOptions.*.Name": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.LogConfiguration.SecretOptions.*.ValueFrom": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Namespace": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services": {
+   "type": "array"
+  },
+  "ServiceConnectConfiguration.Services.*": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases": {
+   "type": "array"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.DnsName": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.Port": {
+   "type": "integer"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.TestTrafficRules": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.ClientAliases.*.TestTrafficRules.Header": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.DiscoveryName": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services.*.IngressPortOverride": {
+   "type": "integer"
+  },
+  "ServiceConnectConfiguration.Services.*.PortName": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services.*.Timeout": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.Timeout.IdleTimeoutSeconds": {
+   "type": "integer"
+  },
+  "ServiceConnectConfiguration.Services.*.Timeout.PerRequestTimeoutSeconds": {
+   "type": "integer"
+  },
+  "ServiceConnectConfiguration.Services.*.Tls": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.Tls.IssuerCertificateAuthority": {
+   "type": "object"
+  },
+  "ServiceConnectConfiguration.Services.*.Tls.IssuerCertificateAuthority.AwsPcaAuthorityArn": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services.*.Tls.KmsKey": {
+   "type": "string"
+  },
+  "ServiceConnectConfiguration.Services.*.Tls.RoleArn": {
+   "type": "string"
+  },
+  "ServiceName": {
+   "type": "string"
+  },
+  "ServiceRegistries": {
+   "type": "array"
+  },
+  "ServiceRegistries.*": {
+   "type": "object"
+  },
+  "ServiceRegistries.*.ContainerName": {
+   "type": "string"
+  },
+  "ServiceRegistries.*.ContainerPort": {
+   "type": "integer"
+  },
+  "ServiceRegistries.*.Port": {
+   "type": "integer"
+  },
+  "ServiceRegistries.*.RegistryArn": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TaskDefinition": {
+   "type": "string"
+  },
+  "VolumeConfigurations": {
+   "type": "array"
+  },
+  "VolumeConfigurations.*": {
+   "type": "object"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume": {
+   "type": "object"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.Encrypted": {
+   "type": "boolean"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.FilesystemType": {
+   "type": "string",
+   "enum": [
+    "ext3",
+    "ext4",
+    "ntfs",
+    "xfs"
+   ]
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.Iops": {
+   "type": "integer"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.KmsKeyId": {
+   "type": "string"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.RoleArn": {
+   "type": "string"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.SizeInGiB": {
+   "type": "integer"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.SnapshotId": {
+   "type": "string"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications": {
+   "type": "array"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*": {
+   "type": "object"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*.PropagateTags": {
+   "type": "string",
+   "enum": [
+    "SERVICE",
+    "TASK_DEFINITION"
+   ]
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*.ResourceType": {
+   "type": "string",
+   "enum": [
+    "volume"
+   ]
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*.Tags": {
+   "type": "array"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.TagSpecifications.*.Tags.*": {
+   "type": "object"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.Throughput": {
+   "type": "integer"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.VolumeInitializationRate": {
+   "type": "integer"
+  },
+  "VolumeConfigurations.*.ManagedEBSVolume.VolumeType": {
+   "type": "string"
+  },
+  "VolumeConfigurations.*.Name": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations": {
+   "type": "array"
+  },
+  "VpcLatticeConfigurations.*": {
+   "type": "object"
+  },
+  "VpcLatticeConfigurations.*.AdvancedConfiguration": {
+   "type": "object"
+  },
+  "VpcLatticeConfigurations.*.AdvancedConfiguration.AlternateTargetGroupArn": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations.*.AdvancedConfiguration.ProductionListenerRule": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations.*.AdvancedConfiguration.TestListenerRule": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations.*.PortName": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations.*.RoleArn": {
+   "type": "string"
+  },
+  "VpcLatticeConfigurations.*.TargetGroupArn": {
+   "type": "string"
+  }
+ }
+}

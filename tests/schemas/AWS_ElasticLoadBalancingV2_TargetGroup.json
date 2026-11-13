@@ -1,0 +1,164 @@
+{
+ "type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "Matcher": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "TargetGroupAttributes.*": [],
+  "Targets.*": [
+   "Id"
+  ]
+ },
+ "paths": {
+  "HealthCheckEnabled": {
+   "type": "boolean"
+  },
+  "HealthCheckIntervalSeconds": {
+   "type": "integer"
+  },
+  "HealthCheckPath": {
+   "type": "string"
+  },
+  "HealthCheckPort": {
+   "type": "string"
+  },
+  "HealthCheckProtocol": {
+   "type": "string",
+   "enum": [
+    "GENEVE",
+    "HTTP",
+    "HTTPS",
+    "QUIC",
+    "TCP",
+    "TCP_QUIC",
+    "TCP_UDP",
+    "TLS",
+    "UDP"
+   ]
+  },
+  "HealthCheckTimeoutSeconds": {
+   "type": "integer"
+  },
+  "HealthyThresholdCount": {
+   "type": "integer"
+  },
+  "IpAddressType": {
+   "type": "string",
+   "enum": [
+    "ipv4",
+    "ipv6"
+   ]
+  },
+  "LoadBalancerArns": {
+   "type": "array"
+  },
+  "LoadBalancerArns.*": {
+   "type": "string"
+  },
+  "Matcher": {
+   "type": "object"
+  },
+  "Matcher.GrpcCode": {
+   "type": "string"
+  },
+  "Matcher.HttpCode": {
+   "type": "string"
+  },
+  "Name": {
+   "type": "string"
+  },
+  "Port": {
+   "type": "integer"
+  },
+  "Protocol": {
+   "type": "string",
+   "enum": [
+    "GENEVE",
+    "HTTP",
+    "HTTPS",
+    "QUIC",
+    "TCP",
+    "TCP_QUIC",
+    "TCP_UDP",
+    "TLS",
+    "UDP"
+   ]
+  },
+  "ProtocolVersion": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TargetControlPort": {
+   "type": "integer"
+  },
+  "TargetGroupArn": {
+   "type": "string"
+  },
+  "TargetGroupAttributes": {
+   "type": "array"
+  },
+  "TargetGroupAttributes.*": {
+   "type": "object"
+  },
+  "TargetGroupAttributes.*.Key": {
+   "type": "string"
+  },
+  "TargetGroupAttributes.*.Value": {
+   "type": "string"
+  },
+  "TargetGroupFullName": {
+   "type": "string"
+  },
+  "TargetGroupName": {
+   "type": "string"
+  },
+  "TargetType": {
+   "type": "string",
+   "enum": [
+    "alb",
+    "instance",
+    "ip",
+    "lambda"
+   ]
+  },
+  "Targets": {
+   "type": "array"
+  },
+  "Targets.*": {
+   "type": "object"
+  },
+  "Targets.*.AvailabilityZone": {
+   "type": "string"
+  },
+  "Targets.*.Id": {
+   "type": "string"
+  },
+  "Targets.*.Port": {
+   "type": "integer"
+  },
+  "Targets.*.QuicServerId": {
+   "type": "string"
+  },
+  "UnhealthyThresholdCount": {
+   "type": "integer"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

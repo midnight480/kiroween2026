@@ -1,0 +1,1036 @@
+{
+ "type": "AWS::EC2::LaunchTemplate",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "LaunchTemplateData"
+  ],
+  "LaunchTemplateData": [],
+  "LaunchTemplateData.BlockDeviceMappings.*": [],
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs": [],
+  "LaunchTemplateData.CapacityReservationSpecification": [],
+  "LaunchTemplateData.CapacityReservationSpecification.CapacityReservationTarget": [],
+  "LaunchTemplateData.CpuOptions": [],
+  "LaunchTemplateData.CreditSpecification": [],
+  "LaunchTemplateData.EnclaveOptions": [],
+  "LaunchTemplateData.HibernationOptions": [],
+  "LaunchTemplateData.IamInstanceProfile": [],
+  "LaunchTemplateData.InstanceMarketOptions": [],
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions": [],
+  "LaunchTemplateData.InstanceRequirements": [],
+  "LaunchTemplateData.InstanceRequirements.AcceleratorCount": [],
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTotalMemoryMiB": [],
+  "LaunchTemplateData.InstanceRequirements.BaselineEbsBandwidthMbps": [],
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors": [],
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu": [],
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu.References.*": [],
+  "LaunchTemplateData.InstanceRequirements.MemoryGiBPerVCpu": [],
+  "LaunchTemplateData.InstanceRequirements.MemoryMiB": [],
+  "LaunchTemplateData.InstanceRequirements.NetworkBandwidthGbps": [],
+  "LaunchTemplateData.InstanceRequirements.NetworkInterfaceCount": [],
+  "LaunchTemplateData.InstanceRequirements.TotalLocalStorageGB": [],
+  "LaunchTemplateData.InstanceRequirements.VCpuCount": [],
+  "LaunchTemplateData.LicenseSpecifications.*": [],
+  "LaunchTemplateData.MaintenanceOptions": [],
+  "LaunchTemplateData.MetadataOptions": [],
+  "LaunchTemplateData.Monitoring": [],
+  "LaunchTemplateData.NetworkInterfaces.*": [],
+  "LaunchTemplateData.NetworkInterfaces.*.ConnectionTrackingSpecification": [],
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification": [],
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification": [],
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv4Prefixes.*": [],
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Addresses.*": [],
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Prefixes.*": [],
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddresses.*": [],
+  "LaunchTemplateData.NetworkPerformanceOptions": [],
+  "LaunchTemplateData.Placement": [],
+  "LaunchTemplateData.PrivateDnsNameOptions": [],
+  "LaunchTemplateData.TagSpecifications.*": [],
+  "LaunchTemplateData.TagSpecifications.*.Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "TagSpecifications.*": [],
+  "TagSpecifications.*.Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "DefaultVersionNumber": {
+   "type": "string"
+  },
+  "LatestVersionNumber": {
+   "type": "string"
+  },
+  "LaunchTemplateData": {
+   "type": "object"
+  },
+  "LaunchTemplateData.BlockDeviceMappings": {
+   "type": "array"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.DeviceName": {
+   "type": "string"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs": {
+   "type": "object"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.DeleteOnTermination": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.EbsCardIndex": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.Encrypted": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.Iops": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.KmsKeyId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.SnapshotId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.Throughput": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.VolumeInitializationRate": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.VolumeSize": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.Ebs.VolumeType": {
+   "type": "string",
+   "enum": [
+    "gp2",
+    "gp3",
+    "io1",
+    "io2",
+    "sc1",
+    "st1",
+    "standard"
+   ]
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.NoDevice": {
+   "type": "string"
+  },
+  "LaunchTemplateData.BlockDeviceMappings.*.VirtualName": {
+   "type": "string"
+  },
+  "LaunchTemplateData.CapacityReservationSpecification": {
+   "type": "object"
+  },
+  "LaunchTemplateData.CapacityReservationSpecification.CapacityReservationPreference": {
+   "type": "string",
+   "enum": [
+    "capacity-reservations-only",
+    "none",
+    "open"
+   ]
+  },
+  "LaunchTemplateData.CapacityReservationSpecification.CapacityReservationTarget": {
+   "type": "object"
+  },
+  "LaunchTemplateData.CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationResourceGroupArn": {
+   "type": "string"
+  },
+  "LaunchTemplateData.CpuOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.CpuOptions.AmdSevSnp": {
+   "type": "string",
+   "enum": [
+    "enabled",
+    "disabled"
+   ]
+  },
+  "LaunchTemplateData.CpuOptions.CoreCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.CpuOptions.NestedVirtualization": {
+   "type": "string",
+   "enum": [
+    "enabled",
+    "disabled"
+   ]
+  },
+  "LaunchTemplateData.CpuOptions.ThreadsPerCore": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.CreditSpecification": {
+   "type": "object"
+  },
+  "LaunchTemplateData.CreditSpecification.CpuCredits": {
+   "type": "string"
+  },
+  "LaunchTemplateData.DisableApiStop": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.DisableApiTermination": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.EbsOptimized": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.EnclaveOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.EnclaveOptions.Enabled": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.HibernationOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.HibernationOptions.Configured": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.IamInstanceProfile": {
+   "type": "object"
+  },
+  "LaunchTemplateData.IamInstanceProfile.Arn": {
+   "type": "string"
+  },
+  "LaunchTemplateData.IamInstanceProfile.Name": {
+   "type": "string"
+  },
+  "LaunchTemplateData.ImageId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceInitiatedShutdownBehavior": {
+   "type": "string",
+   "enum": [
+    "stop",
+    "terminate"
+   ]
+  },
+  "LaunchTemplateData.InstanceMarketOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceMarketOptions.MarketType": {
+   "type": "string",
+   "enum": [
+    "capacity-block",
+    "interruptible-capacity-reservation",
+    "on-demand",
+    "spot"
+   ]
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions.BlockDurationMinutes": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions.InstanceInterruptionBehavior": {
+   "type": "string",
+   "enum": [
+    "hibernate",
+    "stop",
+    "terminate"
+   ]
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions.MaxPrice": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions.SpotInstanceType": {
+   "type": "string",
+   "enum": [
+    "one-time",
+    "persistent"
+   ]
+  },
+  "LaunchTemplateData.InstanceMarketOptions.SpotOptions.ValidUntil": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceRequirements": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorCount": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorCount.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorCount.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorManufacturers": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorManufacturers.*": {
+   "type": "string",
+   "enum": [
+    "amazon-web-services",
+    "amd",
+    "habana",
+    "nvidia",
+    "xilinx"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorNames": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorNames.*": {
+   "type": "string",
+   "enum": [
+    "a100",
+    "a10g",
+    "gaudi-hl-205",
+    "h100",
+    "inferentia",
+    "inferentia2",
+    "k520",
+    "k80",
+    "l4",
+    "l40s",
+    "m60",
+    "radeon-pro-v520",
+    "t4",
+    "t4g",
+    "trainium",
+    "trainium2",
+    "u30",
+    "v100",
+    "vu9p"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTotalMemoryMiB": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTotalMemoryMiB.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTotalMemoryMiB.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTypes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.AcceleratorTypes.*": {
+   "type": "string",
+   "enum": [
+    "fpga",
+    "gpu",
+    "inference",
+    "media"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.AllowedInstanceTypes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.AllowedInstanceTypes.*": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceRequirements.BareMetal": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselineEbsBandwidthMbps": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselineEbsBandwidthMbps.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselineEbsBandwidthMbps.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu.References": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu.References.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.BaselinePerformanceFactors.Cpu.References.*.InstanceFamily": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceRequirements.BurstablePerformance": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.CpuManufacturers": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.CpuManufacturers.*": {
+   "type": "string",
+   "enum": [
+    "amazon-web-services",
+    "amd",
+    "apple",
+    "intel"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.ExcludedInstanceTypes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.ExcludedInstanceTypes.*": {
+   "type": "string"
+  },
+  "LaunchTemplateData.InstanceRequirements.InstanceGenerations": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.InstanceGenerations.*": {
+   "type": "string",
+   "enum": [
+    "current",
+    "previous"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.LocalStorage": {
+   "type": "string",
+   "enum": [
+    "excluded",
+    "included",
+    "required"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.LocalStorageTypes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.InstanceRequirements.LocalStorageTypes.*": {
+   "type": "string",
+   "enum": [
+    "hdd",
+    "ssd"
+   ]
+  },
+  "LaunchTemplateData.InstanceRequirements.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryGiBPerVCpu": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryGiBPerVCpu.Max": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryGiBPerVCpu.Min": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryMiB": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryMiB.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.MemoryMiB.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkBandwidthGbps": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkBandwidthGbps.Max": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkBandwidthGbps.Min": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkInterfaceCount": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkInterfaceCount.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.NetworkInterfaceCount.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.OnDemandMaxPricePercentageOverLowestPrice": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.RequireHibernateSupport": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.InstanceRequirements.SpotMaxPricePercentageOverLowestPrice": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.TotalLocalStorageGB": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.TotalLocalStorageGB.Max": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.TotalLocalStorageGB.Min": {
+   "type": "number"
+  },
+  "LaunchTemplateData.InstanceRequirements.VCpuCount": {
+   "type": "object"
+  },
+  "LaunchTemplateData.InstanceRequirements.VCpuCount.Max": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceRequirements.VCpuCount.Min": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.InstanceType": {
+   "type": "string"
+  },
+  "LaunchTemplateData.KernelId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.KeyName": {
+   "type": "string"
+  },
+  "LaunchTemplateData.LicenseSpecifications": {
+   "type": "array"
+  },
+  "LaunchTemplateData.LicenseSpecifications.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.LicenseSpecifications.*.LicenseConfigurationArn": {
+   "type": "string"
+  },
+  "LaunchTemplateData.MaintenanceOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.MaintenanceOptions.AutoRecovery": {
+   "type": "string",
+   "enum": [
+    "default",
+    "disabled"
+   ]
+  },
+  "LaunchTemplateData.MetadataOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.MetadataOptions.HttpEndpoint": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "LaunchTemplateData.MetadataOptions.HttpProtocolIpv6": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "LaunchTemplateData.MetadataOptions.HttpPutResponseHopLimit": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.MetadataOptions.HttpTokens": {
+   "type": "string",
+   "enum": [
+    "optional",
+    "required"
+   ]
+  },
+  "LaunchTemplateData.MetadataOptions.InstanceMetadataTags": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "LaunchTemplateData.Monitoring": {
+   "type": "object"
+  },
+  "LaunchTemplateData.Monitoring.Enabled": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.AssociateCarrierIpAddress": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.AssociatePublicIpAddress": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.ConnectionTrackingSpecification": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.ConnectionTrackingSpecification.TcpEstablishedTimeout": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.ConnectionTrackingSpecification.UdpStreamTimeout": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.ConnectionTrackingSpecification.UdpTimeout": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.DeleteOnTermination": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Description": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.DeviceIndex": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.EnaQueueCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification.EnaSrdEnabled": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification.EnaSrdUdpEnabled": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Groups": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Groups.*": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.InterfaceType": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv4PrefixCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv4Prefixes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv4Prefixes.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv4Prefixes.*.Ipv4Prefix": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6AddressCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Addresses": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Addresses.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Addresses.*.Ipv6Address": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6PrefixCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Prefixes": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Prefixes.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.Ipv6Prefixes.*.Ipv6Prefix": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.NetworkCardIndex": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.NetworkInterfaceId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrimaryIpv6": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddress": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddresses": {
+   "type": "array"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddresses.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddresses.*.Primary": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.SecondaryPrivateIpAddressCount": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.NetworkInterfaces.*.SubnetId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.NetworkPerformanceOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.NetworkPerformanceOptions.BandwidthWeighting": {
+   "type": "string",
+   "enum": [
+    "default",
+    "ebs-1",
+    "vpc-1"
+   ]
+  },
+  "LaunchTemplateData.Placement": {
+   "type": "object"
+  },
+  "LaunchTemplateData.Placement.Affinity": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.AvailabilityZone": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.GroupId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.GroupName": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.HostId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.HostResourceGroupArn": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.PartitionNumber": {
+   "type": "integer"
+  },
+  "LaunchTemplateData.Placement.SpreadDomain": {
+   "type": "string"
+  },
+  "LaunchTemplateData.Placement.Tenancy": {
+   "type": "string",
+   "enum": [
+    "dedicated",
+    "default",
+    "host"
+   ]
+  },
+  "LaunchTemplateData.PrivateDnsNameOptions": {
+   "type": "object"
+  },
+  "LaunchTemplateData.PrivateDnsNameOptions.EnableResourceNameDnsAAAARecord": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.PrivateDnsNameOptions.EnableResourceNameDnsARecord": {
+   "type": "boolean"
+  },
+  "LaunchTemplateData.PrivateDnsNameOptions.HostnameType": {
+   "type": "string",
+   "enum": [
+    "ip-name",
+    "resource-name"
+   ]
+  },
+  "LaunchTemplateData.RamDiskId": {
+   "type": "string"
+  },
+  "LaunchTemplateData.SecurityGroupIds": {
+   "type": "array"
+  },
+  "LaunchTemplateData.SecurityGroupIds.*": {
+   "type": "string"
+  },
+  "LaunchTemplateData.SecurityGroups": {
+   "type": "array"
+  },
+  "LaunchTemplateData.SecurityGroups.*": {
+   "type": "string"
+  },
+  "LaunchTemplateData.TagSpecifications": {
+   "type": "array"
+  },
+  "LaunchTemplateData.TagSpecifications.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.TagSpecifications.*.ResourceType": {
+   "type": "string",
+   "enum": [
+    "application-status-check",
+    "capacity-block",
+    "capacity-manager-data-export",
+    "capacity-reservation",
+    "capacity-reservation-cancellation-quote",
+    "capacity-reservation-fleet",
+    "capacity-reservation-modification-quote",
+    "carrier-gateway",
+    "client-vpn-endpoint",
+    "coip-pool",
+    "customer-gateway",
+    "declarative-policies-report",
+    "dedicated-host",
+    "dhcp-options",
+    "egress-only-internet-gateway",
+    "elastic-gpu",
+    "elastic-ip",
+    "export-image-task",
+    "export-instance-task",
+    "fleet",
+    "fpga-image",
+    "host-reservation",
+    "image",
+    "image-usage-report",
+    "import-image-task",
+    "import-snapshot-task",
+    "instance",
+    "instance-connect-endpoint",
+    "instance-event-window",
+    "internet-gateway",
+    "ipam",
+    "ipam-external-resource-verification-token",
+    "ipam-internet-registry-association",
+    "ipam-policy",
+    "ipam-pool",
+    "ipam-pool-allocation",
+    "ipam-prefix-list-resolver",
+    "ipam-prefix-list-resolver-target",
+    "ipam-resource-discovery",
+    "ipam-resource-discovery-association",
+    "ipam-scope",
+    "ipv4pool-ec2",
+    "ipv6pool-ec2",
+    "key-pair",
+    "launch-template",
+    "local-gateway",
+    "local-gateway-route-table",
+    "local-gateway-route-table-virtual-interface-group-association",
+    "local-gateway-route-table-vpc-association",
+    "local-gateway-virtual-interface",
+    "local-gateway-virtual-interface-group",
+    "mac-modification-task",
+    "natgateway",
+    "network-acl",
+    "network-insights-access-scope",
+    "network-insights-access-scope-analysis",
+    "network-insights-analysis",
+    "network-insights-path",
+    "network-interface",
+    "outpost-lag",
+    "placement-group",
+    "prefix-list",
+    "replace-root-volume-task",
+    "reserved-instances",
+    "route-server",
+    "route-server-endpoint",
+    "route-server-peer",
+    "route-table",
+    "secondary-interface",
+    "secondary-network",
+    "secondary-subnet",
+    "security-group",
+    "security-group-rule",
+    "service-link-virtual-interface",
+    "snapshot",
+    "spot-fleet-request",
+    "spot-instances-request",
+    "subnet",
+    "subnet-cidr-reservation",
+    "traffic-mirror-filter",
+    "traffic-mirror-filter-rule",
+    "traffic-mirror-session",
+    "traffic-mirror-target",
+    "transit-gateway",
+    "transit-gateway-attachment",
+    "transit-gateway-connect-peer",
+    "transit-gateway-metering-policy",
+    "transit-gateway-multicast-domain",
+    "transit-gateway-policy-table",
+    "transit-gateway-route-table",
+    "transit-gateway-route-table-announcement",
+    "verified-access-endpoint",
+    "verified-access-endpoint-target",
+    "verified-access-group",
+    "verified-access-instance",
+    "verified-access-policy",
+    "verified-access-trust-provider",
+    "volume",
+    "vpc",
+    "vpc-block-public-access-exclusion",
+    "vpc-encryption-control",
+    "vpc-endpoint",
+    "vpc-endpoint-connection",
+    "vpc-endpoint-connection-device-type",
+    "vpc-endpoint-service",
+    "vpc-endpoint-service-permission",
+    "vpc-flow-log",
+    "vpc-peering-connection",
+    "vpn-concentrator",
+    "vpn-connection",
+    "vpn-connection-device-type",
+    "vpn-gateway"
+   ]
+  },
+  "LaunchTemplateData.TagSpecifications.*.Tags": {
+   "type": "array"
+  },
+  "LaunchTemplateData.TagSpecifications.*.Tags.*": {
+   "type": "object"
+  },
+  "LaunchTemplateData.TagSpecifications.*.Tags.*.Key": {
+   "type": "string"
+  },
+  "LaunchTemplateData.TagSpecifications.*.Tags.*.Value": {
+   "type": "string"
+  },
+  "LaunchTemplateData.UserData": {
+   "type": "string"
+  },
+  "LaunchTemplateId": {
+   "type": "string"
+  },
+  "LaunchTemplateName": {
+   "type": "string"
+  },
+  "TagSpecifications": {
+   "type": "array"
+  },
+  "TagSpecifications.*": {
+   "type": "object"
+  },
+  "TagSpecifications.*.ResourceType": {
+   "type": "string",
+   "enum": [
+    "application-status-check",
+    "capacity-block",
+    "capacity-manager-data-export",
+    "capacity-reservation",
+    "capacity-reservation-cancellation-quote",
+    "capacity-reservation-fleet",
+    "capacity-reservation-modification-quote",
+    "carrier-gateway",
+    "client-vpn-endpoint",
+    "coip-pool",
+    "customer-gateway",
+    "declarative-policies-report",
+    "dedicated-host",
+    "dhcp-options",
+    "egress-only-internet-gateway",
+    "elastic-gpu",
+    "elastic-ip",
+    "export-image-task",
+    "export-instance-task",
+    "fleet",
+    "fpga-image",
+    "host-reservation",
+    "image",
+    "image-usage-report",
+    "import-image-task",
+    "import-snapshot-task",
+    "instance",
+    "instance-connect-endpoint",
+    "instance-event-window",
+    "internet-gateway",
+    "ipam",
+    "ipam-external-resource-verification-token",
+    "ipam-internet-registry-association",
+    "ipam-policy",
+    "ipam-pool",
+    "ipam-pool-allocation",
+    "ipam-prefix-list-resolver",
+    "ipam-prefix-list-resolver-target",
+    "ipam-resource-discovery",
+    "ipam-resource-discovery-association",
+    "ipam-scope",
+    "ipv4pool-ec2",
+    "ipv6pool-ec2",
+    "key-pair",
+    "launch-template",
+    "local-gateway",
+    "local-gateway-route-table",
+    "local-gateway-route-table-virtual-interface-group-association",
+    "local-gateway-route-table-vpc-association",
+    "local-gateway-virtual-interface",
+    "local-gateway-virtual-interface-group",
+    "mac-modification-task",
+    "natgateway",
+    "network-acl",
+    "network-insights-access-scope",
+    "network-insights-access-scope-analysis",
+    "network-insights-analysis",
+    "network-insights-path",
+    "network-interface",
+    "outpost-lag",
+    "placement-group",
+    "prefix-list",
+    "replace-root-volume-task",
+    "reserved-instances",
+    "route-server",
+    "route-server-endpoint",
+    "route-server-peer",
+    "route-table",
+    "secondary-interface",
+    "secondary-network",
+    "secondary-subnet",
+    "security-group",
+    "security-group-rule",
+    "service-link-virtual-interface",
+    "snapshot",
+    "spot-fleet-request",
+    "spot-instances-request",
+    "subnet",
+    "subnet-cidr-reservation",
+    "traffic-mirror-filter",
+    "traffic-mirror-filter-rule",
+    "traffic-mirror-session",
+    "traffic-mirror-target",
+    "transit-gateway",
+    "transit-gateway-attachment",
+    "transit-gateway-connect-peer",
+    "transit-gateway-metering-policy",
+    "transit-gateway-multicast-domain",
+    "transit-gateway-policy-table",
+    "transit-gateway-route-table",
+    "transit-gateway-route-table-announcement",
+    "verified-access-endpoint",
+    "verified-access-endpoint-target",
+    "verified-access-group",
+    "verified-access-instance",
+    "verified-access-policy",
+    "verified-access-trust-provider",
+    "volume",
+    "vpc",
+    "vpc-block-public-access-exclusion",
+    "vpc-encryption-control",
+    "vpc-endpoint",
+    "vpc-endpoint-connection",
+    "vpc-endpoint-connection-device-type",
+    "vpc-endpoint-service",
+    "vpc-endpoint-service-permission",
+    "vpc-flow-log",
+    "vpc-peering-connection",
+    "vpn-concentrator",
+    "vpn-connection",
+    "vpn-connection-device-type",
+    "vpn-gateway"
+   ]
+  },
+  "TagSpecifications.*.Tags": {
+   "type": "array"
+  },
+  "TagSpecifications.*.Tags.*": {
+   "type": "object"
+  },
+  "TagSpecifications.*.Tags.*.Key": {
+   "type": "string"
+  },
+  "TagSpecifications.*.Tags.*.Value": {
+   "type": "string"
+  },
+  "VersionDescription": {
+   "type": "string"
+  }
+ }
+}
