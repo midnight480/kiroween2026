@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 33 resource types across Network, Compute, Databases and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC) and a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 46 resource types across Network, Compute, Databases, containers (ECS, EKS), messaging (SQS, SNS) and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC) and a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -92,14 +92,17 @@ The mapping from COBOL to CloudFormation is a table in [`src/mapping/`](src/mapp
 | Network | VPC, Subnet, InternetGateway, VPCGatewayAttachment, RouteTable, Route, SubnetRouteTableAssociation, EIP, NatGateway, SecurityGroup (with inline ingress and egress rules), SecurityGroupIngress, SecurityGroupEgress |
 | Edge | Route 53 HostedZone and RecordSet, ACM Certificate, CloudFront Distribution |
 | Compute | EC2 Instance, IAM InstanceProfile, LaunchTemplate, AutoScalingGroup, Application and Network Load Balancer (one type, switched by `LB-TYPE`), TargetGroup, Listener, Classic Load Balancer |
-| Databases | RDS DBInstance, DBSubnetGroup, Aurora DBCluster, DynamoDB (single table and MRSC global table) |
+| Databases | RDS DBInstance, DBSubnetGroup, Aurora DBCluster, ElastiCache (SubnetGroup, ReplicationGroup, CacheCluster), DynamoDB (single table and MRSC global table) |
+| Containers | ECS Cluster, TaskDefinition (one container, environment table) and Service, EKS Cluster and Nodegroup, CloudWatch Logs LogGroup |
+| Messaging | SQS Queue (FIFO, dead-letter queue) and QueuePolicy, SNS Topic and Subscription |
 | Core | S3 Bucket, IAM Role and ManagedPolicy, Lambda Function |
 
 Conventions that apply to every table-driven resource:
 
 - A misspelled item is an error with a "did you mean" hint, never silently ignored. A typo in a safety setting must not disappear.
 - Secure defaults: EC2 and launch templates require IMDSv2, EBS volumes are encrypted, RDS is encrypted and not public, and a database user without a password gets a password managed by RDS. A plain-text password is an error; use `SECRET:` or `SSM:`.
-- Warnings for dangerous choices: SSH, RDP or a database port open to `0.0.0.0/0`, a public database, IMDSv1, a Classic Load Balancer.
+- Warnings for dangerous choices: SSH, RDP or a database port open to `0.0.0.0/0`, a public database, IMDSv1, a Classic Load Balancer, a public Kubernetes API server, a task with a public IP, an unencrypted queue or cache, plain HTTP or unconfirmed e-mail SNS subscriptions.
+- More secure defaults: ECS tasks get no public IP, EKS uses access entries (API authentication), SQS queues use SSE, ElastiCache encrypts at rest and in transit, and log groups keep 30 days unless told otherwise.
 - `DEPENDS-ON`, `DELETION-POLICY` and `NAME-TAG` work on every resource. `AMI` values can be `SSM:/aws/service/...`.
 - CloudFront with a certificate must be in `AWS-US-EAST-1`, because that is the only region CloudFront accepts certificates from. Anything else is an error.
 
@@ -185,7 +188,7 @@ All of these work today:
 - **Runtime check:** linked with the dummy [`deploy.cbl`](verify/samples/deploy.cbl) subprogram, the samples compile with `cobc -x` and run. This shows `CALL "DEPLOY"` resolves at run time like ordinary COBOL.
 - **CloudFormation schema:** `AWS::DynamoDB::GlobalTable` can declare MRSC in a single stack. Tokyo, Osaka and Seoul all fall in the same AP region set, so the sample's witness placement is valid.
 - **Transpiler output:** the golden cases in [`tests/golden/`](tests/golden/) (S3, IAM policy, Lambda, DynamoDB MRSC, and the three-tier, edge and classic examples) pass `cfn-lint`, and the Vitest suite passes.
-- **Real CloudFormation, without creating anything:** `cobf diff` on the three-tier, classic and edge examples was accepted by CloudFormation as a ChangeSet. The ChangeSets were deleted and no stack was left behind.
+- **Real CloudFormation, without creating anything:** `cobf diff` on the three-tier, classic, edge, containers, EKS, cache and messaging examples was accepted by CloudFormation as a ChangeSet. The ChangeSets were deleted and no stack was left behind.
 - **Real AWS:** in a real account, `examples/smoke-s3.cbl` was deployed, redeployed (no changes) and destroyed. The bucket had versioning enabled and all four public-access blocks on, as the COBOL asked. The Lambda golden case (IAM role plus function) deployed and the function returned `{"statusCode":200}` when invoked. The policy golden case deployed with the bucket ARN resolved inside the policy document.
 - **A real failure:** a deliberately invalid bucket name ended in `ROLLBACK_FAILED`. That exposed a bug where the report claimed the prior state was restored. It is fixed and covered by tests.
 
@@ -194,7 +197,7 @@ All of these work today:
 - **Three-tier:** `examples/three-tier.cbl` deployed 21 resources: a VPC, four subnets, an internet gateway, three security groups, an ALB, an Auto Scaling group and an RDS MySQL instance. The ALB answered `COBOL` over HTTP with the target `healthy`. Connecting to the instance directly was blocked, so the chain of security groups works. The instance requires IMDSv2, and RDS was encrypted, private, and used a Secrets Manager-managed password. `destroy` removed all 21 and nothing billable was left behind.
 - **Update:** changing `VERSIONING-FLAG` from `"Y"` to `"N"` and deploying again updated the existing stack in place (`UPDATE_COMPLETE`), and the bucket's versioning went from Enabled to Suspended.
 
-What is not verified yet: the edge resources (CloudFront, ACM, Route 53) and the classic load balancer example have been accepted as ChangeSets but not deployed, because ACM needs a real domain to validate; and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+What is not verified yet: the edge resources (CloudFront, ACM, Route 53), the classic load balancer, ECS, EKS, ElastiCache, SQS and SNS examples have been accepted as ChangeSets but not deployed (ACM needs a real domain to validate, and EKS and ElastiCache cost money and take a while); and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples
@@ -205,7 +208,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 ## Roadmap
 
 1. Done: card reader, parser and semantic checks, covered by Vitest and golden tests (`.cbl` to expected CloudFormation).
-2. Done: emitters for S3, IAM, Lambda, DynamoDB, Network, Compute, Databases and the edge, with `cfn-lint` on the golden outputs.
+2. Done: emitters for S3, IAM, Lambda, DynamoDB, Network, Compute, Databases, containers, messaging and the edge, with `cfn-lint` on the golden outputs.
 3. Mostly done: deployer and the 132-column report. Rollback of a failed update is still to be tried on a real account.
 4. First version done: the browser demo, with a green-screen CRT editor and a virtual line printer that compile in the page. Still to do: an authenticated backend for real deployments, so AWS credentials never reach the browser.
 5. Stretch: Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.

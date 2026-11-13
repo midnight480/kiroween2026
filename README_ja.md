@@ -7,7 +7,7 @@
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、33 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）と、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）は、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、コンテナ（ECS、EKS）、メッセージング（SQS、SNS）、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、46 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）と、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）は、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 
@@ -92,14 +92,17 @@ COBOL から CloudFormation への変換は、[`src/mapping/`](src/mapping/) の
 | Network | VPC、Subnet、InternetGateway、VPCGatewayAttachment、RouteTable、Route、SubnetRouteTableAssociation、EIP、NatGateway、SecurityGroup（インラインの ingress / egress ルールつき）、SecurityGroupIngress、SecurityGroupEgress |
 | エッジ | Route 53 の HostedZone と RecordSet、ACM の Certificate、CloudFront の Distribution |
 | Compute | EC2 Instance、IAM InstanceProfile、LaunchTemplate、AutoScalingGroup、Application / Network Load Balancer（同じ型で、`LB-TYPE` で切り替え）、TargetGroup、Listener、Classic Load Balancer |
-| Databases | RDS の DBInstance、DBSubnetGroup、Aurora の DBCluster、DynamoDB（単一テーブルと MRSC グローバルテーブル） |
+| Databases | RDS の DBInstance、DBSubnetGroup、Aurora の DBCluster、ElastiCache（SubnetGroup、ReplicationGroup、CacheCluster）、DynamoDB（単一テーブルと MRSC グローバルテーブル） |
+| コンテナ | ECS の Cluster、TaskDefinition（コンテナ 1 つ、環境変数の表）、Service、EKS の Cluster と Nodegroup、CloudWatch Logs の LogGroup |
+| メッセージング | SQS の Queue（FIFO、デッドレターキュー）と QueuePolicy、SNS の Topic と Subscription |
 | コア | S3 Bucket、IAM Role と ManagedPolicy、Lambda Function |
 
 表で動くすべてのリソースに共通する決まり:
 
 - 項目名の綴り間違いは、「もしかして」のヒントつきのエラーになり、黙って無視されません。安全設定の書き損じが消えてはいけないからです。
 - 安全な既定値: EC2 と起動テンプレートは IMDSv2 必須、EBS は暗号化、RDS は暗号化ありで非公開、ユーザー名だけでパスワードが無い DB は RDS にパスワードを管理させます。平文のパスワードはエラーで、`SECRET:` か `SSM:` を使います。
-- 危険な選択には警告: SSH、RDP、DB のポートを `0.0.0.0/0` に開く、DB の公開、IMDSv1、Classic Load Balancer
+- 危険な選択には警告: SSH、RDP、DB のポートを `0.0.0.0/0` に開く、DB の公開、IMDSv1、Classic Load Balancer、公開された Kubernetes API サーバー、公開 IP を持つタスク、暗号化されていないキューやキャッシュ、平文の HTTP や未確認のメールによる SNS 購読
+- さらに安全な既定値: ECS のタスクには公開 IP を付けず、EKS はアクセスエントリ（API 認証）を使い、SQS は SSE、ElastiCache は保管時と転送時の暗号化、ロググループは指定が無ければ 30 日で消えます。
 - `DEPENDS-ON`、`DELETION-POLICY`、`NAME-TAG` は、どのリソースでも使えます。AMI の値には `SSM:/aws/service/...` を書けます。
 - 証明書つきの CloudFront は `AWS-US-EAST-1` で書く必要があります。CloudFront が証明書を受け付けるリージョンが、そこだけだからです。それ以外はエラーです。
 
@@ -185,7 +188,7 @@ CLI でサブコマンドを明示した場合はそれが最優先です。省�
 - **実行確認:** ダミーのサブプログラム [`deploy.cbl`](verify/samples/deploy.cbl) とリンクして `cobc -x` でコンパイル・実行できました。`CALL "DEPLOY"` が通常の COBOL と同じく実行時に解決されることを示します。
 - **CloudFormation のスキーマ:** `AWS::DynamoDB::GlobalTable` で MRSC を単一スタックに宣言できます。東京・大阪・ソウルは同じ AP region set に収まるため、サンプルの witness 配置は妥当です。
 - **トランスパイラの出力:** [`tests/golden/`](tests/golden/) のゴールデン（S3、IAM ポリシー、Lambda、DynamoDB MRSC、3 層構成・エッジ・いにしえの例）が `cfn-lint` を通り、Vitest も通っています。
-- **本物の CloudFormation（何も作らずに）:** 3 層構成・いにしえ・エッジの例に `cobf diff` を実行すると、CloudFormation は ChangeSet として受け付けました。ChangeSet は削除し、スタックも残っていません。
+- **本物の CloudFormation（何も作らずに）:** 3 層構成・いにしえ・エッジ・コンテナ・EKS・キャッシュ・メッセージングの例に `cobf diff` を実行すると、CloudFormation は ChangeSet として受け付けました。ChangeSet は削除し、スタックも残っていません。
 - **実際の AWS:** 実アカウントで、`examples/smoke-s3.cbl` をデプロイし、再デプロイ（変更なし）、削除まで行いました。バケットは、COBOL に書いたとおり、バージョニングが有効で、パブリックアクセスブロックの 4 項目がすべて有効でした。Lambda のゴールデン（IAM ロールと関数）もデプロイでき、関数を呼び出すと `{"statusCode":200}` が返りました。ポリシーのゴールデンもデプロイでき、ポリシー文書の中でバケットの ARN が解決されていました。
 - **実際の失敗:** わざと不正なバケット名にしたところ、`ROLLBACK_FAILED` になりました。このとき、帳票が「元の状態に戻した」と表示する不具合が見つかりました。修正済みで、テストもあります。
 
@@ -194,7 +197,7 @@ CLI でサブコマンドを明示した場合はそれが最優先です。省�
 - **3 層構成:** `examples/three-tier.cbl` が 21 個のリソース（VPC、サブネット 4 つ、インターネットゲートウェイ、セキュリティグループ 3 つ、ALB、Auto Scaling グループ、RDS MySQL）としてデプロイできました。ALB は HTTP で `COBOL` と答え、ターゲットは `healthy` でした。EC2 に直接つなぐとブロックされたので、セキュリティグループの連鎖が効いています。インスタンスは IMDSv2 必須で、RDS は暗号化あり、非公開で、パスワードは Secrets Manager の管理でした。`destroy` で 21 個すべてを削除し、課金されるものは何も残りませんでした。
 - **更新:** `VERSIONING-FLAG` を `"Y"` から `"N"` に変えて再デプロイすると、既存のスタックがその場で更新され（`UPDATE_COMPLETE`）、バケットのバージョニングが Enabled から Suspended に変わりました。
 
-まだ検証していないこと: エッジのリソース（CloudFront、ACM、Route 53）と、いにしえのロードバランサーの例は、ChangeSet として受け付けられたものの、デプロイはしていません。ACM の検証に実ドメインが要るためです。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
+まだ検証していないこと: エッジのリソース（CloudFront、ACM、Route 53）、いにしえのロードバランサー、ECS、EKS、ElastiCache、SQS、SNS の例は、ChangeSet として受け付けられたものの、デプロイはしていません（ACM の検証には実ドメインが要り、EKS と ElastiCache は費用と時間がかかるためです）。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
 
 ```
 cd verify/samples
@@ -205,7 +208,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 ## ロードマップ
 
 1. 完了: Card Reader、パーサ、セマンティックチェック。Vitest とゴールデンテスト（`.cbl` → 期待する CloudFormation）で固める
-2. 完了: S3、IAM、Lambda、DynamoDB、Network、Compute、Databases、エッジの Emitter。ゴールデンの出力に `cfn-lint` を実行
+2. 完了: S3、IAM、Lambda、DynamoDB、Network、Compute、Databases、コンテナ、メッセージング、エッジの Emitter。ゴールデンの出力に `cfn-lint` を実行
 3. ほぼ完了: Deployer と 132 桁帳票。更新が失敗したときのロールバックを、実アカウントで試すことが残っています。
 4. 初版完了: ブラウザデモ。緑画面の CRT エディタと仮想ラインプリンターが、ページ内でコンパイルします。残り: 実デプロイのための認証付きバックエンド（AWS 資格情報をブラウザに渡さないため）。
 5. ストレッチ: Aurora DSQL、CDK L1 出力、cfn-guard によるセキュリティポリシーチェック

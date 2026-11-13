@@ -263,15 +263,17 @@ cobf deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定�
 
 `DYNAMODB`（単一）と `DYNAMODB-MRSC` の分岐は Emitter が `ASSIGN TO` の外部名で判定し、前者は `Replicas`/`Witness` を出さない。`DYNAMODB-MRSC` は `MultiRegionConsistency: STRONG` を固定出力する。
 
-#### (e) 宣言的な対応表（`src/mapping/`）と Network / Compute / Databases の拡張 ✅ 実装済み（2026-11-13）
+#### (e) 宣言的な対応表（`src/mapping/`）と Network / Compute / Databases / コンテナ / メッセージングの拡張 ✅ 実装済み（2026-11-13）
 
 (a)〜(d) は手書きの変換だが、それ以外の型は**データ駆動の対応表**で持つ。1 行が「COBOL の項目名 → CFN のプロパティのパス → 型・必須・列挙・既定値」で、読み取るエンジンは 1 つ（`engine.ts`）。型を足すときはコードではなく表に行を足す。
 
-- **対応型（表で動くもの 27 型）**: Network＝VPC / Subnet / InternetGateway / VPCGatewayAttachment / RouteTable / Route / SubnetRouteTableAssociation / EIP / NatGateway / SecurityGroup（インラインのルール）/ SecurityGroupIngress・Egress。エッジ＝Route 53 HostedZone・RecordSet / ACM Certificate / CloudFront Distribution。Compute＝EC2 Instance / InstanceProfile / LaunchTemplate / AutoScalingGroup / ELBv2 LoadBalancer（`LB-TYPE` で ALB・NLB を切り替え）・TargetGroup・Listener / Classic LoadBalancer。Databases＝RDS DBInstance・DBSubnetGroup / Aurora DBCluster。手書きの 6 型と合わせて 33 型。
+- **対応型（表で動くもの 40 型）**: Network＝VPC / Subnet / InternetGateway / VPCGatewayAttachment / RouteTable / Route / SubnetRouteTableAssociation / EIP / NatGateway / SecurityGroup（インラインのルール）/ SecurityGroupIngress・Egress。エッジ＝Route 53 HostedZone・RecordSet / ACM Certificate / CloudFront Distribution。Compute＝EC2 Instance / InstanceProfile / LaunchTemplate / AutoScalingGroup / ELBv2 LoadBalancer（`LB-TYPE` で ALB・NLB を切り替え）・TargetGroup・Listener / Classic LoadBalancer。Databases＝RDS DBInstance・DBSubnetGroup / Aurora DBCluster / ElastiCache SubnetGroup・ReplicationGroup・CacheCluster。コンテナ＝ECS Cluster・TaskDefinition（コンテナ 1 つ＋環境変数の OCCURS 表）・Service / EKS Cluster・Nodegroup / CloudWatch Logs LogGroup。メッセージング＝SQS Queue・QueuePolicy / SNS Topic・Subscription。手書きの 6 型と合わせて 46 型。
 - **項目の型（`Kind`）**: `string` / `number` / `numstr`（CFN が文字列で受ける数値）/ `bool`（`"Y"`/`"N"`）/ `ref`（`REF:`・`GETATT:`）/ `strings`（カンマ区切り。要素ごとに参照を解決）/ `ssm`（`SSM:`・`SECRET:` を動的参照に）/ `userdata`（`\n` を改行にして `Fn::Base64`）/ `secret`（動的参照のみ許す）/ `targets`（`[{Id}]`）。パスの数字の区切りは配列の添字（`Origins.0.DomainName`）。
 - **リスト**: OCCURS の表 → オブジェクトの配列（SG のルール、CLB のリスナー）。要素の項目名は**接尾辞**で、互いに他の接尾辞にならない（テストで検査）。値は §5.3 と同じく `MOVE` で入れる。
 - **綴り間違いは黙って捨てない**: 表に無い項目は `UNKNOWN-PROPERTY`（近い名前を「もしかして」で提示）。安全設定の書き損じを見逃さないため。
 - **Security by default**: EC2・起動テンプレートは IMDSv2 必須、EBS は暗号化、RDS は暗号化あり・非公開、ユーザー名だけでパスワードが無い DB は `ManageMasterUserPassword`。平文パスワードは `PLAIN-PASSWORD` エラー（`SECRET:` / `SSM:` のみ）。SSH・RDP・DB ポートの `0.0.0.0/0` 開放、DB の公開、IMDSv1、Classic LB は警告。
+- **スキーマが中身を持たない object**: `RedrivePolicy`・ログの `Options`・`PolicyDocument` のように公式スキーマが `object` としか書かない所は、`Field.schemaPath` で親のパスを指定し、末端の型検査だけを省く（存在検査は親で行う）。
+- **IAM ロールの複数ポリシー**: `MANAGED-POLICY` はカンマ区切りで複数の管理ポリシーを付けられる（EKS のノードロールは 3 つ要る）。
 - **リソース属性**: `DEPENDS-ON`（論理 ID の `DependsOn`。IGW への Route には必須）、`DELETION-POLICY`（`Delete`/`Retain`/`Snapshot`）、`NAME-TAG`（`Tags`）は全リソース共通。
 - **リージョンの制約**: 証明書つきの CloudFront は `AWS-US-EAST-1` 必須（`CLOUDFRONT-CERT-REGION`）。
 - **公式スキーマとの突き合わせ**: `scripts/extract-schemas.py` が cfn-lint 同梱の公式スキーマから `tests/schemas/` に地図を作り、テストが「表のプロパティが実在する」「列挙値・既定値が許す範囲」「`numstr` は文字列・`number` は数値・`bool` は真偽値」「COBOL 名が予約語・既存名と衝突しない」を検査する。表の誤りはデプロイ前にテストで落ちる（実際に Egress の `SourceSecurityGroupId` の誤りをこれで検出した）。必須項目の過不足は、ゴールデン出力を `cfn-lint` にかけて確かめる。
