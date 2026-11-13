@@ -1,0 +1,90 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "HOT-CACHE",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "CacheVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.3.0.0/16",
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true
+      }
+    },
+    "CacheSubnetA": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "CacheVpc"
+        },
+        "CidrBlock": "10.3.1.0/24",
+        "AvailabilityZone": "ap-northeast-1a"
+      }
+    },
+    "CacheSubnetC": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "CacheVpc"
+        },
+        "CidrBlock": "10.3.2.0/24",
+        "AvailabilityZone": "ap-northeast-1c"
+      }
+    },
+    "CacheSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Redis from inside the VPC",
+        "VpcId": {
+          "Ref": "CacheVpc"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 6379,
+            "ToPort": 6379,
+            "CidrIp": "10.3.0.0/16"
+          }
+        ]
+      }
+    },
+    "CacheSubnets": {
+      "Type": "AWS::ElastiCache::SubnetGroup",
+      "Properties": {
+        "Description": "Cache tier",
+        "SubnetIds": [
+          {
+            "Ref": "CacheSubnetA"
+          },
+          {
+            "Ref": "CacheSubnetC"
+          }
+        ]
+      }
+    },
+    "SessionCache": {
+      "Type": "AWS::ElastiCache::ReplicationGroup",
+      "Properties": {
+        "ReplicationGroupDescription": "Session store",
+        "Engine": "redis",
+        "EngineVersion": "7.1",
+        "CacheNodeType": "cache.t4g.micro",
+        "NumCacheClusters": 2,
+        "AutomaticFailoverEnabled": true,
+        "MultiAZEnabled": true,
+        "CacheSubnetGroupName": {
+          "Ref": "CacheSubnets"
+        },
+        "SecurityGroupIds": [
+          {
+            "Ref": "CacheSecurityGroup"
+          }
+        ],
+        "AtRestEncryptionEnabled": true,
+        "TransitEncryptionEnabled": true
+      }
+    }
+  }
+}

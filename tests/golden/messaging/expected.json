@@ -1,0 +1,93 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "ORDER-EVENTS",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "OrdersDlq": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": "cobolform-orders-dlq",
+        "MessageRetentionPeriod": 1209600,
+        "SqsManagedSseEnabled": true
+      }
+    },
+    "OrdersQueue": {
+      "Type": "AWS::SQS::Queue",
+      "Properties": {
+        "QueueName": "cobolform-orders",
+        "VisibilityTimeout": 60,
+        "RedrivePolicy": {
+          "deadLetterTargetArn": {
+            "Fn::GetAtt": [
+              "OrdersDlq",
+              "Arn"
+            ]
+          },
+          "maxReceiveCount": 3
+        },
+        "SqsManagedSseEnabled": true
+      }
+    },
+    "OrdersTopic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": "cobolform-orders-events",
+        "DisplayName": "Order events"
+      }
+    },
+    "OrdersPolicy": {
+      "Type": "AWS::SQS::QueuePolicy",
+      "Properties": {
+        "Queues": [
+          {
+            "Ref": "OrdersQueue"
+          }
+        ],
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Resource": {
+                "Fn::GetAtt": [
+                  "OrdersQueue",
+                  "Arn"
+                ]
+              },
+              "Condition": {
+                "ArnEquals": {
+                  "aws:SourceArn": {
+                    "Ref": "OrdersTopic"
+                  }
+                }
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "sns.amazonaws.com"
+              },
+              "Action": "sqs:SendMessage"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      }
+    },
+    "OrdersSubscription": {
+      "Type": "AWS::SNS::Subscription",
+      "DependsOn": "OrdersPolicy",
+      "Properties": {
+        "TopicArn": {
+          "Ref": "OrdersTopic"
+        },
+        "Protocol": "sqs",
+        "Endpoint": {
+          "Fn::GetAtt": [
+            "OrdersQueue",
+            "Arn"
+          ]
+        },
+        "RawMessageDelivery": true
+      }
+    }
+  }
+}

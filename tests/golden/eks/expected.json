@@ -1,0 +1,197 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "KUBE-COBOL",
+  "Metadata": {
+    "Author": "COBOLFORM"
+  },
+  "Resources": {
+    "KubeVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.2.0.0/16",
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true
+      }
+    },
+    "KubeIgw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {}
+    },
+    "KubeAttach": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "KubeVpc"
+        },
+        "InternetGatewayId": {
+          "Ref": "KubeIgw"
+        }
+      }
+    },
+    "KubeRt": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "KubeVpc"
+        }
+      }
+    },
+    "KubeRoute": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "KubeAttach",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "KubeRt"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "KubeIgw"
+        }
+      }
+    },
+    "KubeSubnetA": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "KubeVpc"
+        },
+        "CidrBlock": "10.2.1.0/24",
+        "AvailabilityZone": "ap-northeast-1a",
+        "MapPublicIpOnLaunch": true
+      }
+    },
+    "KubeAssocA": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "KubeSubnetA"
+        },
+        "RouteTableId": {
+          "Ref": "KubeRt"
+        }
+      }
+    },
+    "KubeSubnetC": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "KubeVpc"
+        },
+        "CidrBlock": "10.2.2.0/24",
+        "AvailabilityZone": "ap-northeast-1c",
+        "MapPublicIpOnLaunch": true
+      }
+    },
+    "KubeAssocC": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "KubeSubnetC"
+        },
+        "RouteTableId": {
+          "Ref": "KubeRt"
+        }
+      }
+    },
+    "ControlRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "eks.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+        ]
+      }
+    },
+    "WorkerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+          "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+          "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+        ]
+      }
+    },
+    "MainCluster": {
+      "Type": "AWS::EKS::Cluster",
+      "Properties": {
+        "Name": "cobolform",
+        "Version": "1.37",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ControlRole",
+            "Arn"
+          ]
+        },
+        "ResourcesVpcConfig": {
+          "SubnetIds": [
+            {
+              "Ref": "KubeSubnetA"
+            },
+            {
+              "Ref": "KubeSubnetC"
+            }
+          ]
+        },
+        "AccessConfig": {
+          "AuthenticationMode": "API"
+        }
+      }
+    },
+    "WorkerNodes": {
+      "Type": "AWS::EKS::Nodegroup",
+      "Properties": {
+        "ClusterName": {
+          "Ref": "MainCluster"
+        },
+        "NodeRole": {
+          "Fn::GetAtt": [
+            "WorkerRole",
+            "Arn"
+          ]
+        },
+        "Subnets": [
+          {
+            "Ref": "KubeSubnetA"
+          },
+          {
+            "Ref": "KubeSubnetC"
+          }
+        ],
+        "InstanceTypes": [
+          "t3.small"
+        ],
+        "ScalingConfig": {
+          "MinSize": 1,
+          "MaxSize": 2,
+          "DesiredSize": 1
+        },
+        "AmiType": "AL2023_x86_64_STANDARD",
+        "DiskSize": 20
+      }
+    }
+  }
+}

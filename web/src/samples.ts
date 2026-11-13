@@ -1,7 +1,11 @@
+import cache from "../../tests/golden/cache/input.cbl";
 import classic from "../../tests/golden/classic/input.cbl";
+import containers from "../../tests/golden/containers/input.cbl";
 import db from "../../tests/golden/db-mrsc/input.cbl";
 import edge from "../../tests/golden/edge/input.cbl";
+import eks from "../../tests/golden/eks/input.cbl";
 import lambda from "../../tests/golden/lambda/input.cbl";
+import messaging from "../../tests/golden/messaging/input.cbl";
 import policy from "../../tests/golden/policy-ref/input.cbl";
 import s3 from "../../tests/golden/s3/input.cbl";
 import threeTier from "../../tests/golden/three-tier/input.cbl";
@@ -27,6 +31,10 @@ export const SAMPLES: Sample[] = [
   { id: "three-tier", label: "王道の 3 層構成（VPC + ALB + EC2 + RDS）", source: threeTier },
   { id: "edge", label: "CloudFront + ACM + Route 53（us-east-1）", source: edge },
   { id: "classic", label: "いにしえの構成（CLB + EC2）", source: classic },
+  { id: "containers", label: "ECS Fargate（ログ + タスク + サービス）", source: containers },
+  { id: "eks", label: "EKS（クラスター + ノードグループ）", source: eks },
+  { id: "cache", label: "ElastiCache（Redis のレプリケーション）", source: cache },
+  { id: "messaging", label: "SNS → SQS（DLQ つき）", source: messaging },
   {
     id: "shift",
     label: "桁ずれ（7 桁目がずれている）",
