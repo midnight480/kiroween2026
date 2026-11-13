@@ -20,8 +20,10 @@ const toSchemaPath = (p: string): string => p.split(".").map((s) => (/^\d+$/.tes
 
 const specs = [...SPECS.values()];
 const allFields = (spec: ResourceSpec): Array<{ field: Field; schemaPath: string }> => [
-  ...spec.fields.map((field) => ({ field, schemaPath: toSchemaPath(field.cfn) })),
-  ...(spec.lists ?? []).flatMap((l) => l.fields.map((field) => ({ field, schemaPath: `${l.cfn}.*.${toSchemaPath(field.cfn)}` }))),
+  ...spec.fields.map((field) => ({ field, schemaPath: field.schemaPath ?? toSchemaPath(field.cfn) })),
+  ...(spec.lists ?? []).flatMap((l) =>
+    l.fields.map((field) => ({ field, schemaPath: `${toSchemaPath(l.cfn)}.*.${field.schemaPath ?? toSchemaPath(field.cfn)}` })),
+  ),
 ];
 
 describe("対応表 × 公式スキーマ（cfn-lint 同梱）", () => {
@@ -39,10 +41,13 @@ describe("対応表 × 公式スキーマ（cfn-lint 同梱）", () => {
       it("列挙値と既定値は、公式スキーマの許す値の範囲に収まる", () => {
         const bad: string[] = [];
         for (const { field, schemaPath } of allFields(spec)) {
-          const allowed = schema.paths[schemaPath]?.enum;
+          // 数値の列挙（ログの保持日数など）は文字列にそろえて比べる
+          const allowed = schema.paths[schemaPath]?.enum?.map(String);
           if (!allowed) continue;
           for (const v of field.enum ?? []) if (!allowed.includes(v)) bad.push(`${field.name}: 列挙値 ${v} は ${allowed.join("|")} に無い`);
-          if (typeof field.default === "string" && !allowed.includes(field.default)) bad.push(`${field.name}: 既定値 ${field.default} は ${allowed.join("|")} に無い`);
+          if ((typeof field.default === "string" || typeof field.default === "number") && !allowed.includes(String(field.default))) {
+            bad.push(`${field.name}: 既定値 ${field.default} は ${allowed.join("|")} に無い`);
+          }
         }
         expect(bad).toEqual([]);
       });
@@ -58,6 +63,8 @@ describe("対応表 × 公式スキーマ（cfn-lint 同梱）", () => {
       it("数値（number）は数値、文字列で受ける数値（numstr）は文字列である", () => {
         const bad: string[] = [];
         for (const { field, schemaPath } of allFields(spec)) {
+          // スキーマが中身を持たない object の内側（schemaPath 指定）は、末端の型を公式スキーマで確かめられない
+          if (field.schemaPath !== undefined) continue;
           const t = schema.paths[schemaPath]?.type;
           if (field.kind === "number" && t !== "integer" && t !== "number") bad.push(`${field.name}: number だがスキーマは ${t}`);
           if (field.kind === "numstr" && t !== "string") bad.push(`${field.name}: numstr だがスキーマは ${t}`);

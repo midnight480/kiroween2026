@@ -1,0 +1,281 @@
+{
+ "type": "AWS::ElastiCache::ReplicationGroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "ReplicationGroupDescription"
+  ],
+  "ConfigurationEndPoint": [],
+  "LogDeliveryConfigurations.*": [
+   "DestinationDetails",
+   "DestinationType",
+   "LogFormat",
+   "LogType"
+  ],
+  "LogDeliveryConfigurations.*.DestinationDetails": [],
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails": [
+   "LogGroup"
+  ],
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails": [
+   "DeliveryStream"
+  ],
+  "NodeGroupConfiguration.*": [],
+  "PrimaryEndPoint": [],
+  "ReadEndPoint": [],
+  "ReaderEndPoint": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AtRestEncryptionEnabled": {
+   "type": "boolean"
+  },
+  "AuthToken": {
+   "type": "string"
+  },
+  "AutoMinorVersionUpgrade": {
+   "type": "boolean"
+  },
+  "AutomaticFailoverEnabled": {
+   "type": "boolean"
+  },
+  "CacheNodeType": {
+   "type": "string"
+  },
+  "CacheParameterGroupName": {
+   "type": "string"
+  },
+  "CacheSecurityGroupNames": {
+   "type": "array"
+  },
+  "CacheSecurityGroupNames.*": {
+   "type": "string"
+  },
+  "CacheSubnetGroupName": {
+   "type": "string"
+  },
+  "ClusterMode": {
+   "type": "string"
+  },
+  "ConfigurationEndPoint": {
+   "type": "object"
+  },
+  "ConfigurationEndPoint.Address": {
+   "type": "string"
+  },
+  "ConfigurationEndPoint.Port": {
+   "type": "string"
+  },
+  "DataTieringEnabled": {
+   "type": "boolean"
+  },
+  "Durability": {
+   "type": "string"
+  },
+  "EffectiveDurability": {
+   "type": "string",
+   "enum": [
+    "async",
+    "sync",
+    "disabled"
+   ]
+  },
+  "Engine": {
+   "type": "string"
+  },
+  "EngineVersion": {
+   "type": "string"
+  },
+  "GlobalReplicationGroupId": {
+   "type": "string"
+  },
+  "IpDiscovery": {
+   "type": "string"
+  },
+  "KmsKeyId": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations": {
+   "type": "array"
+  },
+  "LogDeliveryConfigurations.*": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.CloudWatchLogsDetails.LogGroup": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails": {
+   "type": "object"
+  },
+  "LogDeliveryConfigurations.*.DestinationDetails.KinesisFirehoseDetails.DeliveryStream": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.DestinationType": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.LogFormat": {
+   "type": "string"
+  },
+  "LogDeliveryConfigurations.*.LogType": {
+   "type": "string"
+  },
+  "MultiAZEnabled": {
+   "type": "boolean"
+  },
+  "NetworkType": {
+   "type": "string"
+  },
+  "NodeGroupConfiguration": {
+   "type": "array"
+  },
+  "NodeGroupConfiguration.*": {
+   "type": "object"
+  },
+  "NodeGroupConfiguration.*.NodeGroupId": {
+   "type": "string"
+  },
+  "NodeGroupConfiguration.*.PrimaryAvailabilityZone": {
+   "type": "string"
+  },
+  "NodeGroupConfiguration.*.ReplicaAvailabilityZones": {
+   "type": "array"
+  },
+  "NodeGroupConfiguration.*.ReplicaAvailabilityZones.*": {
+   "type": "string"
+  },
+  "NodeGroupConfiguration.*.ReplicaCount": {
+   "type": "integer"
+  },
+  "NodeGroupConfiguration.*.Slots": {
+   "type": "string"
+  },
+  "NotificationTopicArn": {
+   "type": "string"
+  },
+  "NumCacheClusters": {
+   "type": "integer"
+  },
+  "NumNodeGroups": {
+   "type": "integer"
+  },
+  "Port": {
+   "type": "integer"
+  },
+  "PreferredCacheClusterAZs": {
+   "type": "array"
+  },
+  "PreferredCacheClusterAZs.*": {
+   "type": "string"
+  },
+  "PreferredMaintenanceWindow": {
+   "type": "string"
+  },
+  "PrimaryClusterId": {
+   "type": "string"
+  },
+  "PrimaryEndPoint": {
+   "type": "object"
+  },
+  "PrimaryEndPoint.Address": {
+   "type": "string"
+  },
+  "PrimaryEndPoint.Port": {
+   "type": "string"
+  },
+  "ReadEndPoint": {
+   "type": "object"
+  },
+  "ReadEndPoint.Addresses": {
+   "type": "string"
+  },
+  "ReadEndPoint.AddressesList": {
+   "type": "array"
+  },
+  "ReadEndPoint.AddressesList.*": {
+   "type": "string"
+  },
+  "ReadEndPoint.Ports": {
+   "type": "string"
+  },
+  "ReadEndPoint.PortsList": {
+   "type": "array"
+  },
+  "ReadEndPoint.PortsList.*": {
+   "type": "string"
+  },
+  "ReaderEndPoint": {
+   "type": "object"
+  },
+  "ReaderEndPoint.Address": {
+   "type": "string"
+  },
+  "ReaderEndPoint.Port": {
+   "type": "string"
+  },
+  "ReplicasPerNodeGroup": {
+   "type": "integer"
+  },
+  "ReplicationGroupDescription": {
+   "type": "string"
+  },
+  "ReplicationGroupId": {
+   "type": "string"
+  },
+  "SecurityGroupIds": {
+   "type": "array"
+  },
+  "SecurityGroupIds.*": {
+   "type": "string"
+  },
+  "SnapshotArns": {
+   "type": "array"
+  },
+  "SnapshotArns.*": {
+   "type": "string"
+  },
+  "SnapshotName": {
+   "type": "string"
+  },
+  "SnapshotRetentionLimit": {
+   "type": "integer"
+  },
+  "SnapshotWindow": {
+   "type": "string"
+  },
+  "SnapshottingClusterId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TransitEncryptionEnabled": {
+   "type": "boolean"
+  },
+  "TransitEncryptionMode": {
+   "type": "string"
+  },
+  "UserGroupIds": {
+   "type": "array"
+  },
+  "UserGroupIds.*": {
+   "type": "string"
+  }
+ }
+}

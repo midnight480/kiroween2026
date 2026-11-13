@@ -1,0 +1,40 @@
+{
+ "type": "AWS::ElastiCache::SubnetGroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Description",
+   "SubnetIds"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "CacheSubnetGroupName": {
+   "type": "string"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "SubnetIds": {
+   "type": "array"
+  },
+  "SubnetIds.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

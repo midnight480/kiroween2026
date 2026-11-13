@@ -286,6 +286,127 @@ describe("リソース属性と依存", () => {
   });
 });
 
+describe("メッセージング", () => {
+  it("FIFO のキューは名前が .fifo で終わる必要がある", () => {
+    const e = errorOf(program("AWS::SQS::Queue", [lit("QUEUE-NAME", "orders"), lit("QUEUE-FIFO", "Y")]));
+    expect(e.code).toBe("INVALID-VALUE");
+    expect(e.message).toContain(".fifo");
+    expect(resourceOf(program("AWS::SQS::Queue", [lit("QUEUE-NAME", "orders.fifo"), lit("QUEUE-FIFO", "Y")])).Properties.FifoQueue).toBe(true);
+  });
+
+  it("DLQ を書いて回数を省くと 5 回、回数だけ書くとエラー", () => {
+    const ok = resourceOf(program("AWS::SQS::Queue", [lit("QUEUE-DLQ", "arn:aws:sqs:ap-northeast-1:111111111111:dlq")]));
+    expect(ok.Properties.RedrivePolicy.maxReceiveCount).toBe(5);
+    const bad = errorOf(program("AWS::SQS::Queue", ["    05  QUEUE-MAX-RECEIVES PIC 9(2) VALUE 3."]));
+    expect(bad.code).toBe("MISSING-PROPERTY");
+  });
+
+  it("キューは暗号化が既定で、無効にすると警告する", () => {
+    expect(resourceOf(program("AWS::SQS::Queue", [])).Properties.SqsManagedSseEnabled).toBe(true);
+    expect(compile(program("AWS::SQS::Queue", [lit("QUEUE-SSE", "N")])).warnings.some((w) => w.code === "SQS-UNENCRYPTED")).toBe(true);
+  });
+
+  it("キューポリシーは、SNS トピックからの送信だけを許す文になる", () => {
+    const r = resourceOf(
+      program("AWS::SQS::QueuePolicy", [lit("QPOL-QUEUES", "https://q"), lit("QPOL-QUEUE-ARN", "arn:q"), lit("QPOL-SNS-TOPIC", "arn:t")]),
+    );
+    expect(r.Properties.PolicyDocument.Statement[0]).toMatchObject({
+      Effect: "Allow",
+      Principal: { Service: "sns.amazonaws.com" },
+      Action: "sqs:SendMessage",
+      Resource: "arn:q",
+      Condition: { ArnEquals: { "aws:SourceArn": "arn:t" } },
+    });
+  });
+
+  it("SNS の購読: http とメールには注意を出す。未知のプロトコルはエラー", () => {
+    const sub = (proto: string) => program("AWS::SNS::Subscription", [lit("SUB-TOPIC", "arn:t"), lit("SUB-PROTOCOL", proto), lit("SUB-ENDPOINT", "x")]);
+    expect(compile(sub("http")).warnings.some((w) => w.code === "SNS-PLAIN-HTTP")).toBe(true);
+    expect(compile(sub("email")).warnings.some((w) => w.code === "SNS-NEEDS-CONFIRM")).toBe(true);
+    expect(errorOf(sub("pigeon")).code).toBe("INVALID-VALUE");
+  });
+});
+
+describe("コンテナ", () => {
+  const svc = (extra: string[]): string =>
+    program("AWS::ECS::Service", [lit("SVC-CLUSTER", "c"), lit("SVC-TASK", "t"), lit("SVC-SUBNETS", "subnet-1"), ...extra]);
+
+  it("ECS サービスは、パブリック IP を付けないのが既定", () => {
+    const r = resourceOf(svc([]));
+    expect(r.Properties.NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp).toBe("DISABLED");
+    expect(r.Properties.LaunchType).toBe("FARGATE");
+  });
+
+  it("パブリック IP を付けると警告する", () => {
+    expect(compile(svc([lit("SVC-PUBLIC-IP", "ENABLED")])).warnings.some((w) => w.code === "TASK-PUBLIC-IP")).toBe(true);
+  });
+
+  it("ロードバランサーとの接続は、3 項目がそろわないとエラー", () => {
+    expect(errorOf(svc([lit("SVC-TARGET-GROUP", "arn:tg")])).code).toBe("MISSING-PROPERTY");
+  });
+
+  it("タスク定義: ログ出力先を渡すと awslogs の設定が補われ、無ければ警告する", () => {
+    const base = [lit("TD-CPU", "256"), lit("TD-MEMORY", "512"), lit("TD-CONTAINER-NAME", "web"), lit("TD-IMAGE", "nginx")];
+    const withLogs = resourceOf(program("AWS::ECS::TaskDefinition", [...base, lit("TD-LOG-GROUP", "/app")]));
+    expect(withLogs.Properties.ContainerDefinitions[0].LogConfiguration).toMatchObject({
+      LogDriver: "awslogs",
+      Options: { "awslogs-group": "/app", "awslogs-region": "ap-northeast-1", "awslogs-stream-prefix": "ecs" },
+    });
+    expect(compile(program("AWS::ECS::TaskDefinition", base)).warnings.some((w) => w.code === "ECS-NO-LOGS")).toBe(true);
+  });
+
+  it("ロググループの保持日数は、CloudWatch が許す値だけ。書かなければ 30 日", () => {
+    expect(resourceOf(program("AWS::Logs::LogGroup", [])).Properties.RetentionInDays).toBe(30);
+    expect(errorOf(program("AWS::Logs::LogGroup", ["    05  LOG-RETENTION-DAYS PIC 9(2) VALUE 10."])).code).toBe("INVALID-VALUE");
+  });
+
+  it("EKS: API が公開のままなら警告し、NG-MIN が NG-MAX を超えるとエラー", () => {
+    const cluster = program("AWS::EKS::Cluster", [lit("EKS-ROLE", "arn:role"), lit("EKS-SUBNETS", "subnet-1,subnet-2")]);
+    expect(compile(cluster).warnings.some((w) => w.code === "EKS-PUBLIC-API")).toBe(true);
+    expect(resourceOf(cluster).Properties.AccessConfig.AuthenticationMode).toBe("API");
+    const closed = program("AWS::EKS::Cluster", [lit("EKS-ROLE", "arn:role"), lit("EKS-SUBNETS", "subnet-1"), lit("EKS-PUBLIC-ENDPOINT", "N")]);
+    expect(compile(closed).warnings.some((w) => w.code === "EKS-PUBLIC-API")).toBe(false);
+
+    const ng = (min: number, max: number) =>
+      program("AWS::EKS::Nodegroup", [
+        lit("NG-CLUSTER", "c"),
+        lit("NG-ROLE", "arn:r"),
+        lit("NG-SUBNETS", "subnet-1"),
+        `    05  NG-MIN PIC 9 VALUE ${min}.`,
+        `    05  NG-MAX PIC 9 VALUE ${max}.`,
+      ]);
+    expect(errorOf(ng(3, 1)).code).toBe("INVALID-VALUE");
+    expect(resourceOf(ng(1, 3)).Properties.ScalingConfig).toEqual({ MinSize: 1, MaxSize: 3 });
+  });
+
+  it("IAM ロールは、カンマ区切りで複数の管理ポリシーを付けられる", () => {
+    const r = resourceOf(
+      program("AWS::IAM::Role", [lit("TRUST-SERVICE", "ec2.amazonaws.com"), lit("MANAGED-POLICY", "AWS-MANAGED:PolicyA,AWS-MANAGED:PolicyB")]),
+    );
+    expect(r.Properties.ManagedPolicyArns).toEqual(["arn:aws:iam::aws:policy/PolicyA", "arn:aws:iam::aws:policy/PolicyB"]);
+  });
+});
+
+describe("キャッシュ", () => {
+  it("ElastiCache は、保管時・転送時の暗号化が既定", () => {
+    const r = resourceOf(program("AWS::ElastiCache::ReplicationGroup", [lit("CACHE-DESCRIPTION", "x"), lit("CACHE-NODE-TYPE", "cache.t4g.micro")]));
+    expect(r.Properties.AtRestEncryptionEnabled).toBe(true);
+    expect(r.Properties.TransitEncryptionEnabled).toBe(true);
+  });
+
+  it("暗号化を切ると警告し、1 ノードのフェイルオーバーはエラー", () => {
+    const off = compile(program("AWS::ElastiCache::ReplicationGroup", [lit("CACHE-DESCRIPTION", "x"), lit("CACHE-NODE-TYPE", "t"), lit("CACHE-IN-TRANSIT", "N")]));
+    expect(off.warnings.some((w) => w.code === "CACHE-UNENCRYPTED")).toBe(true);
+    const single = program("AWS::ElastiCache::ReplicationGroup", [
+      lit("CACHE-DESCRIPTION", "x"),
+      lit("CACHE-NODE-TYPE", "t"),
+      lit("CACHE-FAILOVER", "Y"),
+      "    05  CACHE-NODES PIC 9 VALUE 1.",
+    ]);
+    expect(errorOf(single).code).toBe("INVALID-VALUE");
+  });
+});
+
 describe("3 層構成の落ち", () => {
   it("ALB + EC2 + RDS がそろうと、1998 年からの警告が出る", async () => {
     const { readFileSync } = await import("node:fs");

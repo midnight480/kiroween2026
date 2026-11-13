@@ -1,0 +1,118 @@
+{
+ "type": "AWS::ECS::Cluster",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "ClusterSettings.*": [],
+  "Configuration": [],
+  "Configuration.ExecuteCommandConfiguration": [],
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration": [],
+  "Configuration.ManagedStorageConfiguration": [],
+  "DefaultCapacityProviderStrategy.*": [],
+  "ServiceConnectDefaults": [],
+  "Tags.*": []
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "CapacityProviders": {
+   "type": "array"
+  },
+  "CapacityProviders.*": {
+   "type": "string"
+  },
+  "ClusterName": {
+   "type": "string"
+  },
+  "ClusterSettings": {
+   "type": "array"
+  },
+  "ClusterSettings.*": {
+   "type": "object"
+  },
+  "ClusterSettings.*.Name": {
+   "type": "string"
+  },
+  "ClusterSettings.*.Value": {
+   "type": "string"
+  },
+  "Configuration": {
+   "type": "object"
+  },
+  "Configuration.ExecuteCommandConfiguration": {
+   "type": "object"
+  },
+  "Configuration.ExecuteCommandConfiguration.KmsKeyId": {
+   "type": "string"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration": {
+   "type": "object"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration.CloudWatchEncryptionEnabled": {
+   "type": "boolean"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration.CloudWatchLogGroupName": {
+   "type": "string"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration.S3BucketName": {
+   "type": "string"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration.S3EncryptionEnabled": {
+   "type": "boolean"
+  },
+  "Configuration.ExecuteCommandConfiguration.LogConfiguration.S3KeyPrefix": {
+   "type": "string"
+  },
+  "Configuration.ExecuteCommandConfiguration.Logging": {
+   "type": "string",
+   "enum": [
+    "DEFAULT",
+    "NONE",
+    "OVERRIDE"
+   ]
+  },
+  "Configuration.ManagedStorageConfiguration": {
+   "type": "object"
+  },
+  "Configuration.ManagedStorageConfiguration.FargateEphemeralStorageKmsKeyId": {
+   "type": "string"
+  },
+  "Configuration.ManagedStorageConfiguration.KmsKeyId": {
+   "type": "string"
+  },
+  "DefaultCapacityProviderStrategy": {
+   "type": "array"
+  },
+  "DefaultCapacityProviderStrategy.*": {
+   "type": "object"
+  },
+  "DefaultCapacityProviderStrategy.*.Base": {
+   "type": "integer"
+  },
+  "DefaultCapacityProviderStrategy.*.CapacityProvider": {
+   "type": "string"
+  },
+  "DefaultCapacityProviderStrategy.*.Weight": {
+   "type": "integer"
+  },
+  "ServiceConnectDefaults": {
+   "type": "object"
+  },
+  "ServiceConnectDefaults.Namespace": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

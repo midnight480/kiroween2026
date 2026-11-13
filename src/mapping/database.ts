@@ -73,4 +73,53 @@ export const DATABASE: ResourceSpec[] = [
       if (h.get("StorageEncrypted") === false) h.warn("DB-UNENCRYPTED", "ストレージが暗号化されていません");
     },
   },
+  {
+    type: "AWS::ElastiCache::SubnetGroup",
+    fields: [
+      f("CSN-DESCRIPTION", "Description", "string", { required: true }),
+      f("CSN-SUBNETS", "SubnetIds", "strings", { required: true }),
+    ],
+  },
+  {
+    // Redis / Valkey のレプリケーショングループ（プライマリ + レプリカ）
+    type: "AWS::ElastiCache::ReplicationGroup",
+    tags: true,
+    fields: [
+      f("CACHE-DESCRIPTION", "ReplicationGroupDescription", "string", { required: true }),
+      f("CACHE-ENGINE", "Engine", "string", { enum: ["redis", "valkey"] }),
+      f("CACHE-ENGINE-VERSION", "EngineVersion", "string"),
+      f("CACHE-NODE-TYPE", "CacheNodeType", "string", { required: true }),
+      f("CACHE-NODES", "NumCacheClusters", "number"),
+      f("CACHE-FAILOVER", "AutomaticFailoverEnabled", "bool"),
+      f("CACHE-MULTI-AZ", "MultiAZEnabled", "bool"),
+      f("CACHE-SUBNET-GROUP", "CacheSubnetGroupName", "ref"),
+      f("CACHE-SG", "SecurityGroupIds", "strings"),
+      f("CACHE-PORT", "Port", "number"),
+      // Security by default: 保管時と転送時の暗号化
+      f("CACHE-AT-REST", "AtRestEncryptionEnabled", "bool", { default: true }),
+      f("CACHE-IN-TRANSIT", "TransitEncryptionEnabled", "bool", { default: true }),
+    ],
+    post: (h) => {
+      if (h.get("AtRestEncryptionEnabled") === false) h.warn("CACHE-UNENCRYPTED", "保管時の暗号化が無効です（CACHE-AT-REST）");
+      if (h.get("TransitEncryptionEnabled") === false) h.warn("CACHE-UNENCRYPTED", "転送時の暗号化が無効です（CACHE-IN-TRANSIT）");
+      const nodes = h.get("NumCacheClusters");
+      if ((h.get("AutomaticFailoverEnabled") === true || h.get("MultiAZEnabled") === true) && typeof nodes === "number" && nodes < 2) {
+        h.fail("INVALID-VALUE", "フェイルオーバーと Multi-AZ には、CACHE-NODES が 2 以上必要です");
+      }
+    },
+  },
+  {
+    // Memcached、または単一ノードの Redis
+    type: "AWS::ElastiCache::CacheCluster",
+    tags: true,
+    fields: [
+      f("CCL-ENGINE", "Engine", "string", { required: true, enum: ["memcached", "redis", "valkey"] }),
+      f("CCL-ENGINE-VERSION", "EngineVersion", "string"),
+      f("CCL-NODE-TYPE", "CacheNodeType", "string", { required: true }),
+      f("CCL-NODES", "NumCacheNodes", "number", { required: true }),
+      f("CCL-SUBNET-GROUP", "CacheSubnetGroupName", "ref"),
+      f("CCL-SG", "VpcSecurityGroupIds", "strings"),
+      f("CCL-PORT", "Port", "number"),
+    ],
+  },
 ];

@@ -1,0 +1,105 @@
+{
+ "type": "AWS::SNS::Topic",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "DeliveryStatusLogging.*": [
+   "Protocol"
+  ],
+  "Subscription.*": [
+   "Endpoint",
+   "Protocol"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "ArchivePolicy": {
+   "type": "object"
+  },
+  "ContentBasedDeduplication": {
+   "type": "boolean"
+  },
+  "DataProtectionPolicy": {
+   "type": "object"
+  },
+  "DeliveryStatusLogging": {
+   "type": "array"
+  },
+  "DeliveryStatusLogging.*": {
+   "type": "object"
+  },
+  "DeliveryStatusLogging.*.FailureFeedbackRoleArn": {
+   "type": "string"
+  },
+  "DeliveryStatusLogging.*.Protocol": {
+   "type": "string",
+   "enum": [
+    "http/s",
+    "sqs",
+    "lambda",
+    "firehose",
+    "application"
+   ]
+  },
+  "DeliveryStatusLogging.*.SuccessFeedbackRoleArn": {
+   "type": "string"
+  },
+  "DeliveryStatusLogging.*.SuccessFeedbackSampleRate": {
+   "type": "string"
+  },
+  "DisplayName": {
+   "type": "string"
+  },
+  "FifoThroughputScope": {
+   "type": "string"
+  },
+  "FifoTopic": {
+   "type": "boolean"
+  },
+  "KmsMasterKeyId": {
+   "type": "string"
+  },
+  "MaximumMessageSize": {
+   "type": "integer"
+  },
+  "SignatureVersion": {
+   "type": "string"
+  },
+  "Subscription": {
+   "type": "array"
+  },
+  "Subscription.*": {
+   "type": "object"
+  },
+  "Subscription.*.Endpoint": {
+   "type": "string"
+  },
+  "Subscription.*.Protocol": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TopicArn": {
+   "type": "string"
+  },
+  "TopicName": {
+   "type": "string"
+  },
+  "TracingConfig": {
+   "type": "string"
+  }
+ }
+}

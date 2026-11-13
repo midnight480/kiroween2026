@@ -63,6 +63,21 @@ TYPES = [
     "AWS::RDS::DBSubnetGroup",
     "AWS::RDS::DBInstance",
     "AWS::RDS::DBCluster",
+    "AWS::ElastiCache::SubnetGroup",
+    "AWS::ElastiCache::ReplicationGroup",
+    "AWS::ElastiCache::CacheCluster",
+    # Containers
+    "AWS::Logs::LogGroup",
+    "AWS::ECS::Cluster",
+    "AWS::ECS::TaskDefinition",
+    "AWS::ECS::Service",
+    "AWS::EKS::Cluster",
+    "AWS::EKS::Nodegroup",
+    # Messaging
+    "AWS::SQS::Queue",
+    "AWS::SQS::QueuePolicy",
+    "AWS::SNS::Topic",
+    "AWS::SNS::Subscription",
 ]
 
 

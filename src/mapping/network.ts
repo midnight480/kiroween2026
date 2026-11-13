@@ -1,6 +1,6 @@
 import type { Field, Kind, ResourceSpec } from "./spec.js";
 
-type Opts = Partial<Pick<Field, "required" | "enum" | "default" | "map">>;
+type Opts = Partial<Pick<Field, "required" | "enum" | "default" | "map" | "schemaPath">>;
 
 /** 対応表の 1 行。 */
 export const f = (name: string, cfn: string, kind: Kind, opts: Opts = {}): Field => ({ name, cfn, kind, ...opts });

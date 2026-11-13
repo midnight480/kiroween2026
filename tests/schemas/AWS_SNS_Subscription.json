@@ -1,0 +1,48 @@
+{
+ "type": "AWS::SNS::Subscription",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Protocol",
+   "TopicArn"
+  ]
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "DeliveryPolicy": {
+   "type": "object"
+  },
+  "Endpoint": {
+   "type": "string"
+  },
+  "FilterPolicy": {
+   "type": "object"
+  },
+  "FilterPolicyScope": {
+   "type": "string"
+  },
+  "Protocol": {
+   "type": "string"
+  },
+  "RawMessageDelivery": {
+   "type": "boolean"
+  },
+  "RedrivePolicy": {
+   "type": "object"
+  },
+  "Region": {
+   "type": "string"
+  },
+  "ReplayPolicy": {
+   "type": "object"
+  },
+  "SubscriptionRoleArn": {
+   "type": "string"
+  },
+  "TopicArn": {
+   "type": "string"
+  }
+ }
+}

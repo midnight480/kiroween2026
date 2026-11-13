@@ -40,6 +40,11 @@ export interface Field {
   default?: Json;
   /** 値の置き換え（`caching-optimized` → ポリシー ID など）。キーが許す値になる */
   map?: Record<string, Json>;
+  /**
+   * 公式スキーマ上のパス（`*` は配列の要素）。スキーマが中身を持たない `object`（RedrivePolicy、
+   * ログの Options、PolicyDocument など）の中に値を置くときだけ、その親のパスを書く。
+   */
+  schemaPath?: string;
 }
 
 /** OCCURS の表 → オブジェクトの配列（SG のルール、CLB のリスナーなど） */

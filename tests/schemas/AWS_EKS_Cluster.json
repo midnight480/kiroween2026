@@ -1,0 +1,436 @@
+{
+ "type": "AWS::EKS::Cluster",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "ResourcesVpcConfig",
+   "RoleArn"
+  ],
+  "AccessConfig": [],
+  "CertificateAuthority": [],
+  "CertificateAuthority.Active": [],
+  "ComputeConfig": [],
+  "ControlPlaneScalingConfig": [],
+  "EncryptionConfig.*": [],
+  "EncryptionConfig.*.Provider": [],
+  "KubeApiServerConfig": [],
+  "KubeApiServerConfig.ServiceNodePortRange": [],
+  "KubeControllerManagerConfig": [],
+  "KubeControllerManagerConfig.HorizontalPodAutoscalerControllerConfig": [],
+  "KubeControllerManagerConfig.PodGcControllerConfig": [],
+  "KubeSchedulerConfig": [],
+  "KubeSchedulerConfig.NodeResourcesFit": [],
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy": [],
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Resources.*": [],
+  "KubernetesNetworkConfig": [],
+  "KubernetesNetworkConfig.ElasticLoadBalancing": [],
+  "KubernetesNetworkConfig.ElasticLoadBalancing.GatewayApi": [
+   "Crds"
+  ],
+  "KubernetesNetworkConfig.ElasticLoadBalancing.GatewayApi.Crds": [
+   "Managed"
+  ],
+  "Logging": [],
+  "Logging.ClusterLogging": [],
+  "Logging.ClusterLogging.EnabledTypes.*": [],
+  "OutpostConfig": [
+   "ControlPlaneInstanceType",
+   "OutpostArns"
+  ],
+  "OutpostConfig.ControlPlanePlacement": [],
+  "OutpostConfig.EtcdPlacement": [],
+  "RemoteNetworkConfig": [],
+  "RemoteNetworkConfig.RemoteNodeNetworks.*": [
+   "Cidrs"
+  ],
+  "RemoteNetworkConfig.RemotePodNetworks.*": [
+   "Cidrs"
+  ],
+  "ResourcesVpcConfig": [
+   "SubnetIds"
+  ],
+  "RollbackConfig": [],
+  "StorageConfig": [],
+  "StorageConfig.BlockStorage": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "UpgradePolicy": [],
+  "ZonalShiftConfig": []
+ },
+ "paths": {
+  "AccessConfig": {
+   "type": "object"
+  },
+  "AccessConfig.AuthenticationMode": {
+   "type": "string",
+   "enum": [
+    "CONFIG_MAP",
+    "API_AND_CONFIG_MAP",
+    "API"
+   ]
+  },
+  "AccessConfig.BootstrapClusterCreatorAdminPermissions": {
+   "type": "boolean"
+  },
+  "ActiveCertificateAuthorityId": {
+   "type": "string"
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "BootstrapSelfManagedAddons": {
+   "type": "boolean"
+  },
+  "CertificateAuthority": {
+   "type": "object"
+  },
+  "CertificateAuthority.Active": {
+   "type": "object"
+  },
+  "CertificateAuthority.Active.ActivatedBy": {
+   "type": "string"
+  },
+  "CertificateAuthority.Active.Id": {
+   "type": "string"
+  },
+  "CertificateAuthority.Data": {
+   "type": "string"
+  },
+  "CertificateAuthorityData": {
+   "type": "string"
+  },
+  "ClusterSecurityGroupId": {
+   "type": "string"
+  },
+  "ComputeConfig": {
+   "type": "object"
+  },
+  "ComputeConfig.Enabled": {
+   "type": "boolean"
+  },
+  "ComputeConfig.NodePools": {
+   "type": "array"
+  },
+  "ComputeConfig.NodePools.*": {
+   "type": "string"
+  },
+  "ComputeConfig.NodeRoleArn": {
+   "type": "string"
+  },
+  "ControlPlaneScalingConfig": {
+   "type": "object"
+  },
+  "ControlPlaneScalingConfig.Tier": {
+   "type": "string",
+   "enum": [
+    "standard",
+    "tier-xl",
+    "tier-2xl",
+    "tier-4xl",
+    "tier-8xl",
+    "tier-ultra"
+   ]
+  },
+  "DeletionProtection": {
+   "type": "boolean"
+  },
+  "EncryptionConfig": {
+   "type": "array"
+  },
+  "EncryptionConfig.*": {
+   "type": "object"
+  },
+  "EncryptionConfig.*.Provider": {
+   "type": "object"
+  },
+  "EncryptionConfig.*.Provider.KeyArn": {
+   "type": "string"
+  },
+  "EncryptionConfig.*.Resources": {
+   "type": "array"
+  },
+  "EncryptionConfig.*.Resources.*": {
+   "type": "string"
+  },
+  "EncryptionConfigKeyArn": {
+   "type": "string"
+  },
+  "Endpoint": {
+   "type": "string"
+  },
+  "Force": {
+   "type": "boolean"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "KubeApiServerConfig": {
+   "type": "object"
+  },
+  "KubeApiServerConfig.EventTtl": {
+   "type": "string"
+  },
+  "KubeApiServerConfig.ServiceNodePortRange": {
+   "type": "object"
+  },
+  "KubeApiServerConfig.ServiceNodePortRange.MaxPort": {
+   "type": "integer"
+  },
+  "KubeApiServerConfig.ServiceNodePortRange.MinPort": {
+   "type": "integer"
+  },
+  "KubeControllerManagerConfig": {
+   "type": "object"
+  },
+  "KubeControllerManagerConfig.HorizontalPodAutoscalerControllerConfig": {
+   "type": "object"
+  },
+  "KubeControllerManagerConfig.HorizontalPodAutoscalerControllerConfig.HorizontalPodAutoscalerSyncPeriod": {
+   "type": "string"
+  },
+  "KubeControllerManagerConfig.PodGcControllerConfig": {
+   "type": "object"
+  },
+  "KubeControllerManagerConfig.PodGcControllerConfig.TerminatedPodGcThreshold": {
+   "type": "integer"
+  },
+  "KubeSchedulerConfig": {
+   "type": "object"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit": {
+   "type": "object"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy": {
+   "type": "object"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Resources": {
+   "type": "array"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Resources.*": {
+   "type": "object"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Resources.*.Name": {
+   "type": "string"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Resources.*.Weight": {
+   "type": "integer"
+  },
+  "KubeSchedulerConfig.NodeResourcesFit.ScoringStrategy.Type": {
+   "type": "string",
+   "enum": [
+    "LeastAllocated",
+    "MostAllocated"
+   ]
+  },
+  "KubernetesNetworkConfig": {
+   "type": "object"
+  },
+  "KubernetesNetworkConfig.ElasticLoadBalancing": {
+   "type": "object"
+  },
+  "KubernetesNetworkConfig.ElasticLoadBalancing.Enabled": {
+   "type": "boolean"
+  },
+  "KubernetesNetworkConfig.ElasticLoadBalancing.GatewayApi": {
+   "type": "object"
+  },
+  "KubernetesNetworkConfig.ElasticLoadBalancing.GatewayApi.Crds": {
+   "type": "object"
+  },
+  "KubernetesNetworkConfig.ElasticLoadBalancing.GatewayApi.Crds.Managed": {
+   "type": "boolean"
+  },
+  "KubernetesNetworkConfig.IpFamily": {
+   "type": "string",
+   "enum": [
+    "ipv4",
+    "ipv6"
+   ]
+  },
+  "KubernetesNetworkConfig.ServiceIpv4Cidr": {
+   "type": "string"
+  },
+  "KubernetesNetworkConfig.ServiceIpv6Cidr": {
+   "type": "string"
+  },
+  "Logging": {
+   "type": "object"
+  },
+  "Logging.ClusterLogging": {
+   "type": "object"
+  },
+  "Logging.ClusterLogging.EnabledTypes": {
+   "type": "array"
+  },
+  "Logging.ClusterLogging.EnabledTypes.*": {
+   "type": "object"
+  },
+  "Logging.ClusterLogging.EnabledTypes.*.Type": {
+   "type": "string",
+   "enum": [
+    "api",
+    "audit",
+    "authenticator",
+    "controllerManager",
+    "scheduler"
+   ]
+  },
+  "Name": {
+   "type": "string"
+  },
+  "OpenIdConnectIssuerUrl": {
+   "type": "string"
+  },
+  "OutpostConfig": {
+   "type": "object"
+  },
+  "OutpostConfig.ControlPlaneInstanceType": {
+   "type": "string"
+  },
+  "OutpostConfig.ControlPlanePlacement": {
+   "type": "object"
+  },
+  "OutpostConfig.ControlPlanePlacement.GroupName": {
+   "type": "string"
+  },
+  "OutpostConfig.ControlPlanePlacement.SpreadLevel": {
+   "type": "string",
+   "enum": [
+    "host",
+    "rack"
+   ]
+  },
+  "OutpostConfig.EtcdInstanceType": {
+   "type": "string"
+  },
+  "OutpostConfig.EtcdPlacement": {
+   "type": "object"
+  },
+  "OutpostConfig.EtcdPlacement.SpreadLevel": {
+   "type": "string",
+   "enum": [
+    "host",
+    "rack"
+   ]
+  },
+  "OutpostConfig.OutpostArns": {
+   "type": "array"
+  },
+  "OutpostConfig.OutpostArns.*": {
+   "type": "string"
+  },
+  "RemoteNetworkConfig": {
+   "type": "object"
+  },
+  "RemoteNetworkConfig.RemoteNodeNetworks": {
+   "type": "array"
+  },
+  "RemoteNetworkConfig.RemoteNodeNetworks.*": {
+   "type": "object"
+  },
+  "RemoteNetworkConfig.RemoteNodeNetworks.*.Cidrs": {
+   "type": "array"
+  },
+  "RemoteNetworkConfig.RemoteNodeNetworks.*.Cidrs.*": {
+   "type": "string"
+  },
+  "RemoteNetworkConfig.RemotePodNetworks": {
+   "type": "array"
+  },
+  "RemoteNetworkConfig.RemotePodNetworks.*": {
+   "type": "object"
+  },
+  "RemoteNetworkConfig.RemotePodNetworks.*.Cidrs": {
+   "type": "array"
+  },
+  "RemoteNetworkConfig.RemotePodNetworks.*.Cidrs.*": {
+   "type": "string"
+  },
+  "ResourcesVpcConfig": {
+   "type": "object"
+  },
+  "ResourcesVpcConfig.ControlPlaneEgressMode": {
+   "type": "string",
+   "enum": [
+    "AWS_MANAGED",
+    "CUSTOMER_ISOLATED",
+    "CUSTOMER_ROUTED"
+   ]
+  },
+  "ResourcesVpcConfig.EndpointPrivateAccess": {
+   "type": "boolean"
+  },
+  "ResourcesVpcConfig.EndpointPublicAccess": {
+   "type": "boolean"
+  },
+  "ResourcesVpcConfig.PublicAccessCidrs": {
+   "type": "array"
+  },
+  "ResourcesVpcConfig.PublicAccessCidrs.*": {
+   "type": "string"
+  },
+  "ResourcesVpcConfig.SecurityGroupIds": {
+   "type": "array"
+  },
+  "ResourcesVpcConfig.SecurityGroupIds.*": {
+   "type": "string"
+  },
+  "ResourcesVpcConfig.SubnetIds": {
+   "type": "array"
+  },
+  "ResourcesVpcConfig.SubnetIds.*": {
+   "type": "string"
+  },
+  "RoleArn": {
+   "type": "string"
+  },
+  "RollbackConfig": {
+   "type": "object"
+  },
+  "RollbackConfig.TimeoutMinutes": {
+   "type": "integer"
+  },
+  "StorageConfig": {
+   "type": "object"
+  },
+  "StorageConfig.BlockStorage": {
+   "type": "object"
+  },
+  "StorageConfig.BlockStorage.Enabled": {
+   "type": "boolean"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "UpgradePolicy": {
+   "type": "object"
+  },
+  "UpgradePolicy.SupportType": {
+   "type": "string",
+   "enum": [
+    "STANDARD",
+    "EXTENDED"
+   ]
+  },
+  "Version": {
+   "type": "string"
+  },
+  "ZonalShiftConfig": {
+   "type": "object"
+  },
+  "ZonalShiftConfig.Enabled": {
+   "type": "boolean"
+  }
+ }
+}

@@ -154,14 +154,17 @@ function emitRole(r: Resource): JsonObject {
 
   const managed = child(g, "MANAGED-POLICY");
   if (managed && effectiveValue(managed) !== undefined) {
-    const v = str(managed);
-    if (v.startsWith("AWS-MANAGED:")) {
-      props["ManagedPolicyArns"] = [`arn:aws:iam::aws:policy/${v.slice("AWS-MANAGED:".length)}`];
-    } else if (v.startsWith("arn:")) {
-      props["ManagedPolicyArns"] = [v];
-    } else {
-      throw new CobolError("INVALID-MANAGED-POLICY", `MANAGED-POLICY は AWS-MANAGED:<パス> か ARN で指定してください: ${v}`, managed.line, managed.col);
-    }
+    // カンマ区切りで複数の管理ポリシーを付けられる（EKS のノードロールなど）
+    const arns = str(managed)
+      .split(",")
+      .map((x) => x.trim())
+      .filter((x) => x !== "")
+      .map((v) => {
+        if (v.startsWith("AWS-MANAGED:")) return `arn:aws:iam::aws:policy/${v.slice("AWS-MANAGED:".length)}`;
+        if (v.startsWith("arn:")) return v;
+        throw new CobolError("INVALID-MANAGED-POLICY", `MANAGED-POLICY は AWS-MANAGED:<パス> か ARN で指定してください: ${v}`, managed.line, managed.col);
+      });
+    props["ManagedPolicyArns"] = arns;
   }
   return props;
 }
