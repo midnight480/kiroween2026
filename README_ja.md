@@ -7,7 +7,7 @@
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は S3、IAM、Lambda、DynamoDB（単一テーブルと MRSC）の COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、MVP の 4 種類のリソース（S3、IAM、Lambda、MRSC を含む DynamoDB）はすべて実際の AWS アカウントにデプロイ済みです。`diff`、ブラウザデモ、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は S3、IAM、Lambda、DynamoDB（単一テーブルと MRSC）の COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、MVP の 4 種類のリソース（S3、IAM、Lambda、MRSC を含む DynamoDB）はすべて実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 
@@ -111,7 +111,7 @@ node dist/cli.js compile verify/samples/51-s3.cbl
 
 ## CLI
 
-パッケージは 1 つのバイナリを、正式名 `cobolform` と短縮別名 `cobf` の 2 つのコマンド名でインストールします。`compile`、`deploy`、`destroy` は実装済みで、`diff` は未実装です。
+パッケージは 1 つのバイナリを、正式名 `cobolform` と短縮別名 `cobf` の 2 つのコマンド名でインストールします。`compile`、`diff`、`deploy`、`destroy` はすべて実装済みです。`diff` は、表示のためだけに ChangeSet を作り、実行はせず、終了後に必ず削除します。
 
 ```
 cobf compile <file.cbl> [--format json|yaml]   # CloudFormation 出力のみ（副作用なし）
@@ -177,7 +177,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 2. 完了: S3、IAM、Lambda、DynamoDB の Emitter。ゴールデンの出力に `cfn-lint` を実行
 3. ほぼ完了: Deployer と 132 桁帳票。更新が失敗したときのロールバックを、実アカウントで試すことが残っています。
 4. ブラウザデモ: 緑画面の CRT エディタと仮想ラインプリンター。コンパイルはブラウザ内で完結し、AWS 資格情報はブラウザに渡しません。実デプロイは認証付きバックエンド経由です。
-5. ストレッチ: `diff`、Aurora DSQL、CDK L1 出力、cfn-guard によるセキュリティポリシーチェック
+5. ストレッチ: Aurora DSQL、CDK L1 出力、cfn-guard によるセキュリティポリシーチェック
 
 ## Kiro での開発
 

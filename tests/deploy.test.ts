@@ -1,7 +1,7 @@
 import type { CloudFormationClient } from "@aws-sdk/client-cloudformation";
 import { describe, expect, it } from "vitest";
-import { deploy, destroy, isCredentialError, rollbackStateOf } from "../src/deploy.js";
-import { renderDeploy } from "../src/report.js";
+import { deploy, destroy, diff, isCredentialError, rollbackStateOf } from "../src/deploy.js";
+import { renderDeploy, renderDiff } from "../src/report.js";
 
 type Handler = (input: Record<string, unknown>) => unknown;
 
@@ -170,6 +170,81 @@ describe("巻き戻しの判定（実機で ROLLBACK_FAILED を踏んで追加�
     });
     expect(text).toContain("ROOT-CAUSE");
     for (const l of text.split("\n")) expect(l.length).toBeLessThanOrEqual(132);
+  });
+});
+
+describe("diff", () => {
+  const template = { Resources: { B: { Type: "AWS::S3::Bucket" } } };
+
+  it("既存スタックとの変更点を返し、ChangeSet を必ず消す（実行しない）", async () => {
+    const calls: string[] = [];
+    const client = fakeClient(
+      {
+        DescribeStacksCommand: () => ({ Stacks: [{ StackStatus: "CREATE_COMPLETE" }] }),
+        CreateChangeSetCommand: () => ({}),
+        DescribeChangeSetCommand: () => ({
+          Status: "CREATE_COMPLETE",
+          Changes: [{ ResourceChange: { Action: "Modify", LogicalResourceId: "B", ResourceType: "AWS::S3::Bucket", Replacement: "False" } }],
+        }),
+        DeleteChangeSetCommand: () => ({}),
+      },
+      calls,
+    );
+    const out = await diff({ ...base, template, client });
+    expect(out).toEqual({
+      kind: "changes",
+      stackExists: true,
+      changes: [{ action: "Modify", logicalId: "B", type: "AWS::S3::Bucket", replacement: "False" }],
+    });
+    expect(calls).toContain("DeleteChangeSetCommand");
+    expect(calls).not.toContain("ExecuteChangeSetCommand");
+    expect(calls).not.toContain("DeleteStackCommand"); // 既存スタックは消さない
+  });
+
+  it("スタックが無いときは新規作成として扱い、作りかけの空スタックを消す", async () => {
+    const calls: string[] = [];
+    const client = fakeClient(
+      {
+        DescribeStacksCommand: doesNotExist,
+        CreateChangeSetCommand: () => ({}),
+        DescribeChangeSetCommand: () => ({
+          Status: "CREATE_COMPLETE",
+          Changes: [{ ResourceChange: { Action: "Add", LogicalResourceId: "B", ResourceType: "AWS::S3::Bucket" } }],
+        }),
+        DeleteChangeSetCommand: () => ({}),
+        DeleteStackCommand: () => ({}),
+      },
+      calls,
+    );
+    const out = await diff({ ...base, template, client });
+    expect(out).toMatchObject({ kind: "changes", stackExists: false });
+    expect(calls).toContain("DeleteStackCommand");
+    expect(calls).not.toContain("ExecuteChangeSetCommand");
+  });
+
+  it("変更なしは no-changes で、拒否された ChangeSet も消す", async () => {
+    const calls: string[] = [];
+    const client = fakeClient(
+      {
+        DescribeStacksCommand: () => ({ Stacks: [{ StackStatus: "CREATE_COMPLETE" }] }),
+        CreateChangeSetCommand: () => ({}),
+        DescribeChangeSetCommand: () => ({ Status: "FAILED", StatusReason: "The submitted information didn't contain changes." }),
+        DeleteChangeSetCommand: () => ({}),
+      },
+      calls,
+    );
+    expect(await diff({ ...base, template, client })).toEqual({ kind: "no-changes", stackExists: true });
+    expect(calls).toContain("DeleteChangeSetCommand");
+  });
+
+  it("置き換えが起きる変更は、データ消失の注意を帳票に出す", () => {
+    const { text, code } = renderDiff({
+      kind: "changes",
+      stackExists: true,
+      changes: [{ action: "Modify", logicalId: "T", type: "AWS::DynamoDB::GlobalTable", replacement: "True" }],
+    });
+    expect(code).toBe(0);
+    expect(text).toContain("DATA MAY BE LOST");
   });
 });
 

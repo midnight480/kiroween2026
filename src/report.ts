@@ -85,3 +85,28 @@ export function renderDestroy(o: DestroyOutcome): { text: string; code: number }
       return { text: abend("AWS ERROR", [o.detail]), code: 1 };
   }
 }
+
+import type { DiffOutcome } from "./deploy.js";
+
+export function renderDiff(o: DiffOutcome): { text: string; code: number } {
+  switch (o.kind) {
+    case "changes": {
+      const rows = o.changes.map((c) => {
+        const repl = c.replacement === "True" ? "  (REPLACEMENT — DATA MAY BE LOST)" : c.replacement === "Conditional" ? "  (MAY REPLACE)" : "";
+        return line(`  ${c.action.toUpperCase().padEnd(8)} ${c.logicalId.padEnd(24)} ${c.type}${repl}`);
+      });
+      const title = o.stackExists ? "CHANGES AGAINST THE EXISTING STACK" : "NEW STACK — ALL RESOURCES WOULD BE CREATED";
+      return { text: [RULE, `* ${title}`, ...rows, RULE].join("\n"), code: 0 };
+    }
+    case "no-changes":
+      return { text: `${RULE}\n* NO CHANGES\n${RULE}`, code: 0 };
+    case "changeset-rejected":
+      return { text: abend("CHANGESET REJECTED", [o.reason]), code: 1 };
+    case "stack-unusable":
+      return { text: abend(`STACK ${o.stackStatus}`, [o.advice]), code: 1 };
+    case "no-credentials":
+      return { text: abend("SECURITY VIOLATION — NO VALID CREDENTIALS", [`(${o.detail})`]), code: 1 };
+    case "aws-error":
+      return { text: abend("AWS ERROR", [o.detail]), code: 1 };
+  }
+}

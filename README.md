@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and all four MVP resource types (S3, IAM, Lambda, DynamoDB including MRSC) have been deployed to a real AWS account. `diff`, the browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for S3, IAM, Lambda and DynamoDB (single table and MRSC), and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and all four MVP resource types (S3, IAM, Lambda, DynamoDB including MRSC) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -111,7 +111,7 @@ Once published, the same commands will run through `npx cobf ...`.
 
 ## CLI
 
-The package installs one binary under two command names: `cobolform` and the short alias `cobf`. `compile`, `deploy` and `destroy` are implemented. `diff` is not.
+The package installs one binary under two command names: `cobolform` and the short alias `cobf`. `compile`, `diff`, `deploy` and `destroy` are all implemented. `diff` creates a ChangeSet only to show it, never executes it, and always deletes it afterwards.
 
 ```
 cobf compile <file.cbl> [--format json|yaml]   # CloudFormation only, no side effects
@@ -177,7 +177,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 2. Done: emitters for S3, IAM, Lambda and DynamoDB, with `cfn-lint` on the golden outputs.
 3. Mostly done: deployer and the 132-column report. Rollback of a failed update is still to be tried on a real account.
 4. Browser demo: a green-screen CRT editor and a virtual line printer. Compilation runs in the browser, and AWS credentials never reach it. Real deployments go through an authenticated backend.
-5. Stretch: `diff`, Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
+5. Stretch: Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
 
 ## Built with Kiro
 

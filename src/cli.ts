@@ -2,9 +2,9 @@
 import { readFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import { compile, type CompileResult } from "./compile.js";
-import { deploy, destroy } from "./deploy.js";
+import { deploy, destroy, diff } from "./deploy.js";
 import { CobolError } from "./errors.js";
-import { eventLine, header, renderDeploy, renderDestroy } from "./report.js";
+import { eventLine, header, renderDeploy, renderDestroy, renderDiff } from "./report.js";
 import { toYaml } from "./yaml.js";
 
 const USAGE = `使い方: cobf [コマンド] <file.cbl> [オプション]
@@ -13,7 +13,7 @@ const USAGE = `使い方: cobf [コマンド] <file.cbl> [オプション]
   compile   CloudFormation テンプレートを標準出力へ（副作用なし）
   deploy    ChangeSet を作成して実行し、スタックイベントを帳票に流す
   destroy   スタックを削除する
-  diff      （未実装）
+  diff      既存スタックとの差分を表示する（実行はしない）
 
 コマンド省略時は .cbl の CALL "DEPLOY" / "DESTROY" を既定アクションにします。
 
@@ -111,12 +111,7 @@ async function run(args: Args): Promise<number> {
     process.stdout.write(args.format === "yaml" ? toYaml(result.template) : `${JSON.stringify(result.template, null, 2)}\n`);
     return 0;
   }
-  if (command === "diff") {
-    process.stderr.write("cobf diff は未実装です\n");
-    return 2;
-  }
-
-  // deploy / destroy はリージョンが必須（§4.5 規則 3）
+  // diff / deploy / destroy はリージョンが必須（§4.5 規則 3）
   if (result.region === undefined) {
     process.stderr.write(`${args.file}: エラー NO-REGION: デプロイには OBJECT-COMPUTER（例: AWS-AP-NORTHEAST-1）が必要です\n`);
     return 1;
@@ -126,6 +121,14 @@ async function run(args: Args): Promise<number> {
   const onEvent = (e: Parameters<typeof eventLine>[0]): void => {
     process.stdout.write(`${eventLine(e)}\n`);
   };
+
+  if (command === "diff") {
+    // 読み取り中心で確認は不要。ChangeSet は作るが実行せず、必ず消す
+    process.stdout.write(`${header("DIFF DIVISION", common.stackName, common.region)}\n`);
+    const out = renderDiff(await diff({ ...common, template: result.template }));
+    process.stdout.write(`${out.text}\n`);
+    return out.code;
+  }
 
   if (command === "deploy") {
     if (!args.yes && !(await confirm(`${result.stackName} を ${result.region} にデプロイします。よろしいですか？`))) {
