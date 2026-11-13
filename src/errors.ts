@@ -1,3 +1,5 @@
+import { localize, type Locale } from "./i18n.js";
+
 /** 行・桁つきのコンパイルエラー（設計書 §7 / §9.1）。 */
 export class CobolError extends Error {
   readonly code: string;
@@ -109,17 +111,19 @@ export const SEVERITY_ERROR = 12;
 export const SEVERITY_WARNING = 4;
 
 /** 小文字だけは決め台詞つき（§7）。それ以外は事実のメッセージのまま。 */
-function headline(e: CobolError): string {
-  if (e.code === "LOWERCASE-NOT-ALLOWED") return `LOWERCASE IS HERESY — ${e.message}`;
-  if (e.code === "SEQUENCE-ERROR") return `THE CARD DECK IS OUT OF ORDER — ${e.message}`;
-  return e.message;
+function headline(e: CobolError, locale?: Locale): string {
+  const text = localize(e.message, locale);
+  if (e.code === "LOWERCASE-NOT-ALLOWED") return `LOWERCASE IS HERESY — ${text}`;
+  if (e.code === "SEQUENCE-ERROR") return `THE CARD DECK IS OUT OF ORDER — ${text}`;
+  return text;
 }
 
-export function formatError(file: string, e: CobolError): string {
-  return `${file}:${e.line}:${e.col}: ${messageId(e.code)} SEVERITY ${SEVERITY_ERROR}: ${headline(e)} [${e.code}]`;
+/** `locale` を省くと、現在の言語（既定は日本語）で整形する。 */
+export function formatError(file: string, e: CobolError, locale?: Locale): string {
+  return `${file}:${e.line}:${e.col}: ${messageId(e.code)} SEVERITY ${SEVERITY_ERROR}: ${headline(e, locale)} [${e.code}]`;
 }
 
-export function formatWarning(file: string, w: Diagnostic): string {
+export function formatWarning(file: string, w: Diagnostic, locale?: Locale): string {
   const where = w.line !== undefined ? `${file}:${w.line}` : file;
-  return `${where}: ${messageId(w.code, "W")} SEVERITY ${SEVERITY_WARNING}: ${w.message} [${w.code}]`;
+  return `${where}: ${messageId(w.code, "W")} SEVERITY ${SEVERITY_WARNING}: ${localize(w.message, locale)} [${w.code}]`;
 }

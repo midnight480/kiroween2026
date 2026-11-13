@@ -1,4 +1,5 @@
 import type { DeployOutcome, DestroyOutcome, StackEventView } from "./deploy.js";
+import { localize } from "./i18n.js";
 
 /** 132 桁の連続帳票（ライン・プリンター風）。UI 層: 判断は持たず、結果を印字するだけ。 */
 const WIDTH = 132;
@@ -110,7 +111,7 @@ export function renderDeploy(o: DeployOutcome): { text: string; code: number } {
         code: 1,
       };
     case "stack-unusable":
-      return { text: abend(`STACK ${o.stackStatus}`, [o.advice]), code: 1 };
+      return { text: abend(`STACK ${o.stackStatus}`, [localize(o.advice)]), code: 1 };
     case "no-credentials":
       return { text: abend("SECURITY VIOLATION — NO VALID CREDENTIALS", [`(${o.detail})`]), code: 1 };
     case "aws-error":
@@ -153,7 +154,7 @@ export function renderDiff(o: DiffOutcome): { text: string; code: number } {
     case "changeset-rejected":
       return { text: abend("CHANGESET REJECTED", [o.reason]), code: 1 };
     case "stack-unusable":
-      return { text: abend(`STACK ${o.stackStatus}`, [o.advice]), code: 1 };
+      return { text: abend(`STACK ${o.stackStatus}`, [localize(o.advice)]), code: 1 };
     case "no-credentials":
       return { text: abend("SECURITY VIOLATION — NO VALID CREDENTIALS", [`(${o.detail})`]), code: 1 };
     case "aws-error":
