@@ -120,7 +120,7 @@ cobf deploy  <file.cbl> [--yes | --force]       # ChangeSet create -> execute ->
 cobf destroy <file.cbl> [--yes | --force]       # Delete the stack (confirmation by default)
 ```
 
-An explicit CLI subcommand always wins. If it is omitted, the `CALL` statement in the `.cbl` file is the default action. `compile` is the foundation for golden tests and CI. `--yes` skips the confirmation prompt for non-interactive runs.
+An explicit CLI subcommand always wins. If it is omitted, the `CALL` statement in the `.cbl` file is the default action. `compile` is the foundation for golden tests and CI. `--yes` skips the confirmation prompt for non-interactive runs. `--strict-sequence` works with any command and rejects out-of-order sequence numbers.
 
 ## Architecture
 
@@ -137,18 +137,16 @@ An explicit CLI subcommand always wins. If it is omitted, the `CALL` statement i
 
 ## Quirk features
 
-Working today:
+All of these work today:
 
-- Column-shift errors with the line and column, such as `file.cbl:1:7: INVALID-INDICATOR`.
-- A 132-column line-printer report for `deploy` and `destroy`.
+- Column-shift errors with the line and column, and parody IBM-style message numbers. For example `file.cbl:1:7: CBF-0003-S SEVERITY 12: ...`. The `CBF` prefix is our own; no real IBM message IDs are reused. Warnings use `SEVERITY 4`.
+- `LOWERCASE IS HERESY` for lower-case source.
+- `--strict-sequence`, which fails with "the card deck is out of order" when the sequence numbers in columns 1-6 do not ascend.
+- A warning when `STOP RUN` is missing: "JOB DID NOT TERMINATE".
+- A 132-column line-printer report for `deploy` and `destroy`, with page headers, page numbers, and a `TOTAL RESOURCES CREATED / UPDATED / DELETED` line.
 - Failures shown as an `ABEND S0C7`-style dump. The failure handling logic is separate from this presentation layer, so exit codes stay reliable for CI.
 - A warning for the "cursed wildcard" (`*`) in IAM actions, and secure defaults such as blocking public S3 access.
 - `DBLINK` is a deliberate error.
-
-Planned:
-
-- Parody IBM-style message codes, and `SEVERITY 12: LOWERCASE IS HERESY` for lower-case source. Lower case is already rejected, but with a plain message.
-- `--strict-sequence`, which complains that the card deck is out of order.
 
 ## Verified so far
 

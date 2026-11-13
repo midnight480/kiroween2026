@@ -21,6 +21,56 @@ export function header(title: string, stackName: string, region: string): string
   return [RULE, line(`* ${title}   STACK=${stackName}   REGION=${region}   RUN=${now}Z`.padEnd(WIDTH - 1) + "*"), RULE].join("\n");
 }
 
+/**
+ * 連続帳票（§7）。一定行ごとに改頁してページヘッダと頁番号を印字し、最後に合計を出す。
+ * UI 層なので判断は持たない。イベントを数えて印字するだけ。
+ */
+export class Ledger {
+  private page = 0;
+  private used = 0;
+  private readonly created = new Set<string>();
+  private readonly updated = new Set<string>();
+  private readonly deleted = new Set<string>();
+
+  constructor(
+    private readonly title: string,
+    private readonly stackName: string,
+    private readonly region: string,
+    private readonly linesPerPage = 50,
+  ) {}
+
+  private pageHeader(): string {
+    this.page++;
+    this.used = 3;
+    const now = new Date().toISOString().replace("T", " ").slice(0, 19);
+    const text = `* ${this.title}   STACK=${this.stackName}   REGION=${this.region}   RUN=${now}Z   PAGE ${String(this.page).padStart(4, "0")}`;
+    return [RULE, line(text.padEnd(WIDTH - 1) + "*"), RULE].join("\n");
+  }
+
+  start(): string {
+    return this.pageHeader();
+  }
+
+  /** 1 イベントを印字する行を返す。ページが埋まっていれば先に改頁する。 */
+  event(e: StackEventView): string {
+    if (e.type !== "AWS::CloudFormation::Stack") {
+      if (e.status === "CREATE_COMPLETE") this.created.add(e.logicalId);
+      else if (e.status === "UPDATE_COMPLETE") this.updated.add(e.logicalId);
+      else if (e.status === "DELETE_COMPLETE") this.deleted.add(e.logicalId);
+    }
+    let out = "";
+    if (this.used >= this.linesPerPage) out = `\n${this.pageHeader()}\n`;
+    this.used++;
+    return out + eventLine(e);
+  }
+
+  /** 合計行。`TOTAL RESOURCES CREATED` など。 */
+  footer(): string {
+    const body = `* TOTAL RESOURCES CREATED: ${this.created.size}   UPDATED: ${this.updated.size}   DELETED: ${this.deleted.size}   PAGES: ${this.page}`;
+    return [RULE, line(body.padEnd(WIDTH - 1) + "*"), RULE].join("\n");
+  }
+}
+
 export function eventLine(e: StackEventView): string {
   const time = e.time.toISOString().slice(11, 19);
   const reason = e.reason ? `  ${e.reason}` : "";

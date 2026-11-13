@@ -42,6 +42,40 @@ describe("destroy", () => {
     expect(await destroy({ ...base, client })).toEqual({ kind: "ok" });
   });
 
+  it("削除後は名前では引けないので、スタック ID でイベントを追い、最後の DELETE_COMPLETE も拾う", async () => {
+    const refs: string[] = [];
+    let phase = 0; // 0: 既読化 / 1: 途中 / 2: 削除完了後
+    const ev = (id: string, logicalId: string, status: string) => ({
+      EventId: id,
+      LogicalResourceId: logicalId,
+      ResourceType: "AWS::S3::Bucket",
+      ResourceStatus: status,
+      Timestamp: new Date(),
+    });
+    const client = fakeClient({
+      DescribeStacksCommand: (input) => {
+        const name = String(input["StackName"]);
+        // 削除が済んだ後は名前では見つからないが、ID なら DELETE_COMPLETE が返る
+        if (phase >= 2 && name === "X") return doesNotExist();
+        return { Stacks: [{ StackId: "arn:stack/X/1", StackStatus: phase >= 2 ? "DELETE_COMPLETE" : "DELETE_IN_PROGRESS" }] };
+      },
+      DescribeStackEventsCommand: (input) => {
+        const name = String(input["StackName"]);
+        refs.push(name);
+        if (phase >= 2 && name === "X") return doesNotExist();
+        phase++;
+        if (phase === 1) return { StackEvents: [] };
+        return { StackEvents: [ev("2", "B", "DELETE_COMPLETE"), ev("1", "A", "DELETE_COMPLETE")] };
+      },
+      DeleteStackCommand: () => ({}),
+    });
+    const seen: string[] = [];
+    const out = await destroy({ ...base, client, onEvent: (e) => seen.push(`${e.logicalId}:${e.status}`) });
+    expect(out).toEqual({ kind: "ok" });
+    expect(refs.every((r) => r === "arn:stack/X/1")).toBe(true);
+    expect(seen).toEqual(["A:DELETE_COMPLETE", "B:DELETE_COMPLETE"]);
+  });
+
   it("存在しないスタックは not-found（正常）", async () => {
     const client = fakeClient({ DescribeStacksCommand: doesNotExist });
     expect(await destroy({ ...base, client })).toEqual({ kind: "not-found" });

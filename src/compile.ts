@@ -24,8 +24,13 @@ export interface CompileResult {
 }
 
 /** 固定形式 COBOL ソース → CloudFormation テンプレート。副作用なし。 */
-export function compile(source: string): CompileResult {
-  const cards = readCards(source);
+export interface CompileOptions {
+  /** 連番（1〜6 桁目）が昇順でなければエラーにする */
+  strictSequence?: boolean;
+}
+
+export function compile(source: string, options: CompileOptions = {}): CompileResult {
+  const cards = readCards(source, { strictSequence: options.strictSequence ?? false });
   const tokens = lex(cards.lines);
   const program = parse(tokens, cards.warnings);
   applyProcedure(program);

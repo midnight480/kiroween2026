@@ -3,8 +3,8 @@ import { readFileSync } from "node:fs";
 import { createInterface } from "node:readline/promises";
 import { compile, type CompileResult } from "./compile.js";
 import { deploy, destroy, diff } from "./deploy.js";
-import { CobolError } from "./errors.js";
-import { eventLine, header, renderDeploy, renderDestroy, renderDiff } from "./report.js";
+import { CobolError, formatError, formatWarning } from "./errors.js";
+import { header, Ledger, renderDeploy, renderDestroy, renderDiff } from "./report.js";
 import { toYaml } from "./yaml.js";
 
 const USAGE = `使い方: cobf [コマンド] <file.cbl> [オプション]
@@ -20,6 +20,7 @@ const USAGE = `使い方: cobf [コマンド] <file.cbl> [オプション]
 オプション:
   --format json|yaml   compile の出力形式（既定: json）
   --yes, --force       確認プロンプトを省略する（CI 用）
+  --strict-sequence    1〜6 桁目の連番が昇順でなければエラーにする
 `;
 
 interface Args {
@@ -27,6 +28,7 @@ interface Args {
   file: string;
   format: string;
   yes: boolean;
+  strictSequence: boolean;
 }
 
 function parseArgs(argv: string[]): Args | number {
@@ -38,12 +40,15 @@ function parseArgs(argv: string[]): Args | number {
   let file = "";
   let format = "json";
   let yes = false;
+  let strictSequence = false;
   for (let i = 0; i < rest.length; i++) {
     const a = rest[i] as string;
     if (a === "--format") {
       format = rest[++i] ?? "";
     } else if (a === "--yes" || a === "--force") {
       yes = true;
+    } else if (a === "--strict-sequence") {
+      strictSequence = true;
     } else if (a.startsWith("-")) {
       process.stderr.write(`未知のオプションです: ${a}\n`);
       return 2;
@@ -62,7 +67,7 @@ function parseArgs(argv: string[]): Args | number {
     process.stderr.write(`--format は json か yaml です: ${format}\n`);
     return 2;
   }
-  return { command, file, format, yes };
+  return { command, file, format, yes, strictSequence };
 }
 
 async function confirm(question: string): Promise<boolean> {
@@ -78,7 +83,7 @@ async function confirm(question: string): Promise<boolean> {
 
 function printWarnings(file: string, result: CompileResult): void {
   for (const w of result.warnings) {
-    process.stderr.write(`${file}${w.line !== undefined ? `:${w.line}` : ""}: 警告 ${w.code}: ${w.message}\n`);
+    process.stderr.write(`${formatWarning(file, w)}\n`);
   }
 }
 
@@ -93,10 +98,10 @@ async function run(args: Args): Promise<number> {
 
   let result: CompileResult;
   try {
-    result = compile(source);
+    result = compile(source, { strictSequence: args.strictSequence });
   } catch (e) {
     if (e instanceof CobolError) {
-      process.stderr.write(`${args.file}:${e.line}:${e.col}: エラー ${e.code}: ${e.message}\n`);
+      process.stderr.write(`${formatError(args.file, e)}\n`);
       return 1;
     }
     throw e;
@@ -118,9 +123,7 @@ async function run(args: Args): Promise<number> {
   }
 
   const common = { stackName: result.stackName, region: result.region };
-  const onEvent = (e: Parameters<typeof eventLine>[0]): void => {
-    process.stdout.write(`${eventLine(e)}\n`);
-  };
+  const ledger = (title: string): Ledger => new Ledger(title, common.stackName, common.region);
 
   if (command === "diff") {
     // 読み取り中心で確認は不要。ChangeSet は作るが実行せず、必ず消す
@@ -135,9 +138,12 @@ async function run(args: Args): Promise<number> {
       process.stderr.write("中止しました（非対話の場合は --yes が必要です）\n");
       return 3;
     }
-    process.stdout.write(`${header("DEPLOY DIVISION", common.stackName, common.region)}\n`);
-    const out = renderDeploy(await deploy({ ...common, template: result.template, onEvent }));
-    process.stdout.write(`${out.text}\n`);
+    const book = ledger("DEPLOY DIVISION");
+    process.stdout.write(`${book.start()}\n`);
+    const out = renderDeploy(
+      await deploy({ ...common, template: result.template, onEvent: (e) => process.stdout.write(`${book.event(e)}\n`) }),
+    );
+    process.stdout.write(`${out.text}\n${book.footer()}\n`);
     return out.code;
   }
 
@@ -146,9 +152,10 @@ async function run(args: Args): Promise<number> {
     process.stderr.write("中止しました（非対話の場合は --yes が必要です）\n");
     return 3;
   }
-  process.stdout.write(`${header("DESTROY DIVISION", common.stackName, common.region)}\n`);
-  const out = renderDestroy(await destroy({ ...common, onEvent }));
-  process.stdout.write(`${out.text}\n`);
+  const book = ledger("DESTROY DIVISION");
+  process.stdout.write(`${book.start()}\n`);
+  const out = renderDestroy(await destroy({ ...common, onEvent: (e) => process.stdout.write(`${book.event(e)}\n`) }));
+  process.stdout.write(`${out.text}\n${book.footer()}\n`);
   return out.code;
 }
 
