@@ -263,6 +263,21 @@ cobf deploy  <file.cbl> [--yes | --force]  # 同上。対話環境では既定�
 
 `DYNAMODB`（単一）と `DYNAMODB-MRSC` の分岐は Emitter が `ASSIGN TO` の外部名で判定し、前者は `Replicas`/`Witness` を出さない。`DYNAMODB-MRSC` は `MultiRegionConsistency: STRONG` を固定出力する。
 
+#### (e) 宣言的な対応表（`src/mapping/`）と Network / Compute / Databases の拡張 ✅ 実装済み（2026-11-13）
+
+(a)〜(d) は手書きの変換だが、それ以外の型は**データ駆動の対応表**で持つ。1 行が「COBOL の項目名 → CFN のプロパティのパス → 型・必須・列挙・既定値」で、読み取るエンジンは 1 つ（`engine.ts`）。型を足すときはコードではなく表に行を足す。
+
+- **対応型（表で動くもの 27 型）**: Network＝VPC / Subnet / InternetGateway / VPCGatewayAttachment / RouteTable / Route / SubnetRouteTableAssociation / EIP / NatGateway / SecurityGroup（インラインのルール）/ SecurityGroupIngress・Egress。エッジ＝Route 53 HostedZone・RecordSet / ACM Certificate / CloudFront Distribution。Compute＝EC2 Instance / InstanceProfile / LaunchTemplate / AutoScalingGroup / ELBv2 LoadBalancer（`LB-TYPE` で ALB・NLB を切り替え）・TargetGroup・Listener / Classic LoadBalancer。Databases＝RDS DBInstance・DBSubnetGroup / Aurora DBCluster。手書きの 6 型と合わせて 33 型。
+- **項目の型（`Kind`）**: `string` / `number` / `numstr`（CFN が文字列で受ける数値）/ `bool`（`"Y"`/`"N"`）/ `ref`（`REF:`・`GETATT:`）/ `strings`（カンマ区切り。要素ごとに参照を解決）/ `ssm`（`SSM:`・`SECRET:` を動的参照に）/ `userdata`（`\n` を改行にして `Fn::Base64`）/ `secret`（動的参照のみ許す）/ `targets`（`[{Id}]`）。パスの数字の区切りは配列の添字（`Origins.0.DomainName`）。
+- **リスト**: OCCURS の表 → オブジェクトの配列（SG のルール、CLB のリスナー）。要素の項目名は**接尾辞**で、互いに他の接尾辞にならない（テストで検査）。値は §5.3 と同じく `MOVE` で入れる。
+- **綴り間違いは黙って捨てない**: 表に無い項目は `UNKNOWN-PROPERTY`（近い名前を「もしかして」で提示）。安全設定の書き損じを見逃さないため。
+- **Security by default**: EC2・起動テンプレートは IMDSv2 必須、EBS は暗号化、RDS は暗号化あり・非公開、ユーザー名だけでパスワードが無い DB は `ManageMasterUserPassword`。平文パスワードは `PLAIN-PASSWORD` エラー（`SECRET:` / `SSM:` のみ）。SSH・RDP・DB ポートの `0.0.0.0/0` 開放、DB の公開、IMDSv1、Classic LB は警告。
+- **リソース属性**: `DEPENDS-ON`（論理 ID の `DependsOn`。IGW への Route には必須）、`DELETION-POLICY`（`Delete`/`Retain`/`Snapshot`）、`NAME-TAG`（`Tags`）は全リソース共通。
+- **リージョンの制約**: 証明書つきの CloudFront は `AWS-US-EAST-1` 必須（`CLOUDFRONT-CERT-REGION`）。
+- **公式スキーマとの突き合わせ**: `scripts/extract-schemas.py` が cfn-lint 同梱の公式スキーマから `tests/schemas/` に地図を作り、テストが「表のプロパティが実在する」「列挙値・既定値が許す範囲」「`numstr` は文字列・`number` は数値・`bool` は真偽値」「COBOL 名が予約語・既存名と衝突しない」を検査する。表の誤りはデプロイ前にテストで落ちる（実際に Egress の `SourceSecurityGroupId` の誤りをこれで検出した）。必須項目の過不足は、ゴールデン出力を `cfn-lint` にかけて確かめる。
+- **落ち**: ロードバランサー・EC2/ASG・RDS が 1 プログラムにそろうと、警告 `CLASSIC-THREE-TIER`（「1998 年が構成を返してほしがっています」）を出す。ブラウザデモでは帳票の末尾に図つきで印字する。
+- **検証状況**: ゴールデン（3 層構成・エッジ・いにしえ）が `cfn-lint` を通り、`cobf diff` で CloudFormation が ChangeSet として受け付けることを確認。**実デプロイは未実施**（費用と時間のため）。
+
 ### 4.8 パーサ MVP 受理サブセット（受理／明示エラーの線引き）
 
 「パーサが沼る」リスク（§13）への具体的な防波堤として、MVP で**受理する構文**と**明示エラーにする構文**の境界を固定する。GnuCOBOL を「正」としつつ、トランスパイラの意味解釈は下表のサブセットに限定する。
