@@ -1,0 +1,56 @@
+{
+  "voice": "Samantha",
+  "rate": 120,
+  "padSeconds": 0.5,
+  "maxSeconds": 180,
+  "_comment": "場面の番号は docs/DEMO_SCRIPT.md の「ナレーション（場面ごと）」の **N.** と対応する。ナレーションの文章は台本から読むので、ここには書かない。shot の type: web（ブラウザデモ）, card（文字カード）, term（実際にコマンドを実行して端末風に描く）, clip（事前に撮った動画。無ければ目印のカード）",
+  "scenes": [
+    {
+      "n": 1,
+      "shots": [{ "type": "web", "sample": "three-tier", "scroll": 0 }]
+    },
+    {
+      "n": 2,
+      "shots": [
+        { "type": "card", "lines": ["Oracle 8i  ·  DB links  ·  3 + 1 servers"], "style": "big" },
+        { "type": "web", "sample": "dblink", "scroll": 0 }
+      ]
+    },
+    {
+      "n": 3,
+      "shots": [
+        { "type": "term", "cmds": [{ "cmd": "cobc -fsyntax-only --fixed examples/three-tier.cbl && echo valid COBOL", "head": 6 }] },
+        { "type": "web", "sample": "shift", "scroll": 1 },
+        { "type": "web", "sample": "heresy", "scroll": 1 },
+        { "type": "web", "sample": "dblink", "scroll": 1 }
+      ]
+    },
+    {
+      "n": 4,
+      "shots": [
+        { "type": "web", "sample": "three-tier", "scroll": 0.3 },
+        { "type": "web", "sample": "three-tier", "scroll": 0.55 },
+        { "type": "web", "sample": "three-tier", "scroll": 0.8 }
+      ]
+    },
+    {
+      "n": 5,
+      "shots": [
+        { "type": "clip", "file": "video/clips/deploy-messaging.mp4", "label": "cobf examples/messaging.cbl  →  y  →  publish / receive" },
+        { "type": "clip", "file": "video/clips/three-tier.mp4", "label": "three-tier: curl → COBOL → destroy  (sped up)" }
+      ]
+    },
+    {
+      "n": 6,
+      "shots": [{ "type": "web", "sample": "three-tier", "scroll": 1 }]
+    },
+    {
+      "n": 7,
+      "shots": [
+        { "type": "term", "cmds": [{ "cmd": "ls -1 .kiro/hooks .kiro/steering", "head": 14 }] },
+        { "type": "term", "cmds": [{ "cmd": "npx vitest --run", "tail": 8, "id": "tests" }] },
+        { "type": "card", "lines": ["CALL \"DEPLOY\"."], "style": "code" }
+      ]
+    }
+  ]
+}

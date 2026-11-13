@@ -62,6 +62,23 @@ I built this with Kiro. Workflow agents reviewed the design and every revision. 
 
 読み上げの前に、必ず人の目で見直す（設計書の手順どおり）。数字は「Forty-six」「one-hundred-thirty-two」「Three hundred eight」と綴ってあるので、読み上げが数字を取り違えない。
 
+## Kiro CLI から動画を作る（`npm run video`）
+
+この台本から、ナレーション・画面・字幕つきの動画を一気に作れる。Kiro CLI に「動画を作って」と頼めば、これを実行する。
+
+```
+npm run build && npm run web:build   # CLI とブラウザデモを最新にする
+npm run video -- --check             # 台本と場面の対応だけ確認（数秒）
+npm run video                        # video/out/demo.mp4 と demo.srt を作る（1 分ほど）
+```
+
+- ナレーションは、この台本の「ナレーション（場面ごと）」の引用（`> …`）をそのまま読む。台本を直して `npm run video` し直せば動画も変わる。声は macOS の `say`（`video/scenes.json` の `voice` と `rate`）。
+- 画面は `video/scenes.json` の場面ごとの指定で作る: ブラウザデモ（headless Chrome。`?sample=<id>&scroll=0..1` で表示を決める）、文字カード、端末（その場で実際にコマンドを実行した出力。テスト件数は実測値で、台本の数と違えば警告する）。
+- **実デプロイの映像（場面 5）は自動では作らない。** AWS に触るため。下の「撮影前の準備」のとおり自分で撮り、`video/clips/deploy-messaging.mp4` と `video/clips/three-tier.mp4` に置いてから `npm run video` し直す。無いあいだは「RECORD THIS CLIP」のカードが入る。長い映像は場面の長さに合わせて早送りされ、そのときは「sped up」を入れるよう警告が出る。
+- 必要なもの: ffmpeg、Google Chrome、macOS の `say`。追加の npm パッケージは無い。`video/out/` と `video/clips/` はコミットしない。
+- 出力は 1920x1080・30fps・AAC、英語字幕（mov_text）を埋め込み、`demo.srt` も別に出す（YouTube の字幕にアップロードできる）。字幕のタイミングは文の長さからの推定なので、YouTube で確認する。
+- 合成音声で物足りなければ、`video/out/work/` の画面素材と `demo.srt` を CapCut などに持ち込んで仕上げてもよい。
+
 ## 撮影前の準備（映さない）
 
 1. **アカウント ID を映さない。** AWS のプロファイル名（`AdministratorAccess-…`）にアカウント ID が入っている。撮影用のターミナルで、画面に出る前に設定して `clear` する。`aws sts get-caller-identity` や ARN を出すコマンドは、画面で実行しない。

@@ -18,7 +18,8 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
-    "web:build": "esbuild web/src/main.ts --bundle --format=iife --target=es2022 --loader:.cbl=text --outfile=web/dist/app.js"
+    "web:build": "esbuild web/src/main.ts --bundle --format=iife --target=es2022 --loader:.cbl=text --outfile=web/dist/app.js",
+    "video": "node video/build.mjs"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
