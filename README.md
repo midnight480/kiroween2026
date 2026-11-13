@@ -202,4 +202,4 @@ Tetsuya Shibao, AWS Community Builder (Security) and JAWS-UG Saga.
 
 ## License
 
-Not yet decided.
+MIT. See [LICENSE](LICENSE).

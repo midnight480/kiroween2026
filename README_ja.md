@@ -202,4 +202,4 @@ verify/samples/            GnuCOBOL で検証済みのサンプル
 
 ## ライセンス
 
-未定
+MIT（[LICENSE](LICENSE) を参照）
