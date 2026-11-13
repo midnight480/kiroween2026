@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 33 resource types across Network, Compute, Databases and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and all four MVP resource types (S3, IAM, Lambda, DynamoDB including MRSC) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 33 resource types across Network, Compute, Databases and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC) and a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -191,9 +191,10 @@ All of these work today:
 
 - **MRSC:** the DynamoDB golden case deployed as a strongly consistent global table with replicas in Tokyo and Osaka and a witness in Seoul. An item written in Tokyo was read back from Osaka with a consistent read. The first attempt failed once with a transient `UnrecognizedClientException` raised inside CloudFormation. Experiments with other global table shapes succeeded, and an unchanged retry succeeded, so it was not a template problem.
 
+- **Three-tier:** `examples/three-tier.cbl` deployed 21 resources: a VPC, four subnets, an internet gateway, three security groups, an ALB, an Auto Scaling group and an RDS MySQL instance. The ALB answered `COBOL` over HTTP with the target `healthy`. Connecting to the instance directly was blocked, so the chain of security groups works. The instance requires IMDSv2, and RDS was encrypted, private, and used a Secrets Manager-managed password. `destroy` removed all 21 and nothing billable was left behind.
 - **Update:** changing `VERSIONING-FLAG` from `"Y"` to `"N"` and deploying again updated the existing stack in place (`UPDATE_COMPLETE`), and the bucket's versioning went from Enabled to Suspended.
 
-What is not verified yet: the Network, Compute, Database and edge resources have been accepted as ChangeSets but not deployed, because they cost money and RDS and CloudFront take a while; and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+What is not verified yet: the edge resources (CloudFront, ACM, Route 53) and the classic load balancer example have been accepted as ChangeSets but not deployed, because ACM needs a real domain to validate; and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples

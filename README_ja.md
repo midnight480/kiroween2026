@@ -7,7 +7,7 @@
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、33 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、MVP の 4 種類のリソース（S3、IAM、Lambda、MRSC を含む DynamoDB）はすべて実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、33 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）と、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）は、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 
@@ -191,9 +191,10 @@ CLI でサブコマンドを明示した場合はそれが最優先です。省�
 
 - **MRSC:** DynamoDB のゴールデンが、東京・大阪にレプリカ、ソウルに witness を持つ強整合のグローバルテーブルとしてデプロイできました。東京に書き込んだ項目を、大阪から強整合読み取りで読み戻せました。最初の 1 回は、CloudFormation の内部で一時的な `UnrecognizedClientException` が出て失敗しました。ほかの形のグローバルテーブルでの実験は成功し、何も変えずに再実行しても成功したので、テンプレートの問題ではありません。
 
+- **3 層構成:** `examples/three-tier.cbl` が 21 個のリソース（VPC、サブネット 4 つ、インターネットゲートウェイ、セキュリティグループ 3 つ、ALB、Auto Scaling グループ、RDS MySQL）としてデプロイできました。ALB は HTTP で `COBOL` と答え、ターゲットは `healthy` でした。EC2 に直接つなぐとブロックされたので、セキュリティグループの連鎖が効いています。インスタンスは IMDSv2 必須で、RDS は暗号化あり、非公開で、パスワードは Secrets Manager の管理でした。`destroy` で 21 個すべてを削除し、課金されるものは何も残りませんでした。
 - **更新:** `VERSIONING-FLAG` を `"Y"` から `"N"` に変えて再デプロイすると、既存のスタックがその場で更新され（`UPDATE_COMPLETE`）、バケットのバージョニングが Enabled から Suspended に変わりました。
 
-まだ検証していないこと: Network、Compute、Database、エッジのリソースは、ChangeSet として受け付けられたものの、デプロイはしていません。費用がかかり、RDS と CloudFront は時間もかかるためです。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
+まだ検証していないこと: エッジのリソース（CloudFront、ACM、Route 53）と、いにしえのロードバランサーの例は、ChangeSet として受け付けられたものの、デプロイはしていません。ACM の検証に実ドメインが要るためです。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
 
 ```
 cd verify/samples
