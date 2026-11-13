@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { buildListing, WIDTH } from "../web/src/listing.js";
+import { buildListing, WIDTH, wrap } from "../web/src/listing.js";
 
 const NOW = new Date("2026-11-13T00:00:00Z");
 const golden = (name: string): string => readFileSync(join(import.meta.dirname, "golden", name, "input.cbl"), "utf8");
@@ -75,6 +75,23 @@ describe("ブラウザ用の帳票（buildListing）", () => {
     for (const name of ["s3", "lambda", "classic", "edge"]) {
       expect(buildListing(golden(name), "T.CBL", NOW).lines.some((l) => l.text.includes("1998 CALLED")), name).toBe(false);
     }
+  });
+
+  it("長い文は単語の境目で折り返し、単語を途中で割らない", () => {
+    const text = "Load balancer + EC2 + RDS. You wrote modern AWS in ancient COBOL, and out came the classic three-tier architecture. 1998 would like its architecture back";
+    const lines = wrap(text, "  ", 96);
+    expect(lines.length).toBeGreaterThan(1);
+    for (const l of lines) expect(l.length).toBeLessThanOrEqual(96);
+    // 折り返した行を単語ごとにつなぎ直すと、元の文になる
+    expect(lines.map((l) => l.trim()).join(" ")).toBe(text);
+    expect(lines.join("\n")).not.toMatch(/architecture bac\n/);
+  });
+
+  it("空白の無い長い文字列（ARN など）は、桁で折っても切り捨てない", () => {
+    const arn = "arn:aws:" + "x".repeat(200);
+    const lines = wrap(arn, "    ", 96);
+    expect(lines.map((l) => l.trim()).join("")).toBe(arn);
+    for (const l of lines) expect(l.length).toBeLessThanOrEqual(96);
   });
 
   it("同じ入力と時刻なら同じ帳票になる（純粋関数）", () => {

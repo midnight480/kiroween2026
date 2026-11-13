@@ -1,5 +1,7 @@
+import { setLocale, type Locale } from "../../src/i18n.js";
 import { buildListing, type Listing } from "./listing.js";
 import { SAMPLES } from "./samples.js";
+import { pickLocale, UI, type UiKey } from "./ui.js";
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -12,7 +14,29 @@ const paper = $<HTMLDivElement>("paper");
 const status = $<HTMLParagraphElement>("status");
 const select = $<HTMLSelectElement>("sample");
 const muteButton = $<HTMLButtonElement>("mute");
+const langButton = $<HTMLButtonElement>("lang");
 const ruler = document.querySelector<HTMLPreElement>(".ruler");
+
+// ---------------------------------------------------------------- 言語（既定は英語。?lang=ja か右上のボタンで日本語）
+
+let locale: Locale = pickLocale(window.location.search);
+setLocale(locale);
+
+const t = (key: UiKey): string => UI[locale][key];
+
+function applyTexts(): void {
+  document.documentElement.lang = locale;
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n]")) el.textContent = t(el.dataset["i18n"] as UiKey);
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-title]")) el.title = t(el.dataset["i18nTitle"] as UiKey);
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-label]")) el.setAttribute("aria-label", t(el.dataset["i18nLabel"] as UiKey));
+  muteButton.textContent = muted ? t("soundOff") : t("soundOn");
+  langButton.textContent = t("switchTo");
+  langButton.lang = locale === "en" ? "ja" : "en";
+  for (const opt of select.options) {
+    const sample = SAMPLES.find((x) => x.id === opt.value);
+    if (sample) opt.textContent = sample.label[locale];
+  }
+}
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -32,22 +56,22 @@ let audio: AudioContext | undefined;
 function tick(): void {
   if (muted) return;
   audio ??= new AudioContext();
-  const t = audio.currentTime;
+  const now = audio.currentTime;
   const osc = audio.createOscillator();
   const gain = audio.createGain();
   osc.type = "square";
   osc.frequency.value = 1400 + Math.random() * 500;
-  gain.gain.setValueAtTime(0.04, t);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.018);
+  gain.gain.setValueAtTime(0.04, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
   osc.connect(gain).connect(audio.destination);
-  osc.start(t);
-  osc.stop(t + 0.02);
+  osc.start(now);
+  osc.stop(now + 0.02);
 }
 
 muteButton.addEventListener("click", () => {
   muted = !muted;
   muteButton.setAttribute("aria-pressed", String(muted));
-  muteButton.textContent = muted ? "音: OFF" : "音: ON";
+  muteButton.textContent = muted ? t("soundOff") : t("soundOn");
   if (!muted) tick();
 });
 
@@ -94,9 +118,7 @@ let debounce: number | undefined;
 function compileNow(): void {
   const text = source.value;
   const listing = buildListing(text, "PROGRAM.CBL");
-  status.textContent = listing.ok
-    ? "コンパイル成功: CloudFormation を生成しました"
-    : "コンパイル失敗: 帳票が血のインクになりました";
+  status.textContent = listing.ok ? t("statusOk") : t("statusFail");
   render(listing);
 }
 
@@ -110,7 +132,7 @@ source.addEventListener("input", () => {
 for (const s of SAMPLES) {
   const opt = document.createElement("option");
   opt.value = s.id;
-  opt.textContent = s.label;
+  opt.textContent = s.label[locale];
   select.append(opt);
 }
 
@@ -123,3 +145,13 @@ function loadSample(id: string): void {
 
 select.addEventListener("change", () => loadSample(select.value));
 loadSample(SAMPLES[0]?.id ?? "s3");
+
+langButton.addEventListener("click", () => {
+  locale = locale === "en" ? "ja" : "en";
+  setLocale(locale);
+  applyTexts();
+  compileNow(); // メッセージの言語が変わるので、帳票を作り直す
+});
+
+applyTexts();
+compileNow();

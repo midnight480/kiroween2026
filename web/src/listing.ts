@@ -22,15 +22,31 @@ function boxed(text: string): string {
   return `* ${text}`.padEnd(WIDTH - 1) + "*";
 }
 
-/** 132 桁を超える行は折り返す（切り捨てない）。 */
-function wrap(text: string, indent = "    "): string[] {
-  const width = WIDTH - indent.length;
+/**
+ * 長い行は折り返す（切り捨てない）。
+ * 空白があれば単語の境目で折る。空白が無い長い文字列（ARN など）だけ、桁の途中で折る。
+ */
+export function wrap(text: string, indent = "    ", limit = WIDTH): string[] {
+  const width = limit - indent.length;
+  const pad = " ".repeat(indent.length);
   const out: string[] = [];
-  for (let i = 0; i < Math.max(text.length, 1); i += width) {
-    out.push(`${i === 0 ? indent : " ".repeat(indent.length)}${text.slice(i, i + width)}`);
+  let rest = text;
+  while (rest.length > width) {
+    // 折れる位置: width 桁以内の最後の空白。見つからない（または先頭に近すぎる）ときは width で切る
+    const space = rest.lastIndexOf(" ", width);
+    const cut = space > width / 2 ? space : width;
+    out.push(rest.slice(0, cut).trimEnd());
+    rest = rest.slice(cut).trimStart();
   }
-  return out;
+  out.push(rest);
+  return out.map((line, i) => `${i === 0 ? indent : pad}${line}`);
 }
+
+/**
+ * エラーと警告の文は 96 桁で折る。帳票は 132 桁だが、画面で横にスクロールしなくても
+ * 読めるようにするため（デモで一番見せたい文が右端で切れてしまう）。
+ */
+const MESSAGE_WIDTH = 96;
 
 /** `ASSIGN TO "DBLINK"` で出る 8i の亡霊（3+1 台のサーバー）。 */
 const GHOST = [
@@ -71,7 +87,7 @@ export function buildListing(source: string, file = "PROGRAM.CBL", now = new Dat
     push(boxed(`COBOLFORM COMPILE LISTING   PROGRAM=${result.stackName}   REGION=${result.region ?? "(none)"}   RUN=${stamp}Z`), "rule");
     push(RULE, "rule");
 
-    for (const w of result.warnings) for (const l of wrap(formatWarning(file, w), "  ")) push(l, "warn");
+    for (const w of result.warnings) for (const l of wrap(formatWarning(file, w), "  ", MESSAGE_WIDTH)) push(l, "warn");
     if (result.warnings.length > 0) push("");
 
     push("  RESOURCES");
@@ -93,7 +109,7 @@ export function buildListing(source: string, file = "PROGRAM.CBL", now = new Dat
     if (!(e instanceof CobolError)) throw e;
     push(RULE, "blood");
     push(`*** ABEND S0C7 *** COMPILE FAILED   PROGRAM=${file}   RUN=${stamp}Z`, "blood");
-    for (const l of wrap(formatError(file, e))) push(l, "blood");
+    for (const l of wrap(formatError(file, e), "    ", MESSAGE_WIDTH)) push(l, "blood");
     if (e.code === "DBLINK-RETIRED") {
       push("");
       for (const g of GHOST) push(g, "ghost");

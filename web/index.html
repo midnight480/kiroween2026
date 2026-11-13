@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,15 +10,16 @@
     <header class="bar">
       <h1>COBOL DEPLOY DIVISION <span class="sub">cobolform</span></h1>
       <div class="controls">
-        <label for="sample">サンプル</label>
+        <label for="sample" data-i18n="sample">Sample</label>
         <select id="sample"></select>
-        <button id="mute" type="button" aria-pressed="true" title="ドットインパクト音の切り替え">音: OFF</button>
+        <button id="mute" type="button" aria-pressed="true" data-i18n-title="soundTitle" title="Toggle the dot-matrix printer sound">Sound: OFF</button>
+        <button id="lang" type="button" lang="ja" aria-label="Switch language">日本語</button>
       </div>
     </header>
 
     <main class="panes">
       <section class="pane crt" aria-labelledby="editor-title">
-        <h2 id="editor-title">EDITOR <span class="hint">固定形式 80 桁 · 7 桁目 = 標識 · 12 桁目 = B 領域 · 72 桁目まで</span></h2>
+        <h2 id="editor-title"><span data-i18n="editor">EDITOR</span> <span class="hint" data-i18n="editorHint">80 columns · col 7 = indicator · col 12 = Area B · col 72 = last</span></h2>
         <div class="editor">
           <pre class="ruler" aria-hidden="true"></pre>
           <div class="editor-body">
@@ -29,7 +30,8 @@
               autocapitalize="characters"
               autocomplete="off"
               wrap="off"
-              aria-label="COBOL ソース（固定形式）"
+              data-i18n-label="editorLabel"
+              aria-label="COBOL source (fixed format)"
             ></textarea>
           </div>
         </div>
@@ -37,13 +39,13 @@
       </section>
 
       <section class="pane printer" aria-labelledby="printer-title">
-        <h2 id="printer-title">LINE PRINTER <span class="hint">132 桁連続帳票</span></h2>
-        <div class="paper" id="paper" tabindex="0" aria-label="ラインプリンターの出力" aria-live="polite"></div>
+        <h2 id="printer-title"><span data-i18n="printer">LINE PRINTER</span> <span class="hint" data-i18n="printerHint">132-column continuous form</span></h2>
+        <div class="paper" id="paper" tabindex="0" data-i18n-label="printerLabel" aria-label="Line printer output" aria-live="polite"></div>
       </section>
     </main>
 
-    <footer class="foot">
-      コンパイルはこのページの中だけで動きます。AWS の鍵はブラウザに渡りません。デプロイは CLI（<code>cobf deploy</code>）か認証付きバックエンド経由です。
+    <footer class="foot" data-i18n="footer">
+      Compilation runs entirely in this page, so no AWS credentials ever reach the browser. Deployment is done with the CLI (cobf deploy) or an authenticated backend.
     </footer>
 
     <script src="dist/app.js"></script>

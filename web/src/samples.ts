@@ -12,7 +12,7 @@ import threeTier from "../../tests/golden/three-tier/input.cbl";
 
 export interface Sample {
   id: string;
-  label: string;
+  label: { en: string; ja: string };
   source: string;
 }
 
@@ -24,26 +24,26 @@ function cards(...rows: string[]): string {
 const head = ["IDENTIFICATION DIVISION.", "PROGRAM-ID. HAUNTED.", "ENVIRONMENT DIVISION.", "CONFIGURATION SECTION.", "OBJECT-COMPUTER. AWS-AP-NORTHEAST-1."];
 
 export const SAMPLES: Sample[] = [
-  { id: "s3", label: "S3 バケット", source: s3 },
-  { id: "lambda", label: "Lambda + IAM ロール", source: lambda },
-  { id: "policy", label: "IAM ポリシー（OCCURS + MOVE）", source: policy },
-  { id: "db", label: "DynamoDB MRSC（東京・大阪 + ソウル）", source: db },
-  { id: "three-tier", label: "王道の 3 層構成（VPC + ALB + EC2 + RDS）", source: threeTier },
-  { id: "edge", label: "CloudFront + ACM + Route 53（us-east-1）", source: edge },
-  { id: "classic", label: "いにしえの構成（CLB + EC2）", source: classic },
-  { id: "containers", label: "ECS Fargate（ログ + タスク + サービス）", source: containers },
-  { id: "eks", label: "EKS（クラスター + ノードグループ）", source: eks },
-  { id: "cache", label: "ElastiCache（Redis のレプリケーション）", source: cache },
-  { id: "messaging", label: "SNS → SQS（DLQ つき）", source: messaging },
+  { id: "s3", label: { en: "S3 bucket", ja: "S3 バケット" }, source: s3 },
+  { id: "lambda", label: { en: "Lambda + IAM role", ja: "Lambda + IAM ロール" }, source: lambda },
+  { id: "policy", label: { en: "IAM policy (OCCURS + MOVE)", ja: "IAM ポリシー（OCCURS + MOVE）" }, source: policy },
+  { id: "db", label: { en: "DynamoDB MRSC (Tokyo and Osaka + Seoul witness)", ja: "DynamoDB MRSC（東京・大阪 + ソウル）" }, source: db },
+  { id: "three-tier", label: { en: "The classic three-tier (VPC + ALB + EC2 + RDS)", ja: "王道の 3 層構成（VPC + ALB + EC2 + RDS）" }, source: threeTier },
+  { id: "edge", label: { en: "CloudFront + ACM + Route 53 (us-east-1)", ja: "CloudFront + ACM + Route 53（us-east-1）" }, source: edge },
+  { id: "classic", label: { en: "The ancient way (CLB + EC2)", ja: "いにしえの構成（CLB + EC2）" }, source: classic },
+  { id: "containers", label: { en: "ECS Fargate (logs + task + service)", ja: "ECS Fargate（ログ + タスク + サービス）" }, source: containers },
+  { id: "eks", label: { en: "EKS (cluster + node group)", ja: "EKS（クラスター + ノードグループ）" }, source: eks },
+  { id: "cache", label: { en: "ElastiCache (Redis replication)", ja: "ElastiCache（Redis のレプリケーション）" }, source: cache },
+  { id: "messaging", label: { en: "SNS to SQS (with a dead-letter queue)", ja: "SNS → SQS（DLQ つき）" }, source: messaging },
   {
     id: "shift",
-    label: "桁ずれ（7 桁目がずれている）",
+    label: { en: "Shifted column (column 7 is off)", ja: "桁ずれ（7 桁目がずれている）" },
     source: ["000100IDENTIFICATION DIVISION.", "000200 PROGRAM-ID. HAUNTED."].join("\n"),
   },
-  { id: "heresy", label: "小文字（異端）", source: cards("identification division.", "PROGRAM-ID. HAUNTED.") },
+  { id: "heresy", label: { en: "Lower case (heresy)", ja: "小文字（異端）" }, source: cards("identification division.", "PROGRAM-ID. HAUNTED.") },
   {
     id: "dblink",
-    label: "DBLINK（8i の亡霊）",
+    label: { en: "DBLINK (the ghost of 8i)", ja: "DBLINK（8i の亡霊）" },
     source: cards(
       ...head,
       "INPUT-OUTPUT SECTION.",
