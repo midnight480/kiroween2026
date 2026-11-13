@@ -161,7 +161,9 @@ Planned:
 
 - **MRSC:** the DynamoDB golden case deployed as a strongly consistent global table with replicas in Tokyo and Osaka and a witness in Seoul. An item written in Tokyo was read back from Osaka with a consistent read. The first attempt failed once with a transient `UnrecognizedClientException` raised inside CloudFormation. Experiments with other global table shapes succeeded, and an unchanged retry succeeded, so it was not a template problem.
 
-What is not verified yet: updating an existing stack with a changed `.cbl` (only the no-change redeploy was tried), and rollback of an update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+- **Update:** changing `VERSIONING-FLAG` from `"Y"` to `"N"` and deploying again updated the existing stack in place (`UPDATE_COMPLETE`), and the bucket's versioning went from Enabled to Suspended.
+
+What is not verified yet: rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples
@@ -173,7 +175,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 
 1. Done: card reader, parser and semantic checks, covered by Vitest and golden tests (`.cbl` to expected CloudFormation).
 2. Done: emitters for S3, IAM, Lambda and DynamoDB, with `cfn-lint` on the golden outputs.
-3. Mostly done: deployer and the 132-column report. Updating an existing stack from a changed `.cbl` is still to be tried on a real account.
+3. Mostly done: deployer and the 132-column report. Rollback of a failed update is still to be tried on a real account.
 4. Browser demo: a green-screen CRT editor and a virtual line printer. Compilation runs in the browser, and AWS credentials never reach it. Real deployments go through an authenticated backend.
 5. Stretch: `diff`, Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
 
