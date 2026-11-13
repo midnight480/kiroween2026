@@ -224,6 +224,7 @@ Kiro の Specs（EARS 記法の requirements → design → tasks）、Hooks（`
 ```
 README.md / README_ja.md   このファイル（英語／日本語）
 docs/DESIGN.md             設計メモ全文（日本語）
+docs/DEMO_SCRIPT.md        デモ動画の台本と撮影ガイド（日本語の注記、英語のナレーション）
 src/                       トランスパイラと CLI（TypeScript）
 tests/                     Vitest の単体テストとゴールデン
 examples/                  デプロイして試せるプログラム（smoke-s3.cbl）

@@ -224,6 +224,7 @@ The plan is to use Kiro Specs (requirements, design and tasks in EARS notation),
 ```
 README.md / README_ja.md   This file
 docs/DESIGN.md             Full design notes (in Japanese)
+docs/DEMO_SCRIPT.md        Script and shooting guide for the demo video (Japanese notes, English narration)
 src/                       Transpiler and CLI (TypeScript)
 tests/                     Vitest unit tests and golden cases
 examples/                  Programs you can deploy (smoke-s3.cbl)
