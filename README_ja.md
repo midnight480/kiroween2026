@@ -109,6 +109,15 @@ node dist/cli.js compile verify/samples/51-s3.cbl
 
 公開後は、同じコマンドを `npx cobf ...` で実行できるようになります。
 
+### ブラウザデモ
+
+```
+npm run web:build
+cd web && python3 -m http.server 8791 --bind 127.0.0.1
+```
+
+その後、`http://127.0.0.1:8791/` を開きます。80 桁のルーラ（7・12・72 桁目にガイド線）つきの緑画面 CRT エディタの隣に、グリーンバー用紙の仮想ラインプリンターが並びます。コンパイルはページの中だけで動くので、AWS の資格情報がブラウザに渡ることはありません。エラーは血のように赤いインクで印字され、`ASSIGN TO "DBLINK"` を書くと 8i のサーバーの亡霊が現れます。ドットインパクト音は、既定で OFF です。実際のデプロイはページには含まれないので、`cobf deploy` を使ってください。
+
 ## CLI
 
 パッケージは 1 つのバイナリを、正式名 `cobolform` と短縮別名 `cobf` の 2 つのコマンド名でインストールします。`compile`、`diff`、`deploy`、`destroy` はすべて実装済みです。`diff` は、表示のためだけに ChangeSet を作り、実行はせず、終了後に必ず削除します。
@@ -174,7 +183,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 1. 完了: Card Reader、パーサ、セマンティックチェック。Vitest とゴールデンテスト（`.cbl` → 期待する CloudFormation）で固める
 2. 完了: S3、IAM、Lambda、DynamoDB の Emitter。ゴールデンの出力に `cfn-lint` を実行
 3. ほぼ完了: Deployer と 132 桁帳票。更新が失敗したときのロールバックを、実アカウントで試すことが残っています。
-4. ブラウザデモ: 緑画面の CRT エディタと仮想ラインプリンター。コンパイルはブラウザ内で完結し、AWS 資格情報はブラウザに渡しません。実デプロイは認証付きバックエンド経由です。
+4. 初版完了: ブラウザデモ。緑画面の CRT エディタと仮想ラインプリンターが、ページ内でコンパイルします。残り: 実デプロイのための認証付きバックエンド（AWS 資格情報をブラウザに渡さないため）。
 5. ストレッチ: Aurora DSQL、CDK L1 出力、cfn-guard によるセキュリティポリシーチェック
 
 ## Kiro での開発
@@ -189,6 +198,7 @@ docs/DESIGN.md             設計メモ全文（日本語）
 src/                       トランスパイラと CLI（TypeScript）
 tests/                     Vitest の単体テストとゴールデン
 examples/                  デプロイして試せるプログラム（smoke-s3.cbl）
+web/                       ブラウザデモ（エディタ、ラインプリンター）
 verify/samples/            GnuCOBOL で検証済みのサンプル
 ```
 

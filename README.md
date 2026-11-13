@@ -109,6 +109,15 @@ node dist/cli.js compile verify/samples/51-s3.cbl
 
 Once published, the same commands will run through `npx cobf ...`.
 
+### Browser demo
+
+```
+npm run web:build
+cd web && python3 -m http.server 8791 --bind 127.0.0.1
+```
+
+Then open `http://127.0.0.1:8791/`. A green-screen CRT editor with an 80-column ruler (guides at columns 7, 12 and 72) sits next to a virtual line printer on green-bar paper. Compilation runs entirely inside the page, so no AWS credentials ever reach the browser. Errors print in blood-red ink, and `ASSIGN TO "DBLINK"` summons the ghost of the 8i servers. The dot-impact sound is off by default. Real deployments are not part of the page; use `cobf deploy`.
+
 ## CLI
 
 The package installs one binary under two command names: `cobolform` and the short alias `cobf`. `compile`, `diff`, `deploy` and `destroy` are all implemented. `diff` creates a ChangeSet only to show it, never executes it, and always deletes it afterwards.
@@ -174,7 +183,7 @@ cobc -x -o run 51-s3.cbl deploy.cbl && ./run
 1. Done: card reader, parser and semantic checks, covered by Vitest and golden tests (`.cbl` to expected CloudFormation).
 2. Done: emitters for S3, IAM, Lambda and DynamoDB, with `cfn-lint` on the golden outputs.
 3. Mostly done: deployer and the 132-column report. Rollback of a failed update is still to be tried on a real account.
-4. Browser demo: a green-screen CRT editor and a virtual line printer. Compilation runs in the browser, and AWS credentials never reach it. Real deployments go through an authenticated backend.
+4. First version done: the browser demo, with a green-screen CRT editor and a virtual line printer that compile in the page. Still to do: an authenticated backend for real deployments, so AWS credentials never reach the browser.
 5. Stretch: Aurora DSQL, CDK L1 output, security-policy checks with cfn-guard.
 
 ## Built with Kiro
@@ -189,6 +198,7 @@ docs/DESIGN.md             Full design notes (in Japanese)
 src/                       Transpiler and CLI (TypeScript)
 tests/                     Vitest unit tests and golden cases
 examples/                  Programs you can deploy (smoke-s3.cbl)
+web/                       Browser demo (editor, line printer)
 verify/samples/            GnuCOBOL-verified sample programs
 ```
 

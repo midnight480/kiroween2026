@@ -17,10 +17,12 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "web:build": "esbuild web/src/main.ts --bundle --format=iife --target=es2022 --loader:.cbl=text --outfile=web/dist/app.js"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
+    "esbuild": "0.28.2",
     "typescript": "7.0.2",
     "vitest": "5.1.0"
   },

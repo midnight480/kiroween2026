@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COBOL DEPLOY DIVISION — cobolform</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <h1>COBOL DEPLOY DIVISION <span class="sub">cobolform</span></h1>
+      <div class="controls">
+        <label for="sample">サンプル</label>
+        <select id="sample"></select>
+        <button id="mute" type="button" aria-pressed="true" title="ドットインパクト音の切り替え">音: OFF</button>
+      </div>
+    </header>
+
+    <main class="panes">
+      <section class="pane crt" aria-labelledby="editor-title">
+        <h2 id="editor-title">EDITOR <span class="hint">固定形式 80 桁 · 7 桁目 = 標識 · 12 桁目 = B 領域 · 72 桁目まで</span></h2>
+        <div class="editor">
+          <pre class="ruler" aria-hidden="true"></pre>
+          <div class="editor-body">
+            <div class="guides" aria-hidden="true"><i class="g7"></i><i class="g12"></i><i class="g72"></i></div>
+            <textarea
+              id="source"
+              spellcheck="false"
+              autocapitalize="characters"
+              autocomplete="off"
+              wrap="off"
+              aria-label="COBOL ソース（固定形式）"
+            ></textarea>
+          </div>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </section>
+
+      <section class="pane printer" aria-labelledby="printer-title">
+        <h2 id="printer-title">LINE PRINTER <span class="hint">132 桁連続帳票</span></h2>
+        <div class="paper" id="paper" tabindex="0" aria-label="ラインプリンターの出力" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      コンパイルはこのページの中だけで動きます。AWS の鍵はブラウザに渡りません。デプロイは CLI（<code>cobf deploy</code>）か認証付きバックエンド経由です。
+    </footer>
+
+    <script src="dist/app.js"></script>
+  </body>
+</html>
