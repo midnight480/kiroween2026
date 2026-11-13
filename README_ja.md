@@ -7,7 +7,7 @@
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、コンテナ（ECS、EKS）、メッセージング（SQS、SNS）、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、46 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）と、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）は、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、コンテナ（ECS、EKS）、メッセージング（SQS、SNS）、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、46 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）、SNS から SQS へのパイプライン、ECS Fargate のサービスは、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 
@@ -141,7 +141,7 @@ npm run web:build
 cd web && python3 -m http.server 8791 --bind 127.0.0.1
 ```
 
-その後、`http://127.0.0.1:8791/` を開きます。80 桁のルーラ（7・12・72 桁目にガイド線）つきの緑画面 CRT エディタの隣に、グリーンバー用紙の仮想ラインプリンターが並びます。コンパイルはページの中だけで動くので、AWS の資格情報がブラウザに渡ることはありません。エラーは血のように赤いインクで印字され、`ASSIGN TO "DBLINK"` を書くと 8i のサーバーの亡霊が現れます。ドットインパクト音は、既定で OFF です。実際のデプロイはページには含まれないので、`cobf deploy` を使ってください。
+その後、`http://127.0.0.1:8791/` を開きます。80 桁のルーラ（7・12・72 桁目にガイド線）つきの緑画面 CRT エディタの隣に、グリーンバー用紙の仮想ラインプリンターが並びます。コンパイルはページの中だけで動くので、AWS の資格情報がブラウザに渡ることはありません。エラーは血のように赤いインクで印字され、`ASSIGN TO "DBLINK"` を書くと 8i のサーバーの亡霊が現れます。ドットインパクト音は、既定で OFF です。実際のデプロイはページには含まれないので、`cobf deploy` を使ってください。ページは既定で英語です。日本語にするには、右上のボタンを押すか、アドレスに `?lang=ja` を付けます。
 
 ## CLI
 
@@ -154,7 +154,7 @@ cobf deploy  <file.cbl> [--yes | --force]       # ChangeSet 作成→実行→13
 cobf destroy <file.cbl> [--yes | --force]       # スタック削除（既定で確認プロンプト）
 ```
 
-CLI でサブコマンドを明示した場合はそれが最優先です。省略した場合は、`.cbl` 内の `CALL` 文を既定アクションとして使います。ゴールデンテストと CI は `compile` に依存します。`--yes` は、非対話実行で確認プロンプトを省くためのフラグです。`--strict-sequence` はどのコマンドでも使え、連番が乱れていると拒否します。
+CLI でサブコマンドを明示した場合はそれが最優先です。省略した場合は、`.cbl` 内の `CALL` 文を既定アクションとして使います。ゴールデンテストと CI は `compile` に依存します。`--yes` は、非対話実行で確認プロンプトを省くためのフラグです。`--strict-sequence` はどのコマンドでも使え、連番が乱れていると拒否します。`--lang en|ja` でメッセージとヘルプの言語を選びます。省略すると `COBF_LANG`、次にロケールで決まります（日本語のロケールなら日本語、それ以外は英語）。
 
 ## アーキテクチャ
 
@@ -195,9 +195,11 @@ CLI でサブコマンドを明示した場合はそれが最優先です。省�
 - **MRSC:** DynamoDB のゴールデンが、東京・大阪にレプリカ、ソウルに witness を持つ強整合のグローバルテーブルとしてデプロイできました。東京に書き込んだ項目を、大阪から強整合読み取りで読み戻せました。最初の 1 回は、CloudFormation の内部で一時的な `UnrecognizedClientException` が出て失敗しました。ほかの形のグローバルテーブルでの実験は成功し、何も変えずに再実行しても成功したので、テンプレートの問題ではありません。
 
 - **3 層構成:** `examples/three-tier.cbl` が 21 個のリソース（VPC、サブネット 4 つ、インターネットゲートウェイ、セキュリティグループ 3 つ、ALB、Auto Scaling グループ、RDS MySQL）としてデプロイできました。ALB は HTTP で `COBOL` と答え、ターゲットは `healthy` でした。EC2 に直接つなぐとブロックされたので、セキュリティグループの連鎖が効いています。インスタンスは IMDSv2 必須で、RDS は暗号化あり、非公開で、パスワードは Secrets Manager の管理でした。`destroy` で 21 個すべてを削除し、課金されるものは何も残りませんでした。
+- **メッセージング:** `examples/messaging.cbl`（SNS トピック、デッドレターキューつきの SQS キュー、キューポリシー、購読）がデプロイできました。トピックに発行したメッセージは、そのままキューに届きました。キューは暗号化されており、3 回受信するとデッドレターキューに退避する設定で、キューポリシーはそのトピックからの `sqs:SendMessage` だけを許していました。
+- **コンテナ:** `examples/containers.cbl` で、nginx を動かす Fargate のサービスをデプロイしました（ロードバランサーなし）。タスクは `RUNNING` になり、公開 IP で HTTP 200 を返し、環境変数 `GREETING` が渡り、保持 7 日の CloudWatch のロググループに書き込まれました。確認後、すべて削除しました。
 - **更新:** `VERSIONING-FLAG` を `"Y"` から `"N"` に変えて再デプロイすると、既存のスタックがその場で更新され（`UPDATE_COMPLETE`）、バケットのバージョニングが Enabled から Suspended に変わりました。
 
-まだ検証していないこと: エッジのリソース（CloudFront、ACM、Route 53）、いにしえのロードバランサー、ECS、EKS、ElastiCache、SQS、SNS の例は、ChangeSet として受け付けられたものの、デプロイはしていません（ACM の検証には実ドメインが要り、EKS と ElastiCache は費用と時間がかかるためです）。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
+まだ検証していないこと: エッジのリソース（CloudFront、ACM、Route 53）、いにしえのロードバランサー、EKS、ElastiCache の例は、ChangeSet として受け付けられたものの、デプロイはしていません（ACM の検証には実ドメインが要り、EKS と ElastiCache は費用と時間がかかるためです）。更新が失敗したときのロールバックも未検証です。元の `52-lambda.cbl` には `Code` 項目が無いため、警告つきでコンパイルできますが、デプロイはできません。`tests/golden/lambda/` のように `FN-CODE-INLINE` か `FN-CODE-S3` を使ってください。`53-policy.cbl` は別ファイルで定義したバケットを参照するため、単体では失敗します。参照は 1 ファイル内でだけ解決します。
 
 ```
 cd verify/samples

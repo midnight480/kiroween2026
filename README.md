@@ -7,7 +7,7 @@
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 46 resource types across Network, Compute, Databases, containers (ECS, EKS), messaging (SQS, SNS) and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC) and a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS) have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 46 resource types across Network, Compute, Databases, containers (ECS, EKS), messaging (SQS, SNS) and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC), a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS), an SNS-to-SQS pipeline and an ECS Fargate service have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 
@@ -141,7 +141,7 @@ npm run web:build
 cd web && python3 -m http.server 8791 --bind 127.0.0.1
 ```
 
-Then open `http://127.0.0.1:8791/`. A green-screen CRT editor with an 80-column ruler (guides at columns 7, 12 and 72) sits next to a virtual line printer on green-bar paper. Compilation runs entirely inside the page, so no AWS credentials ever reach the browser. Errors print in blood-red ink, and `ASSIGN TO "DBLINK"` summons the ghost of the 8i servers. The dot-impact sound is off by default. Real deployments are not part of the page; use `cobf deploy`.
+Then open `http://127.0.0.1:8791/`. A green-screen CRT editor with an 80-column ruler (guides at columns 7, 12 and 72) sits next to a virtual line printer on green-bar paper. Compilation runs entirely inside the page, so no AWS credentials ever reach the browser. Errors print in blood-red ink, and `ASSIGN TO "DBLINK"` summons the ghost of the 8i servers. The dot-impact sound is off by default. Real deployments are not part of the page; use `cobf deploy`. The page is in English by default. Use the button in the top right, or add `?lang=ja` to the address, for Japanese.
 
 ## CLI
 
@@ -154,7 +154,7 @@ cobf deploy  <file.cbl> [--yes | --force]       # ChangeSet create -> execute ->
 cobf destroy <file.cbl> [--yes | --force]       # Delete the stack (confirmation by default)
 ```
 
-An explicit CLI subcommand always wins. If it is omitted, the `CALL` statement in the `.cbl` file is the default action. `compile` is the foundation for golden tests and CI. `--yes` skips the confirmation prompt for non-interactive runs. `--strict-sequence` works with any command and rejects out-of-order sequence numbers.
+An explicit CLI subcommand always wins. If it is omitted, the `CALL` statement in the `.cbl` file is the default action. `compile` is the foundation for golden tests and CI. `--yes` skips the confirmation prompt for non-interactive runs. `--strict-sequence` works with any command and rejects out-of-order sequence numbers. `--lang en|ja` picks the language of messages and help; without it the CLI uses `COBF_LANG`, then the locale (Japanese for a Japanese locale, English otherwise).
 
 ## Architecture
 
@@ -195,9 +195,11 @@ All of these work today:
 - **MRSC:** the DynamoDB golden case deployed as a strongly consistent global table with replicas in Tokyo and Osaka and a witness in Seoul. An item written in Tokyo was read back from Osaka with a consistent read. The first attempt failed once with a transient `UnrecognizedClientException` raised inside CloudFormation. Experiments with other global table shapes succeeded, and an unchanged retry succeeded, so it was not a template problem.
 
 - **Three-tier:** `examples/three-tier.cbl` deployed 21 resources: a VPC, four subnets, an internet gateway, three security groups, an ALB, an Auto Scaling group and an RDS MySQL instance. The ALB answered `COBOL` over HTTP with the target `healthy`. Connecting to the instance directly was blocked, so the chain of security groups works. The instance requires IMDSv2, and RDS was encrypted, private, and used a Secrets Manager-managed password. `destroy` removed all 21 and nothing billable was left behind.
+- **Messaging:** `examples/messaging.cbl` (SNS topic, SQS queue with a dead-letter queue, queue policy, subscription) deployed. A message published to the topic arrived in the queue unchanged. The queue was encrypted, its redrive policy pointed at the dead-letter queue after 3 receives, and the queue policy allowed `sqs:SendMessage` only from that topic.
+- **Containers:** `examples/containers.cbl` deployed a Fargate service running nginx behind no load balancer. The task reached `RUNNING`, answered HTTP 200 on its public IP, passed the `GREETING` environment variable, and wrote to a CloudWatch log group with 7-day retention. Everything was deleted afterwards.
 - **Update:** changing `VERSIONING-FLAG` from `"Y"` to `"N"` and deploying again updated the existing stack in place (`UPDATE_COMPLETE`), and the bucket's versioning went from Enabled to Suspended.
 
-What is not verified yet: the edge resources (CloudFront, ACM, Route 53), the classic load balancer, ECS, EKS, ElastiCache, SQS and SNS examples have been accepted as ChangeSets but not deployed (ACM needs a real domain to validate, and EKS and ElastiCache cost money and take a while); and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
+What is not verified yet: the edge resources (CloudFront, ACM, Route 53), the classic load balancer, EKS and ElastiCache examples have been accepted as ChangeSets but not deployed (ACM needs a real domain to validate, and EKS and ElastiCache cost money and take a while); and rollback of a failed update. The original `52-lambda.cbl` has no `Code` item, so it compiles with a warning but cannot be deployed. Use `FN-CODE-INLINE` or `FN-CODE-S3` as in `tests/golden/lambda/`. `53-policy.cbl` refers to a bucket defined in another file, so it fails on its own; references resolve within one file only.
 
 ```
 cd verify/samples
