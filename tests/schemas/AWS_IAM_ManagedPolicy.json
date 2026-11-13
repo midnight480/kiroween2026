@@ -1,0 +1,65 @@
+{
+ "type": "AWS::IAM::ManagedPolicy",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "PolicyDocument"
+  ]
+ },
+ "paths": {
+  "AttachmentCount": {
+   "type": "integer"
+  },
+  "CreateDate": {
+   "type": "string"
+  },
+  "DefaultVersionId": {
+   "type": "string"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "Groups": {
+   "type": "array"
+  },
+  "Groups.*": {
+   "type": "string"
+  },
+  "IsAttachable": {
+   "type": "boolean"
+  },
+  "ManagedPolicyName": {
+   "type": "string"
+  },
+  "Path": {
+   "type": "string"
+  },
+  "PermissionsBoundaryUsageCount": {
+   "type": "integer"
+  },
+  "PolicyArn": {
+   "type": "string"
+  },
+  "PolicyDocument": {
+   "type": "object"
+  },
+  "PolicyId": {
+   "type": "string"
+  },
+  "Roles": {
+   "type": "array"
+  },
+  "Roles.*": {
+   "type": "string"
+  },
+  "UpdateDate": {
+   "type": "string"
+  },
+  "Users": {
+   "type": "array"
+  },
+  "Users.*": {
+   "type": "string"
+  }
+ }
+}

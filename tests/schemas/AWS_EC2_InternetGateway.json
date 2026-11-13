@@ -1,0 +1,28 @@
+{
+ "type": "AWS::EC2::InternetGateway",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "InternetGatewayId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

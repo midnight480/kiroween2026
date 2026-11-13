@@ -1,0 +1,1084 @@
+{
+ "type": "AWS::CloudFront::Distribution",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "DistributionConfig"
+  ],
+  "DistributionConfig": [
+   "DefaultCacheBehavior",
+   "Enabled"
+  ],
+  "DistributionConfig.CacheBehaviors.*": [
+   "PathPattern",
+   "TargetOriginId",
+   "ViewerProtocolPolicy"
+  ],
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues": [
+   "QueryString"
+  ],
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Cookies": [
+   "Forward"
+  ],
+  "DistributionConfig.CacheBehaviors.*.FunctionAssociations.*": [],
+  "DistributionConfig.CacheBehaviors.*.GrpcConfig": [
+   "Enabled"
+  ],
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations.*": [],
+  "DistributionConfig.CacheTagConfig": [
+   "HeaderName"
+  ],
+  "DistributionConfig.ConnectionFunctionAssociation": [
+   "Id"
+  ],
+  "DistributionConfig.CustomErrorResponses.*": [
+   "ErrorCode"
+  ],
+  "DistributionConfig.CustomOrigin": [
+   "DNSName",
+   "OriginProtocolPolicy",
+   "OriginSSLProtocols"
+  ],
+  "DistributionConfig.DefaultCacheBehavior": [
+   "TargetOriginId",
+   "ViewerProtocolPolicy"
+  ],
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues": [
+   "QueryString"
+  ],
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies": [
+   "Forward"
+  ],
+  "DistributionConfig.DefaultCacheBehavior.FunctionAssociations.*": [],
+  "DistributionConfig.DefaultCacheBehavior.GrpcConfig": [
+   "Enabled"
+  ],
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations.*": [],
+  "DistributionConfig.Logging": [],
+  "DistributionConfig.OriginGroups": [
+   "Quantity"
+  ],
+  "DistributionConfig.OriginGroups.Items.*": [
+   "FailoverCriteria",
+   "Id",
+   "Members"
+  ],
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria": [
+   "StatusCodes"
+  ],
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria.StatusCodes": [
+   "Items",
+   "Quantity"
+  ],
+  "DistributionConfig.OriginGroups.Items.*.Members": [
+   "Items",
+   "Quantity"
+  ],
+  "DistributionConfig.OriginGroups.Items.*.Members.Items.*": [
+   "OriginId"
+  ],
+  "DistributionConfig.Origins.*": [
+   "DomainName",
+   "Id"
+  ],
+  "DistributionConfig.Origins.*.CustomOriginConfig": [
+   "OriginProtocolPolicy"
+  ],
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginMtlsConfig": [
+   "ClientCertificateArn"
+  ],
+  "DistributionConfig.Origins.*.OriginCustomHeaders.*": [
+   "HeaderName",
+   "HeaderValue"
+  ],
+  "DistributionConfig.Origins.*.OriginShield": [],
+  "DistributionConfig.Origins.*.S3OriginConfig": [],
+  "DistributionConfig.Origins.*.VpcOriginConfig": [
+   "VpcOriginId"
+  ],
+  "DistributionConfig.Restrictions": [
+   "GeoRestriction"
+  ],
+  "DistributionConfig.Restrictions.GeoRestriction": [
+   "RestrictionType"
+  ],
+  "DistributionConfig.S3Origin": [
+   "DNSName"
+  ],
+  "DistributionConfig.TenantConfig": [],
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*": [
+   "Definition",
+   "Name"
+  ],
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition": [],
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition.StringSchema": [
+   "Required"
+  ],
+  "DistributionConfig.ViewerCertificate": [],
+  "DistributionConfig.ViewerMtlsConfig": [],
+  "DistributionConfig.ViewerMtlsConfig.TrustStoreConfig": [
+   "TrustStoreId"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "DistributionConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.Aliases": {
+   "type": "array"
+  },
+  "DistributionConfig.Aliases.*": {
+   "type": "string"
+  },
+  "DistributionConfig.AnycastIpListId": {
+   "type": "string"
+  },
+  "DistributionConfig.CNAMEs": {
+   "type": "array"
+  },
+  "DistributionConfig.CNAMEs.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.AllowedMethods": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.AllowedMethods.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.CachePolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.CachedMethods": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.CachedMethods.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.Compress": {
+   "type": "boolean"
+  },
+  "DistributionConfig.CacheBehaviors.*.DefaultTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.CacheBehaviors.*.FieldLevelEncryptionId": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Cookies": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Cookies.Forward": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Cookies.WhitelistedNames": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Cookies.WhitelistedNames.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Headers": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.Headers.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.QueryString": {
+   "type": "boolean"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.QueryStringCacheKeys": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.ForwardedValues.QueryStringCacheKeys.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.FunctionAssociations": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.FunctionAssociations.*": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.FunctionAssociations.*.EventType": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.FunctionAssociations.*.FunctionARN": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.GrpcConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.GrpcConfig.Enabled": {
+   "type": "boolean"
+  },
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations.*": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations.*.EventType": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations.*.IncludeBody": {
+   "type": "boolean"
+  },
+  "DistributionConfig.CacheBehaviors.*.LambdaFunctionAssociations.*.LambdaFunctionARN": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.MaxTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.CacheBehaviors.*.MinTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.CacheBehaviors.*.OriginRequestPolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.PathPattern": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.RealtimeLogConfigArn": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ResponseHeadersPolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.SmoothStreaming": {
+   "type": "boolean"
+  },
+  "DistributionConfig.CacheBehaviors.*.TargetOriginId": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.TrustedKeyGroups": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.TrustedKeyGroups.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.TrustedSigners": {
+   "type": "array"
+  },
+  "DistributionConfig.CacheBehaviors.*.TrustedSigners.*": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheBehaviors.*.ViewerProtocolPolicy": {
+   "type": "string"
+  },
+  "DistributionConfig.CacheTagConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.CacheTagConfig.HeaderName": {
+   "type": "string"
+  },
+  "DistributionConfig.Comment": {
+   "type": "string"
+  },
+  "DistributionConfig.ConnectionFunctionAssociation": {
+   "type": "object"
+  },
+  "DistributionConfig.ConnectionFunctionAssociation.Id": {
+   "type": "string"
+  },
+  "DistributionConfig.ConnectionMode": {
+   "type": "string",
+   "enum": [
+    "direct",
+    "tenant-only"
+   ]
+  },
+  "DistributionConfig.ContinuousDeploymentPolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.CustomErrorResponses": {
+   "type": "array"
+  },
+  "DistributionConfig.CustomErrorResponses.*": {
+   "type": "object"
+  },
+  "DistributionConfig.CustomErrorResponses.*.ErrorCachingMinTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.CustomErrorResponses.*.ErrorCode": {
+   "type": "integer",
+   "enum": [
+    400,
+    403,
+    404,
+    405,
+    414,
+    416,
+    500,
+    501,
+    502,
+    503,
+    504
+   ]
+  },
+  "DistributionConfig.CustomErrorResponses.*.ResponseCode": {
+   "type": "integer",
+   "enum": [
+    200,
+    400,
+    403,
+    404,
+    405,
+    414,
+    416,
+    500,
+    501,
+    502,
+    503,
+    504
+   ]
+  },
+  "DistributionConfig.CustomErrorResponses.*.ResponsePagePath": {
+   "type": "string"
+  },
+  "DistributionConfig.CustomOrigin": {
+   "type": "object"
+  },
+  "DistributionConfig.CustomOrigin.DNSName": {
+   "type": "string"
+  },
+  "DistributionConfig.CustomOrigin.HTTPPort": {
+   "type": "integer"
+  },
+  "DistributionConfig.CustomOrigin.HTTPSPort": {
+   "type": "integer"
+  },
+  "DistributionConfig.CustomOrigin.OriginProtocolPolicy": {
+   "type": "string"
+  },
+  "DistributionConfig.CustomOrigin.OriginSSLProtocols": {
+   "type": "array"
+  },
+  "DistributionConfig.CustomOrigin.OriginSSLProtocols.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.AllowedMethods": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.AllowedMethods.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.CachePolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.CachedMethods": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.CachedMethods.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.Compress": {
+   "type": "boolean"
+  },
+  "DistributionConfig.DefaultCacheBehavior.DefaultTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.DefaultCacheBehavior.FieldLevelEncryptionId": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies.Forward": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies.WhitelistedNames": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies.WhitelistedNames.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Headers": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.Headers.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryString": {
+   "type": "boolean"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryStringCacheKeys": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryStringCacheKeys.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.FunctionAssociations": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.FunctionAssociations.*": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.FunctionAssociations.*.EventType": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.FunctionAssociations.*.FunctionARN": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.GrpcConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.GrpcConfig.Enabled": {
+   "type": "boolean"
+  },
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations.*": {
+   "type": "object"
+  },
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations.*.EventType": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations.*.IncludeBody": {
+   "type": "boolean"
+  },
+  "DistributionConfig.DefaultCacheBehavior.LambdaFunctionAssociations.*.LambdaFunctionARN": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.MaxTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.DefaultCacheBehavior.MinTTL": {
+   "type": "number"
+  },
+  "DistributionConfig.DefaultCacheBehavior.OriginRequestPolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.RealtimeLogConfigArn": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ResponseHeadersPolicyId": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.SmoothStreaming": {
+   "type": "boolean"
+  },
+  "DistributionConfig.DefaultCacheBehavior.TargetOriginId": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.TrustedKeyGroups": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.TrustedKeyGroups.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.TrustedSigners": {
+   "type": "array"
+  },
+  "DistributionConfig.DefaultCacheBehavior.TrustedSigners.*": {
+   "type": "string"
+  },
+  "DistributionConfig.DefaultCacheBehavior.ViewerProtocolPolicy": {
+   "type": "string",
+   "enum": [
+    "allow-all",
+    "https-only",
+    "redirect-to-https"
+   ]
+  },
+  "DistributionConfig.DefaultRootObject": {
+   "type": "string"
+  },
+  "DistributionConfig.Enabled": {
+   "type": "boolean"
+  },
+  "DistributionConfig.HttpVersion": {
+   "type": "string",
+   "enum": [
+    "http1.1",
+    "http2",
+    "http2and3",
+    "http3"
+   ]
+  },
+  "DistributionConfig.IPV6Enabled": {
+   "type": "boolean"
+  },
+  "DistributionConfig.Logging": {
+   "type": "object"
+  },
+  "DistributionConfig.Logging.Bucket": {
+   "type": "string"
+  },
+  "DistributionConfig.Logging.IncludeCookies": {
+   "type": "boolean"
+  },
+  "DistributionConfig.Logging.Prefix": {
+   "type": "string"
+  },
+  "DistributionConfig.OriginGroups": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items": {
+   "type": "array"
+  },
+  "DistributionConfig.OriginGroups.Items.*": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria.StatusCodes": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria.StatusCodes.Items": {
+   "type": "array"
+  },
+  "DistributionConfig.OriginGroups.Items.*.FailoverCriteria.StatusCodes.Quantity": {
+   "type": "integer"
+  },
+  "DistributionConfig.OriginGroups.Items.*.Id": {
+   "type": "string"
+  },
+  "DistributionConfig.OriginGroups.Items.*.Members": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items.*.Members.Items": {
+   "type": "array"
+  },
+  "DistributionConfig.OriginGroups.Items.*.Members.Items.*": {
+   "type": "object"
+  },
+  "DistributionConfig.OriginGroups.Items.*.Members.Quantity": {
+   "type": "integer"
+  },
+  "DistributionConfig.OriginGroups.Items.*.SelectionCriteria": {
+   "type": "string",
+   "enum": [
+    "default",
+    "media-quality-based"
+   ]
+  },
+  "DistributionConfig.OriginGroups.Quantity": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins": {
+   "type": "array"
+  },
+  "DistributionConfig.Origins.*": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.ConnectionAttempts": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.ConnectionTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.HTTPPort": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.HTTPSPort": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.IpAddressType": {
+   "type": "string",
+   "enum": [
+    "ipv4",
+    "ipv6",
+    "dualstack"
+   ]
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginKeepaliveTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginMtlsConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginMtlsConfig.ClientCertificateArn": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginProtocolPolicy": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginReadTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginSSLProtocols": {
+   "type": "array"
+  },
+  "DistributionConfig.Origins.*.CustomOriginConfig.OriginSSLProtocols.*": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.DomainName": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.Id": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.OriginAccessControlId": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.OriginCustomHeaders": {
+   "type": "array"
+  },
+  "DistributionConfig.Origins.*.OriginCustomHeaders.*": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.OriginCustomHeaders.*.HeaderName": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.OriginCustomHeaders.*.HeaderValue": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.OriginPath": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.OriginShield": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.OriginShield.Enabled": {
+   "type": "boolean"
+  },
+  "DistributionConfig.Origins.*.OriginShield.OriginShieldRegion": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.ResponseCompletionTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.S3OriginConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.S3OriginConfig.OriginAccessIdentity": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.S3OriginConfig.OriginReadTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.VpcOriginConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.Origins.*.VpcOriginConfig.OriginKeepaliveTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.VpcOriginConfig.OriginReadTimeout": {
+   "type": "integer"
+  },
+  "DistributionConfig.Origins.*.VpcOriginConfig.OwnerAccountId": {
+   "type": "string"
+  },
+  "DistributionConfig.Origins.*.VpcOriginConfig.VpcOriginId": {
+   "type": "string"
+  },
+  "DistributionConfig.PriceClass": {
+   "type": "string",
+   "enum": [
+    "None",
+    "PriceClass_100",
+    "PriceClass_200",
+    "PriceClass_All"
+   ]
+  },
+  "DistributionConfig.Restrictions": {
+   "type": "object"
+  },
+  "DistributionConfig.Restrictions.GeoRestriction": {
+   "type": "object"
+  },
+  "DistributionConfig.Restrictions.GeoRestriction.Locations": {
+   "type": "array"
+  },
+  "DistributionConfig.Restrictions.GeoRestriction.Locations.*": {
+   "type": "string",
+   "enum": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AL",
+    "AM",
+    "AO",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AW",
+    "AX",
+    "AZ",
+    "BA",
+    "BB",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BV",
+    "BW",
+    "BY",
+    "BZ",
+    "CA",
+    "CC",
+    "CD",
+    "CF",
+    "CG",
+    "CH",
+    "CI",
+    "CK",
+    "CL",
+    "CM",
+    "CN",
+    "CO",
+    "CR",
+    "CU",
+    "CV",
+    "CW",
+    "CX",
+    "CY",
+    "CZ",
+    "DE",
+    "DJ",
+    "DK",
+    "DM",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "EH",
+    "ER",
+    "ES",
+    "ET",
+    "FI",
+    "FJ",
+    "FK",
+    "FM",
+    "FO",
+    "FR",
+    "GA",
+    "GB",
+    "GD",
+    "GE",
+    "GF",
+    "GG",
+    "GH",
+    "GI",
+    "GL",
+    "GM",
+    "GN",
+    "GP",
+    "GQ",
+    "GR",
+    "GS",
+    "GT",
+    "GU",
+    "GW",
+    "GY",
+    "HK",
+    "HM",
+    "HN",
+    "HR",
+    "HT",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IM",
+    "IN",
+    "IO",
+    "IQ",
+    "IR",
+    "IS",
+    "IT",
+    "JE",
+    "JM",
+    "JO",
+    "JP",
+    "KE",
+    "KG",
+    "KH",
+    "KI",
+    "KM",
+    "KN",
+    "KP",
+    "KR",
+    "KW",
+    "KY",
+    "KZ",
+    "LA",
+    "LB",
+    "LC",
+    "LI",
+    "LK",
+    "LR",
+    "LS",
+    "LT",
+    "LU",
+    "LV",
+    "LY",
+    "MA",
+    "MC",
+    "MD",
+    "ME",
+    "MF",
+    "MG",
+    "MH",
+    "MK",
+    "ML",
+    "MM",
+    "MN",
+    "MO",
+    "MP",
+    "MQ",
+    "MR",
+    "MS",
+    "MT",
+    "MU",
+    "MV",
+    "MW",
+    "MX",
+    "MY",
+    "MZ",
+    "NA",
+    "NC",
+    "NE",
+    "NF",
+    "NG",
+    "NI",
+    "NL",
+    "NO",
+    "NP",
+    "NR",
+    "NU",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PF",
+    "PG",
+    "PH",
+    "PK",
+    "PL",
+    "PM",
+    "PN",
+    "PR",
+    "PS",
+    "PT",
+    "PW",
+    "PY",
+    "QA",
+    "RE",
+    "RO",
+    "RS",
+    "RU",
+    "RW",
+    "SA",
+    "SB",
+    "SC",
+    "SD",
+    "SE",
+    "SG",
+    "SH",
+    "SI",
+    "SJ",
+    "SK",
+    "SL",
+    "SM",
+    "SN",
+    "SO",
+    "SR",
+    "SS",
+    "ST",
+    "SV",
+    "SX",
+    "SY",
+    "SZ",
+    "TC",
+    "TD",
+    "TF",
+    "TG",
+    "TH",
+    "TJ",
+    "TK",
+    "TL",
+    "TM",
+    "TN",
+    "TO",
+    "TR",
+    "TT",
+    "TV",
+    "TW",
+    "TZ",
+    "UA",
+    "UG",
+    "UM",
+    "US",
+    "UY",
+    "UZ",
+    "VA",
+    "VC",
+    "VE",
+    "VG",
+    "VI",
+    "VN",
+    "VU",
+    "WF",
+    "WS",
+    "YE",
+    "YT",
+    "ZA",
+    "ZM",
+    "ZW"
+   ]
+  },
+  "DistributionConfig.Restrictions.GeoRestriction.RestrictionType": {
+   "type": "string",
+   "enum": [
+    "blacklist",
+    "none",
+    "whitelist"
+   ]
+  },
+  "DistributionConfig.S3Origin": {
+   "type": "object"
+  },
+  "DistributionConfig.S3Origin.DNSName": {
+   "type": "string"
+  },
+  "DistributionConfig.S3Origin.OriginAccessIdentity": {
+   "type": "string"
+  },
+  "DistributionConfig.Staging": {
+   "type": "boolean"
+  },
+  "DistributionConfig.TenantConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions": {
+   "type": "array"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*": {
+   "type": "object"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition": {
+   "type": "object"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition.StringSchema": {
+   "type": "object"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition.StringSchema.Comment": {
+   "type": "string"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition.StringSchema.DefaultValue": {
+   "type": "string"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Definition.StringSchema.Required": {
+   "type": "boolean"
+  },
+  "DistributionConfig.TenantConfig.ParameterDefinitions.*.Name": {
+   "type": "string"
+  },
+  "DistributionConfig.ViewerCertificate": {
+   "type": "object"
+  },
+  "DistributionConfig.ViewerCertificate.AcmCertificateArn": {
+   "type": "string"
+  },
+  "DistributionConfig.ViewerCertificate.CloudFrontDefaultCertificate": {
+   "type": "boolean"
+  },
+  "DistributionConfig.ViewerCertificate.IamCertificateId": {
+   "type": "string"
+  },
+  "DistributionConfig.ViewerCertificate.MinimumProtocolVersion": {
+   "type": "string",
+   "enum": [
+    "SSLv3",
+    "TLSv1",
+    "TLSv1.1_2016",
+    "TLSv1.2_2018",
+    "TLSv1.2_2019",
+    "TLSv1.2_2021",
+    "TLSv1.2_2025",
+    "TLSv1.3_2025",
+    "TLSv1_2016"
+   ]
+  },
+  "DistributionConfig.ViewerCertificate.SslSupportMethod": {
+   "type": "string",
+   "enum": [
+    "sni-only",
+    "static-ip",
+    "vip"
+   ]
+  },
+  "DistributionConfig.ViewerMtlsConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.ViewerMtlsConfig.Mode": {
+   "type": "string",
+   "enum": [
+    "required",
+    "optional",
+    "passthrough"
+   ]
+  },
+  "DistributionConfig.ViewerMtlsConfig.TrustStoreConfig": {
+   "type": "object"
+  },
+  "DistributionConfig.ViewerMtlsConfig.TrustStoreConfig.AdvertiseTrustStoreCaNames": {
+   "type": "boolean"
+  },
+  "DistributionConfig.ViewerMtlsConfig.TrustStoreConfig.IgnoreCertificateExpiry": {
+   "type": "boolean"
+  },
+  "DistributionConfig.ViewerMtlsConfig.TrustStoreConfig.TrustStoreId": {
+   "type": "string"
+  },
+  "DistributionConfig.WebACLId": {
+   "type": "string"
+  },
+  "DomainName": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

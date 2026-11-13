@@ -1,0 +1,104 @@
+{
+ "type": "AWS::EC2::Subnet",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "VpcId"
+  ],
+  "BlockPublicAccessStates": [],
+  "PrivateDnsNameOptionsOnLaunch": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AssignIpv6AddressOnCreation": {
+   "type": "boolean"
+  },
+  "AvailabilityZone": {
+   "type": "string"
+  },
+  "AvailabilityZoneId": {
+   "type": "string"
+  },
+  "BlockPublicAccessStates": {
+   "type": "object"
+  },
+  "BlockPublicAccessStates.InternetGatewayBlockMode": {
+   "type": "string"
+  },
+  "CidrBlock": {
+   "type": "string"
+  },
+  "EnableDns64": {
+   "type": "boolean"
+  },
+  "EnableLniAtDeviceIndex": {
+   "type": "integer"
+  },
+  "Ipv4IpamPoolId": {
+   "type": "string"
+  },
+  "Ipv4NetmaskLength": {
+   "type": "integer"
+  },
+  "Ipv6CidrBlock": {
+   "type": "string"
+  },
+  "Ipv6CidrBlocks": {
+   "type": "array"
+  },
+  "Ipv6CidrBlocks.*": {
+   "type": "string"
+  },
+  "Ipv6IpamPoolId": {
+   "type": "string"
+  },
+  "Ipv6Native": {
+   "type": "boolean"
+  },
+  "Ipv6NetmaskLength": {
+   "type": "integer"
+  },
+  "MapPublicIpOnLaunch": {
+   "type": "boolean"
+  },
+  "NetworkAclAssociationId": {
+   "type": "string"
+  },
+  "OutpostArn": {
+   "type": "string"
+  },
+  "PrivateDnsNameOptionsOnLaunch": {
+   "type": "object"
+  },
+  "PrivateDnsNameOptionsOnLaunch.EnableResourceNameDnsAAAARecord": {
+   "type": "boolean"
+  },
+  "PrivateDnsNameOptionsOnLaunch.EnableResourceNameDnsARecord": {
+   "type": "boolean"
+  },
+  "PrivateDnsNameOptionsOnLaunch.HostnameType": {
+   "type": "string"
+  },
+  "SubnetId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

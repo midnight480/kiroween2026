@@ -1,0 +1,105 @@
+{
+ "type": "AWS::EC2::NatGateway",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "AvailabilityZoneAddresses.*": [
+   "AllocationIds"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AllocationId": {
+   "type": "string"
+  },
+  "AutoProvisionZones": {
+   "type": "string"
+  },
+  "AutoScalingIps": {
+   "type": "string"
+  },
+  "AvailabilityMode": {
+   "type": "string",
+   "enum": [
+    "regional",
+    "zonal"
+   ]
+  },
+  "AvailabilityZoneAddresses": {
+   "type": "array"
+  },
+  "AvailabilityZoneAddresses.*": {
+   "type": "object"
+  },
+  "AvailabilityZoneAddresses.*.AllocationIds": {
+   "type": "array"
+  },
+  "AvailabilityZoneAddresses.*.AllocationIds.*": {
+   "type": "string"
+  },
+  "AvailabilityZoneAddresses.*.AvailabilityZone": {
+   "type": "string"
+  },
+  "AvailabilityZoneAddresses.*.AvailabilityZoneId": {
+   "type": "string"
+  },
+  "ConnectivityType": {
+   "type": "string",
+   "enum": [
+    "private",
+    "public"
+   ]
+  },
+  "EniId": {
+   "type": "string"
+  },
+  "MaxDrainDurationSeconds": {
+   "type": "integer"
+  },
+  "NatGatewayId": {
+   "type": "string"
+  },
+  "PrivateIpAddress": {
+   "type": "string"
+  },
+  "RouteTableId": {
+   "type": "string"
+  },
+  "SecondaryAllocationIds": {
+   "type": "array"
+  },
+  "SecondaryAllocationIds.*": {
+   "type": "string"
+  },
+  "SecondaryPrivateIpAddressCount": {
+   "type": "integer"
+  },
+  "SecondaryPrivateIpAddresses": {
+   "type": "array"
+  },
+  "SecondaryPrivateIpAddresses.*": {
+   "type": "string"
+  },
+  "SubnetId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

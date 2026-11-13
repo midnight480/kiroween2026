@@ -1,0 +1,73 @@
+{
+ "type": "AWS::IAM::Role",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "AssumeRolePolicyDocument"
+  ],
+  "Policies.*": [
+   "PolicyDocument",
+   "PolicyName"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "AssumeRolePolicyDocument": {
+   "type": "object"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "ManagedPolicyArns": {
+   "type": "array"
+  },
+  "ManagedPolicyArns.*": {
+   "type": "string"
+  },
+  "MaxSessionDuration": {
+   "type": "integer"
+  },
+  "Path": {
+   "type": "string"
+  },
+  "PermissionsBoundary": {
+   "type": "string"
+  },
+  "Policies": {
+   "type": "array"
+  },
+  "Policies.*": {
+   "type": "object"
+  },
+  "Policies.*.PolicyDocument": {
+   "type": "string"
+  },
+  "Policies.*.PolicyName": {
+   "type": "string"
+  },
+  "RoleId": {
+   "type": "string"
+  },
+  "RoleName": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

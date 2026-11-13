@@ -1,0 +1,52 @@
+{
+ "type": "AWS::EC2::EIP",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "Address": {
+   "type": "string"
+  },
+  "AllocationId": {
+   "type": "string"
+  },
+  "Domain": {
+   "type": "string"
+  },
+  "InstanceId": {
+   "type": "string"
+  },
+  "IpamPoolId": {
+   "type": "string"
+  },
+  "NetworkBorderGroup": {
+   "type": "string"
+  },
+  "PublicIp": {
+   "type": "string"
+  },
+  "PublicIpv4Pool": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TransferAddress": {
+   "type": "string"
+  }
+ }
+}

@@ -1,0 +1,81 @@
+{
+ "type": "AWS::CertificateManager::Certificate",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "DomainName"
+  ],
+  "DomainValidationOptions.*": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "CertificateArn": {
+   "type": "string"
+  },
+  "CertificateAuthorityArn": {
+   "type": "string"
+  },
+  "CertificateExport": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "CertificateTransparencyLoggingPreference": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "DomainName": {
+   "type": "string"
+  },
+  "DomainValidationOptions": {
+   "type": "array"
+  },
+  "DomainValidationOptions.*": {
+   "type": "object"
+  },
+  "DomainValidationOptions.*.DomainName": {
+   "type": "string"
+  },
+  "DomainValidationOptions.*.HostedZoneId": {
+   "type": "string"
+  },
+  "DomainValidationOptions.*.ValidationDomain": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "object"
+  },
+  "KeyAlgorithm": {
+   "type": "string"
+  },
+  "SubjectAlternativeNames": {
+   "type": "array"
+  },
+  "SubjectAlternativeNames.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "ValidationMethod": {
+   "type": "string"
+  }
+ }
+}

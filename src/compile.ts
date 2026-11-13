@@ -67,6 +67,18 @@ export function compile(source: string, options: CompileOptions = {}): CompileRe
   for (const r of resources as Resource[]) out[r.logicalId] = emitResource(r, ctx);
   assertAcyclic(ctx, resources);
 
+  // 落ち: 古の COBOL で現代の AWS を宣言しても、出来上がるのは王道の 3 層構成
+  const types = new Set(resources.map((r) => r.type));
+  const hasLoadBalancer = types.has("AWS::ElasticLoadBalancingV2::LoadBalancer") || types.has("AWS::ElasticLoadBalancing::LoadBalancer");
+  const hasCompute = types.has("AWS::EC2::Instance") || types.has("AWS::AutoScaling::AutoScalingGroup");
+  const hasDatabase = types.has("AWS::RDS::DBInstance") || types.has("AWS::RDS::DBCluster");
+  if (hasLoadBalancer && hasCompute && hasDatabase) {
+    program.warnings.push({
+      code: "CLASSIC-THREE-TIER",
+      message: "ロードバランサー + EC2 + RDS。古の COBOL で現代の AWS を書いたのに、出来上がったのは王道の 3 層構成でした。1998 年が構成を返してほしがっています",
+    });
+  }
+
   const template: JsonObject = {
     AWSTemplateFormatVersion: "2010-09-09",
     Description: program.programId,

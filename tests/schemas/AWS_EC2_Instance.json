@@ -1,0 +1,475 @@
+{
+ "type": "AWS::EC2::Instance",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "BlockDeviceMappings.*": [
+   "DeviceName"
+  ],
+  "BlockDeviceMappings.*.Ebs": [],
+  "CpuOptions": [],
+  "CreditSpecification": [],
+  "ElasticGpuSpecifications.*": [
+   "Type"
+  ],
+  "ElasticInferenceAccelerators.*": [
+   "Type"
+  ],
+  "EnclaveOptions": [],
+  "HibernationOptions": [],
+  "Ipv6Addresses.*": [
+   "Ipv6Address"
+  ],
+  "LaunchTemplate": [],
+  "LicenseSpecifications.*": [
+   "LicenseConfigurationArn"
+  ],
+  "MetadataOptions": [],
+  "NetworkInterfaces.*": [
+   "DeviceIndex"
+  ],
+  "NetworkInterfaces.*.EnaSrdSpecification": [],
+  "NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification": [],
+  "NetworkInterfaces.*.Ipv6Addresses.*": [
+   "Ipv6Address"
+  ],
+  "NetworkInterfaces.*.PrivateIpAddresses.*": [
+   "Primary",
+   "PrivateIpAddress"
+  ],
+  "PrivateDnsNameOptions": [],
+  "SsmAssociations.*": [
+   "DocumentName"
+  ],
+  "SsmAssociations.*.AssociationParameters.*": [
+   "Key",
+   "Value"
+  ],
+  "State": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "Volumes.*": [
+   "Device",
+   "VolumeId"
+  ]
+ },
+ "paths": {
+  "AdditionalInfo": {
+   "type": "string"
+  },
+  "Affinity": {
+   "type": "string",
+   "enum": [
+    "default",
+    "host"
+   ]
+  },
+  "AvailabilityZone": {
+   "type": "string"
+  },
+  "BlockDeviceMappings": {
+   "type": "array"
+  },
+  "BlockDeviceMappings.*": {
+   "type": "object"
+  },
+  "BlockDeviceMappings.*.DeviceName": {
+   "type": "string"
+  },
+  "BlockDeviceMappings.*.Ebs": {
+   "type": "object"
+  },
+  "BlockDeviceMappings.*.Ebs.DeleteOnTermination": {
+   "type": "boolean"
+  },
+  "BlockDeviceMappings.*.Ebs.Encrypted": {
+   "type": "boolean"
+  },
+  "BlockDeviceMappings.*.Ebs.Iops": {
+   "type": "integer"
+  },
+  "BlockDeviceMappings.*.Ebs.KmsKeyId": {
+   "type": "string"
+  },
+  "BlockDeviceMappings.*.Ebs.SnapshotId": {
+   "type": "string"
+  },
+  "BlockDeviceMappings.*.Ebs.VolumeSize": {
+   "type": "integer"
+  },
+  "BlockDeviceMappings.*.Ebs.VolumeType": {
+   "type": "string",
+   "enum": [
+    "gp2",
+    "gp3",
+    "io1",
+    "io2",
+    "sc1",
+    "st1",
+    "standard"
+   ]
+  },
+  "BlockDeviceMappings.*.NoDevice": {
+   "type": "object"
+  },
+  "BlockDeviceMappings.*.VirtualName": {
+   "type": "string"
+  },
+  "CpuOptions": {
+   "type": "object"
+  },
+  "CpuOptions.CoreCount": {
+   "type": "integer"
+  },
+  "CpuOptions.ThreadsPerCore": {
+   "type": "integer"
+  },
+  "CreditSpecification": {
+   "type": "object"
+  },
+  "CreditSpecification.CPUCredits": {
+   "type": "string"
+  },
+  "DisableApiTermination": {
+   "type": "boolean"
+  },
+  "EbsOptimized": {
+   "type": "boolean"
+  },
+  "ElasticGpuSpecifications": {
+   "type": "array"
+  },
+  "ElasticGpuSpecifications.*": {
+   "type": "object"
+  },
+  "ElasticGpuSpecifications.*.Type": {
+   "type": "string"
+  },
+  "ElasticInferenceAccelerators": {
+   "type": "array"
+  },
+  "ElasticInferenceAccelerators.*": {
+   "type": "object"
+  },
+  "ElasticInferenceAccelerators.*.Count": {
+   "type": "integer"
+  },
+  "ElasticInferenceAccelerators.*.Type": {
+   "type": "string"
+  },
+  "EnclaveOptions": {
+   "type": "object"
+  },
+  "EnclaveOptions.Enabled": {
+   "type": "boolean"
+  },
+  "HibernationOptions": {
+   "type": "object"
+  },
+  "HibernationOptions.Configured": {
+   "type": "boolean"
+  },
+  "HostId": {
+   "type": "string"
+  },
+  "HostResourceGroupArn": {
+   "type": "string"
+  },
+  "IamInstanceProfile": {
+   "type": "string"
+  },
+  "ImageId": {
+   "type": "string"
+  },
+  "InstanceId": {
+   "type": "string"
+  },
+  "InstanceInitiatedShutdownBehavior": {
+   "type": "string",
+   "enum": [
+    "stop",
+    "terminate"
+   ]
+  },
+  "InstanceType": {
+   "type": "string"
+  },
+  "Ipv6AddressCount": {
+   "type": "integer"
+  },
+  "Ipv6Addresses": {
+   "type": "array"
+  },
+  "Ipv6Addresses.*": {
+   "type": "object"
+  },
+  "Ipv6Addresses.*.Ipv6Address": {
+   "type": "string"
+  },
+  "KernelId": {
+   "type": "string"
+  },
+  "KeyName": {
+   "type": "string"
+  },
+  "LaunchTemplate": {
+   "type": "object"
+  },
+  "LaunchTemplate.LaunchTemplateId": {
+   "type": "string"
+  },
+  "LaunchTemplate.LaunchTemplateName": {
+   "type": "string"
+  },
+  "LaunchTemplate.Version": {
+   "type": "string"
+  },
+  "LicenseSpecifications": {
+   "type": "array"
+  },
+  "LicenseSpecifications.*": {
+   "type": "object"
+  },
+  "LicenseSpecifications.*.LicenseConfigurationArn": {
+   "type": "string"
+  },
+  "MetadataOptions": {
+   "type": "object"
+  },
+  "MetadataOptions.HttpEndpoint": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "MetadataOptions.HttpProtocolIpv6": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "MetadataOptions.HttpPutResponseHopLimit": {
+   "type": "integer"
+  },
+  "MetadataOptions.HttpTokens": {
+   "type": "string",
+   "enum": [
+    "optional",
+    "required"
+   ]
+  },
+  "MetadataOptions.InstanceMetadataTags": {
+   "type": "string",
+   "enum": [
+    "disabled",
+    "enabled"
+   ]
+  },
+  "Monitoring": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces": {
+   "type": "array"
+  },
+  "NetworkInterfaces.*": {
+   "type": "object"
+  },
+  "NetworkInterfaces.*.AssociateCarrierIpAddress": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.AssociatePublicIpAddress": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.DeleteOnTermination": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.Description": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.DeviceIndex": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.EnaSrdSpecification": {
+   "type": "object"
+  },
+  "NetworkInterfaces.*.EnaSrdSpecification.EnaSrdEnabled": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification": {
+   "type": "object"
+  },
+  "NetworkInterfaces.*.EnaSrdSpecification.EnaSrdUdpSpecification.EnaSrdUdpEnabled": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.GroupSet": {
+   "type": "array"
+  },
+  "NetworkInterfaces.*.GroupSet.*": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.Ipv6AddressCount": {
+   "type": "integer"
+  },
+  "NetworkInterfaces.*.Ipv6Addresses": {
+   "type": "array"
+  },
+  "NetworkInterfaces.*.Ipv6Addresses.*": {
+   "type": "object"
+  },
+  "NetworkInterfaces.*.Ipv6Addresses.*.Ipv6Address": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.NetworkInterfaceId": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.PrivateIpAddress": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.PrivateIpAddresses": {
+   "type": "array"
+  },
+  "NetworkInterfaces.*.PrivateIpAddresses.*": {
+   "type": "object"
+  },
+  "NetworkInterfaces.*.PrivateIpAddresses.*.Primary": {
+   "type": "boolean"
+  },
+  "NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress": {
+   "type": "string"
+  },
+  "NetworkInterfaces.*.SecondaryPrivateIpAddressCount": {
+   "type": "integer"
+  },
+  "NetworkInterfaces.*.SubnetId": {
+   "type": "string"
+  },
+  "PlacementGroupName": {
+   "type": "string"
+  },
+  "PrivateDnsName": {
+   "type": "string"
+  },
+  "PrivateDnsNameOptions": {
+   "type": "object"
+  },
+  "PrivateDnsNameOptions.EnableResourceNameDnsAAAARecord": {
+   "type": "boolean"
+  },
+  "PrivateDnsNameOptions.EnableResourceNameDnsARecord": {
+   "type": "boolean"
+  },
+  "PrivateDnsNameOptions.HostnameType": {
+   "type": "string",
+   "enum": [
+    "ip-name",
+    "resource-name"
+   ]
+  },
+  "PrivateIp": {
+   "type": "string"
+  },
+  "PrivateIpAddress": {
+   "type": "string"
+  },
+  "PropagateTagsToVolumeOnCreation": {
+   "type": "boolean"
+  },
+  "PublicDnsName": {
+   "type": "string"
+  },
+  "PublicIp": {
+   "type": "string"
+  },
+  "RamdiskId": {
+   "type": "string"
+  },
+  "SecurityGroupIds": {
+   "type": "array"
+  },
+  "SecurityGroupIds.*": {
+   "type": "string"
+  },
+  "SecurityGroups": {
+   "type": "array"
+  },
+  "SecurityGroups.*": {
+   "type": "string"
+  },
+  "SourceDestCheck": {
+   "type": "boolean"
+  },
+  "SsmAssociations": {
+   "type": "array"
+  },
+  "SsmAssociations.*": {
+   "type": "object"
+  },
+  "SsmAssociations.*.AssociationParameters": {
+   "type": "array"
+  },
+  "SsmAssociations.*.AssociationParameters.*": {
+   "type": "object"
+  },
+  "SsmAssociations.*.AssociationParameters.*.Key": {
+   "type": "string"
+  },
+  "SsmAssociations.*.AssociationParameters.*.Value": {
+   "type": "array"
+  },
+  "SsmAssociations.*.AssociationParameters.*.Value.*": {
+   "type": "string"
+  },
+  "SsmAssociations.*.DocumentName": {
+   "type": "string"
+  },
+  "State": {
+   "type": "object"
+  },
+  "State.Code": {
+   "type": "string"
+  },
+  "State.Name": {
+   "type": "string"
+  },
+  "SubnetId": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "Tenancy": {
+   "type": "string"
+  },
+  "UserData": {
+   "type": "string"
+  },
+  "Volumes": {
+   "type": "array"
+  },
+  "Volumes.*": {
+   "type": "object"
+  },
+  "Volumes.*.Device": {
+   "type": "string"
+  },
+  "Volumes.*.VolumeId": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

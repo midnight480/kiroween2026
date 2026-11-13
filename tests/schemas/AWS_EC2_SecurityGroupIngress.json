@@ -1,0 +1,50 @@
+{
+ "type": "AWS::EC2::SecurityGroupIngress",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "IpProtocol"
+  ]
+ },
+ "paths": {
+  "CidrIp": {
+   "type": "string"
+  },
+  "CidrIpv6": {
+   "type": "string"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "FromPort": {
+   "type": "integer"
+  },
+  "GroupId": {
+   "type": "string"
+  },
+  "GroupName": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "IpProtocol": {
+   "type": "string"
+  },
+  "SourcePrefixListId": {
+   "type": "string"
+  },
+  "SourceSecurityGroupId": {
+   "type": "string"
+  },
+  "SourceSecurityGroupName": {
+   "type": "string"
+  },
+  "SourceSecurityGroupOwnerId": {
+   "type": "string"
+  },
+  "ToPort": {
+   "type": "integer"
+  }
+ }
+}

@@ -1,0 +1,114 @@
+{
+ "type": "AWS::EC2::SecurityGroup",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "GroupDescription"
+  ],
+  "SecurityGroupEgress.*": [
+   "IpProtocol"
+  ],
+  "SecurityGroupIngress.*": [
+   "IpProtocol"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "GroupDescription": {
+   "type": "string"
+  },
+  "GroupId": {
+   "type": "string"
+  },
+  "GroupName": {
+   "type": "string"
+  },
+  "Id": {
+   "type": "string"
+  },
+  "SecurityGroupEgress": {
+   "type": "array"
+  },
+  "SecurityGroupEgress.*": {
+   "type": "object"
+  },
+  "SecurityGroupEgress.*.CidrIp": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.CidrIpv6": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.Description": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.DestinationPrefixListId": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.DestinationSecurityGroupId": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.FromPort": {
+   "type": "integer"
+  },
+  "SecurityGroupEgress.*.IpProtocol": {
+   "type": "string"
+  },
+  "SecurityGroupEgress.*.ToPort": {
+   "type": "integer"
+  },
+  "SecurityGroupIngress": {
+   "type": "array"
+  },
+  "SecurityGroupIngress.*": {
+   "type": "object"
+  },
+  "SecurityGroupIngress.*.CidrIp": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.CidrIpv6": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.Description": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.FromPort": {
+   "type": "integer"
+  },
+  "SecurityGroupIngress.*.IpProtocol": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.SourcePrefixListId": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.SourceSecurityGroupId": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.SourceSecurityGroupName": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.SourceSecurityGroupOwnerId": {
+   "type": "string"
+  },
+  "SecurityGroupIngress.*.ToPort": {
+   "type": "integer"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

@@ -1,0 +1,506 @@
+{
+ "type": "AWS::DynamoDB::Table",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "KeySchema"
+  ],
+  "AttributeDefinitions.*": [
+   "AttributeName",
+   "AttributeType"
+  ],
+  "ContributorInsightsSpecification": [
+   "Enabled"
+  ],
+  "GlobalSecondaryIndexes.*": [
+   "IndexName",
+   "KeySchema",
+   "Projection"
+  ],
+  "GlobalSecondaryIndexes.*.ContributorInsightsSpecification": [
+   "Enabled"
+  ],
+  "GlobalSecondaryIndexes.*.KeySchema.*": [
+   "AttributeName",
+   "KeyType"
+  ],
+  "GlobalSecondaryIndexes.*.OnDemandThroughput": [],
+  "GlobalSecondaryIndexes.*.Projection": [],
+  "GlobalSecondaryIndexes.*.ProvisionedThroughput": [
+   "ReadCapacityUnits",
+   "WriteCapacityUnits"
+  ],
+  "GlobalSecondaryIndexes.*.WarmThroughput": [],
+  "ImportSourceSpecification": [
+   "InputFormat",
+   "S3BucketSource"
+  ],
+  "ImportSourceSpecification.InputFormatOptions": [],
+  "ImportSourceSpecification.InputFormatOptions.Csv": [],
+  "ImportSourceSpecification.S3BucketSource": [
+   "S3Bucket"
+  ],
+  "KinesisStreamSpecification": [
+   "StreamArn"
+  ],
+  "LocalSecondaryIndexes.*": [
+   "IndexName",
+   "KeySchema",
+   "Projection"
+  ],
+  "LocalSecondaryIndexes.*.KeySchema": [],
+  "LocalSecondaryIndexes.*.KeySchema.*": [
+   "AttributeName",
+   "KeyType"
+  ],
+  "LocalSecondaryIndexes.*.Projection": [],
+  "OnDemandThroughput": [],
+  "PointInTimeRecoverySpecification": [],
+  "ProvisionedThroughput": [
+   "ReadCapacityUnits",
+   "WriteCapacityUnits"
+  ],
+  "ResourcePolicy": [
+   "PolicyDocument"
+  ],
+  "SSESpecification": [
+   "SSEEnabled"
+  ],
+  "StreamSpecification": [
+   "StreamViewType"
+  ],
+  "StreamSpecification.ResourcePolicy": [
+   "PolicyDocument"
+  ],
+  "StreamSpecification.Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "TimeToLiveSpecification": [
+   "Enabled"
+  ],
+  "VectorIndexes.*": [
+   "Dimensions",
+   "DistanceFunction",
+   "IndexName",
+   "Projection",
+   "VectorAttribute"
+  ],
+  "VectorIndexes.*.Projection": [],
+  "VectorIndexes.*.SearchSchema.*": [
+   "AttributeName",
+   "SearchSchemaElementType"
+  ],
+  "VectorIndexes.*.VectorAttribute": [
+   "AttributeName"
+  ],
+  "WarmThroughput": []
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "AttributeDefinitions": {
+   "type": "array"
+  },
+  "AttributeDefinitions.*": {
+   "type": "object"
+  },
+  "AttributeDefinitions.*.AttributeName": {
+   "type": "string"
+  },
+  "AttributeDefinitions.*.AttributeType": {
+   "type": "string",
+   "enum": [
+    "B",
+    "N",
+    "S"
+   ]
+  },
+  "BillingMode": {
+   "type": "string",
+   "enum": [
+    "PAY_PER_REQUEST",
+    "PROVISIONED"
+   ]
+  },
+  "ContributorInsightsSpecification": {
+   "type": "object"
+  },
+  "ContributorInsightsSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "ContributorInsightsSpecification.Mode": {
+   "type": "string",
+   "enum": [
+    "ACCESSED_AND_THROTTLED_KEYS",
+    "THROTTLED_KEYS"
+   ]
+  },
+  "DeletionProtectionEnabled": {
+   "type": "boolean"
+  },
+  "GlobalSecondaryIndexes": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.ContributorInsightsSpecification": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.ContributorInsightsSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "GlobalSecondaryIndexes.*.ContributorInsightsSpecification.Mode": {
+   "type": "string",
+   "enum": [
+    "ACCESSED_AND_THROTTLED_KEYS",
+    "THROTTLED_KEYS"
+   ]
+  },
+  "GlobalSecondaryIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*.AttributeName": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*.KeyType": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.OnDemandThroughput": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.OnDemandThroughput.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.OnDemandThroughput.MaxWriteRequestUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.Projection": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "GlobalSecondaryIndexes.*.ProvisionedThroughput": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.ProvisionedThroughput.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.ProvisionedThroughput.WriteCapacityUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput.ReadUnitsPerSecond": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput.WriteUnitsPerSecond": {
+   "type": "integer"
+  },
+  "ImportSourceSpecification": {
+   "type": "object"
+  },
+  "ImportSourceSpecification.InputCompressionType": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.InputFormat": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.InputFormatOptions": {
+   "type": "object"
+  },
+  "ImportSourceSpecification.InputFormatOptions.Csv": {
+   "type": "object"
+  },
+  "ImportSourceSpecification.InputFormatOptions.Csv.Delimiter": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.InputFormatOptions.Csv.HeaderList": {
+   "type": "array"
+  },
+  "ImportSourceSpecification.InputFormatOptions.Csv.HeaderList.*": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.S3BucketSource": {
+   "type": "object"
+  },
+  "ImportSourceSpecification.S3BucketSource.S3Bucket": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.S3BucketSource.S3BucketOwner": {
+   "type": "string"
+  },
+  "ImportSourceSpecification.S3BucketSource.S3KeyPrefix": {
+   "type": "string"
+  },
+  "KeySchema": {
+   "type": "object"
+  },
+  "KinesisStreamSpecification": {
+   "type": "object"
+  },
+  "KinesisStreamSpecification.ApproximateCreationDateTimePrecision": {
+   "type": "string",
+   "enum": [
+    "MICROSECOND",
+    "MILLISECOND"
+   ]
+  },
+  "KinesisStreamSpecification.StreamArn": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.KeySchema": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*.AttributeName": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*.KeyType": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.AttributeName": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.KeyType": {
+   "type": "object",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "LocalSecondaryIndexes.*.Projection": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "OnDemandThroughput": {
+   "type": "object"
+  },
+  "OnDemandThroughput.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "OnDemandThroughput.MaxWriteRequestUnits": {
+   "type": "integer"
+  },
+  "PointInTimeRecoverySpecification": {
+   "type": "object"
+  },
+  "PointInTimeRecoverySpecification.PointInTimeRecoveryEnabled": {
+   "type": "boolean"
+  },
+  "PointInTimeRecoverySpecification.RecoveryPeriodInDays": {
+   "type": "integer"
+  },
+  "ProvisionedThroughput": {
+   "type": "object"
+  },
+  "ProvisionedThroughput.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "ProvisionedThroughput.WriteCapacityUnits": {
+   "type": "integer"
+  },
+  "ResourcePolicy": {
+   "type": "object"
+  },
+  "ResourcePolicy.PolicyDocument": {
+   "type": "object"
+  },
+  "SSESpecification": {
+   "type": "object"
+  },
+  "SSESpecification.KMSMasterKeyId": {
+   "type": "string"
+  },
+  "SSESpecification.SSEEnabled": {
+   "type": "boolean"
+  },
+  "SSESpecification.SSEType": {
+   "type": "string",
+   "enum": [
+    "KMS"
+   ]
+  },
+  "StreamArn": {
+   "type": "string"
+  },
+  "StreamSpecification": {
+   "type": "object"
+  },
+  "StreamSpecification.ResourcePolicy": {
+   "type": "object"
+  },
+  "StreamSpecification.ResourcePolicy.PolicyDocument": {
+   "type": "object"
+  },
+  "StreamSpecification.StreamViewType": {
+   "type": "string",
+   "enum": [
+    "KEYS_ONLY",
+    "NEW_AND_OLD_IMAGES",
+    "NEW_IMAGE",
+    "OLD_IMAGE"
+   ]
+  },
+  "StreamSpecification.Tags": {
+   "type": "array"
+  },
+  "StreamSpecification.Tags.*": {
+   "type": "object"
+  },
+  "StreamSpecification.Tags.*.Key": {
+   "type": "string"
+  },
+  "StreamSpecification.Tags.*.Value": {
+   "type": "string"
+  },
+  "TableClass": {
+   "type": "string",
+   "enum": [
+    "STANDARD",
+    "STANDARD_INFREQUENT_ACCESS"
+   ]
+  },
+  "TableName": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "TimeToLiveSpecification": {
+   "type": "object"
+  },
+  "TimeToLiveSpecification.AttributeName": {
+   "type": "string"
+  },
+  "TimeToLiveSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "VectorIndexes": {
+   "type": "array"
+  },
+  "VectorIndexes.*": {
+   "type": "object"
+  },
+  "VectorIndexes.*.Dimensions": {
+   "type": "integer"
+  },
+  "VectorIndexes.*.DistanceFunction": {
+   "type": "string",
+   "enum": [
+    "COSINE",
+    "DOT_PRODUCT",
+    "EUCLIDEAN"
+   ]
+  },
+  "VectorIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "VectorIndexes.*.Projection": {
+   "type": "object"
+  },
+  "VectorIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "VectorIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "VectorIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "VectorIndexes.*.SearchSchema": {
+   "type": "array"
+  },
+  "VectorIndexes.*.SearchSchema.*": {
+   "type": "object"
+  },
+  "VectorIndexes.*.SearchSchema.*.AttributeName": {
+   "type": "string"
+  },
+  "VectorIndexes.*.SearchSchema.*.SearchSchemaElementType": {
+   "type": "string",
+   "enum": [
+    "HASH",
+    "INLINE_FILTER"
+   ]
+  },
+  "VectorIndexes.*.VectorAttribute": {
+   "type": "object"
+  },
+  "VectorIndexes.*.VectorAttribute.AttributeName": {
+   "type": "string"
+  },
+  "WarmThroughput": {
+   "type": "object"
+  },
+  "WarmThroughput.ReadUnitsPerSecond": {
+   "type": "integer"
+  },
+  "WarmThroughput.WriteUnitsPerSecond": {
+   "type": "integer"
+  }
+ }
+}

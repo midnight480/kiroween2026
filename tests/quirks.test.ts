@@ -11,12 +11,13 @@ function cards(...rows: string[]): string {
 
 describe("メッセージ番号（パロディ）", () => {
   it("src で投げているエラーコードはすべて番号表に載っている", () => {
-    const dir = join(import.meta.dirname, "..", "src");
     const used = new Set<string>();
-    for (const f of readdirSync(dir).filter((n) => n.endsWith(".ts"))) {
-      const text = readFileSync(join(dir, f), "utf8");
+    const files = [...readdirSync(join(import.meta.dirname, "..", "src")).filter((n) => n.endsWith(".ts")).map((n) => join("src", n)), ...readdirSync(join(import.meta.dirname, "..", "src", "mapping")).map((n) => join("src", "mapping", n))];
+    for (const f of files) {
+      const text = readFileSync(join(import.meta.dirname, "..", f), "utf8");
       for (const m of text.matchAll(/new CobolError\(\s*"([A-Z0-9-]+)"/g)) used.add(m[1] as string);
       for (const m of text.matchAll(/code:\s*"([A-Z0-9-]+)"/g)) used.add(m[1] as string); // 警告
+      for (const m of text.matchAll(/\b(?:warn|fail)\(\s*"([A-Z0-9-]+)"/g)) used.add(m[1] as string); // 対応表のフック／エンジン
     }
     const missing = [...used].filter((c) => !KNOWN_ERROR_CODES.includes(c));
     expect(missing, `番号表に無いコード: ${missing.join(", ")}`).toEqual([]);

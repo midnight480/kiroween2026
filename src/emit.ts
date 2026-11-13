@@ -1,30 +1,11 @@
-import { CobolError, type Diagnostic } from "./errors.js";
+import { CobolError } from "./errors.js";
 import type { DataItem, Program, SelectEntry } from "./parser.js";
+import { resolveValue, type EmitContext, type JsonObject, type Json, type Resource } from "./resolve.js";
+import { emitFromSpec, SPECS } from "./mapping/index.js";
 import { child, effectiveValue, pascalCase, walk } from "./semantic.js";
 
-export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
-export type JsonObject = { [key: string]: Json };
-
-export interface Resource {
-  logicalId: string;
-  /** COBOL 上の名前（01 名、または SELECT 名） */
-  name: string;
-  type: string;
-  group?: DataItem;
-  select?: SelectEntry;
-  line: number;
-  col: number;
-}
-
-export interface EmitContext {
-  program: Program;
-  byName: Map<string, Resource>;
-  warnings: Diagnostic[];
-  /** 論理 ID → 参照先論理 ID（循環検出用） */
-  deps: Map<string, Set<string>>;
-  /** 解決済みの主リージョン */
-  region: string | undefined;
-}
+export { resolveValue } from "./resolve.js";
+export type { EmitContext, Json, JsonObject, Resource } from "./resolve.js";
 
 const SUPPORTED_TYPES = new Set([
   "AWS::S3::Bucket",
@@ -41,7 +22,7 @@ export function collectResources(program: Program): Resource[] {
     const typeItem = child(group, "RESOURCE-TYPE");
     if (!typeItem) continue; // WS-FS や -REGIONS 等、リソースではない 01
     const type = effectiveValue(typeItem);
-    if (typeof type !== "string" || !SUPPORTED_TYPES.has(type)) {
+    if (typeof type !== "string" || !(SUPPORTED_TYPES.has(type) || SPECS.has(type))) {
       throw new CobolError(
         "UNSUPPORTED-RESOURCE-TYPE",
         `MVP で対応していないリソース型です: ${String(type)}`,
@@ -92,60 +73,6 @@ function dbType(select: SelectEntry): string {
     default:
       throw new CobolError("UNKNOWN-DB-ENGINE", `未知の DB エンジンです: ${select.assignTo}`, select.line, select.col);
   }
-}
-
-// ---------------------------------------------------------------- 参照解決
-
-const ATTRIBUTE_ALIASES: Record<string, string> = { ARN: "Arn" };
-
-function link(ctx: EmitContext, from: Resource, to: Resource): void {
-  const set = ctx.deps.get(from.logicalId) ?? new Set<string>();
-  set.add(to.logicalId);
-  ctx.deps.set(from.logicalId, set);
-}
-
-/**
- * 規約文字列を解決する（§4.4 / §4.7）。
- * - `REF:<名>`               → Ref（`arn` モードでは Arn 属性）
- * - `REF:<名><接尾辞>`       → Fn::Sub（`${論理ID.Arn}接尾辞`）
- * - `GETATT:<名>.<属性>`     → Fn::GetAtt
- */
-export function resolveValue(raw: string, ctx: EmitContext, from: Resource, item: DataItem, mode: "value" | "arn"): Json {
-  const lookup = (name: string): Resource => {
-    const target = ctx.byName.get(name);
-    if (!target) {
-      throw new CobolError("UNDEFINED-REFERENCE", `参照先 ${name} が同一ファイル内にありません`, item.line, item.col);
-    }
-    link(ctx, from, target);
-    return target;
-  };
-
-  if (raw.startsWith("REF:")) {
-    const m = /^REF:([A-Z0-9-]+)(.*)$/s.exec(raw);
-    if (!m) throw new CobolError("INVALID-REFERENCE", `参照の書式が不正です: ${raw}`, item.line, item.col);
-    const target = lookup(m[1] as string);
-    const suffix = m[2] as string;
-    if (mode === "arn") {
-      return suffix === ""
-        ? { "Fn::GetAtt": [target.logicalId, "Arn"] }
-        : // 接尾辞はリテラル。Fn::Sub では `${` が置換になるため `${!` にエスケープする
-          { "Fn::Sub": `\${${target.logicalId}.Arn}${suffix.replaceAll("${", "${!")}` };
-    }
-    if (suffix !== "") {
-      throw new CobolError("INVALID-REFERENCE", `この項目では REF: に接尾辞を付けられません: ${raw}`, item.line, item.col);
-    }
-    return { Ref: target.logicalId };
-  }
-
-  if (raw.startsWith("GETATT:")) {
-    const m = /^GETATT:([A-Z0-9-]+)\.([A-Za-z0-9.]+)$/.exec(raw);
-    if (!m) throw new CobolError("INVALID-REFERENCE", `参照の書式が不正です: ${raw}`, item.line, item.col);
-    const target = lookup(m[1] as string);
-    const attr = m[2] as string;
-    return { "Fn::GetAtt": [target.logicalId, ATTRIBUTE_ALIASES[attr] ?? attr] };
-  }
-
-  return raw;
 }
 
 /** 参照グラフの循環を検出する（§4.8）。 */
@@ -412,8 +339,12 @@ export function emitResource(r: Resource, ctx: EmitContext): JsonObject {
     case "AWS::DynamoDB::GlobalTable":
       properties = emitTable(r, ctx);
       break;
-    default:
+    default: {
+      // 対応表（src/mapping）にある型は、宣言的な変換エンジンに任せる
+      const spec = SPECS.get(r.type);
+      if (spec) return emitFromSpec(r, spec, ctx);
       throw new CobolError("UNSUPPORTED-RESOURCE-TYPE", `未対応のリソース型です: ${r.type}`, r.line, r.col);
+    }
   }
   return { Type: r.type, Properties: properties };
 }

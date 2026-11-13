@@ -1,0 +1,232 @@
+{
+ "type": "AWS::EC2::VPC",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "VpcEncryptionControl": [],
+  "VpcEncryptionControl.ResourceExclusions": [],
+  "VpcEncryptionControl.ResourceExclusions.EgressOnlyInternetGateway": [],
+  "VpcEncryptionControl.ResourceExclusions.ElasticFileSystem": [],
+  "VpcEncryptionControl.ResourceExclusions.InternetGateway": [],
+  "VpcEncryptionControl.ResourceExclusions.Lambda": [],
+  "VpcEncryptionControl.ResourceExclusions.NatGateway": [],
+  "VpcEncryptionControl.ResourceExclusions.VirtualPrivateGateway": [],
+  "VpcEncryptionControl.ResourceExclusions.VpcLattice": [],
+  "VpcEncryptionControl.ResourceExclusions.VpcPeering": []
+ },
+ "paths": {
+  "CidrBlock": {
+   "type": "string"
+  },
+  "CidrBlockAssociations": {
+   "type": "array"
+  },
+  "CidrBlockAssociations.*": {
+   "type": "string"
+  },
+  "DefaultNetworkAcl": {
+   "type": "string"
+  },
+  "DefaultSecurityGroup": {
+   "type": "string"
+  },
+  "EnableDnsHostnames": {
+   "type": "boolean"
+  },
+  "EnableDnsSupport": {
+   "type": "boolean"
+  },
+  "InstanceTenancy": {
+   "type": "string",
+   "enum": [
+    "dedicated",
+    "default",
+    "host"
+   ]
+  },
+  "Ipv4IpamPoolId": {
+   "type": "string"
+  },
+  "Ipv4NetmaskLength": {
+   "type": "integer"
+  },
+  "Ipv6CidrBlocks": {
+   "type": "array"
+  },
+  "Ipv6CidrBlocks.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VpcEncryptionControl": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.EgressOnlyInternetGatewayExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.ElasticFileSystemExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.InternetGatewayExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.LambdaExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.Mode": {
+   "type": "string",
+   "enum": [
+    "monitor",
+    "enforce"
+   ]
+  },
+  "VpcEncryptionControl.NatGatewayExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.ResourceExclusions": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.EgressOnlyInternetGateway": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.EgressOnlyInternetGateway.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.EgressOnlyInternetGateway.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.ElasticFileSystem": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.ElasticFileSystem.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.ElasticFileSystem.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.InternetGateway": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.InternetGateway.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.InternetGateway.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.Lambda": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.Lambda.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.Lambda.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.NatGateway": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.NatGateway.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.NatGateway.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VirtualPrivateGateway": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VirtualPrivateGateway.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VirtualPrivateGateway.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcLattice": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcLattice.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcLattice.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcPeering": {
+   "type": "object"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcPeering.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.ResourceExclusions.VpcPeering.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.State": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.StateMessage": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.VirtualPrivateGatewayExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.VpcEncryptionControlId": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.VpcId": {
+   "type": "string"
+  },
+  "VpcEncryptionControl.VpcLatticeExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcEncryptionControl.VpcPeeringExclusion": {
+   "type": "string",
+   "enum": [
+    "enable",
+    "disable"
+   ]
+  },
+  "VpcId": {
+   "type": "string"
+  }
+ }
+}

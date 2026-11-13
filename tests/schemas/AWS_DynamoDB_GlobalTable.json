@@ -1,0 +1,721 @@
+{
+ "type": "AWS::DynamoDB::GlobalTable",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Replicas"
+  ],
+  "AttributeDefinitions.*": [
+   "AttributeName",
+   "AttributeType"
+  ],
+  "GlobalSecondaryIndexes.*": [
+   "IndexName",
+   "KeySchema",
+   "Projection"
+  ],
+  "GlobalSecondaryIndexes.*.KeySchema.*": [
+   "AttributeName",
+   "KeyType"
+  ],
+  "GlobalSecondaryIndexes.*.Projection": [],
+  "GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings": [],
+  "GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings": [],
+  "GlobalSecondaryIndexes.*.WarmThroughput": [],
+  "GlobalSecondaryIndexes.*.WriteOnDemandThroughputSettings": [],
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings": [],
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings": [
+   "MaxCapacity",
+   "MinCapacity",
+   "TargetTrackingScalingPolicyConfiguration"
+  ],
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": [
+   "TargetValue"
+  ],
+  "GlobalTableWitnesses.*": [],
+  "KeySchema": [],
+  "KeySchema.*": [
+   "AttributeName",
+   "KeyType"
+  ],
+  "LocalSecondaryIndexes.*": [
+   "IndexName",
+   "KeySchema",
+   "Projection"
+  ],
+  "LocalSecondaryIndexes.*.KeySchema": [],
+  "LocalSecondaryIndexes.*.KeySchema.*": [
+   "AttributeName",
+   "KeyType"
+  ],
+  "LocalSecondaryIndexes.*.Projection": [],
+  "ReadOnDemandThroughputSettings": [],
+  "ReadProvisionedThroughputSettings": [],
+  "Replicas.*": [
+   "Region"
+  ],
+  "Replicas.*.ContributorInsightsSpecification": [
+   "Enabled"
+  ],
+  "Replicas.*.GlobalSecondaryIndexes.*": [
+   "IndexName"
+  ],
+  "Replicas.*.GlobalSecondaryIndexes.*.ContributorInsightsSpecification": [
+   "Enabled"
+  ],
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings": [],
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings": [],
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings": [
+   "MaxCapacity",
+   "MinCapacity",
+   "TargetTrackingScalingPolicyConfiguration"
+  ],
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": [
+   "TargetValue"
+  ],
+  "Replicas.*.KinesisStreamSpecification": [
+   "StreamArn"
+  ],
+  "Replicas.*.PointInTimeRecoverySpecification": [],
+  "Replicas.*.ReadOnDemandThroughputSettings": [],
+  "Replicas.*.ReadProvisionedThroughputSettings": [],
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings": [
+   "MaxCapacity",
+   "MinCapacity",
+   "TargetTrackingScalingPolicyConfiguration"
+  ],
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": [
+   "TargetValue"
+  ],
+  "Replicas.*.ReplicaStreamSpecification": [],
+  "Replicas.*.ReplicaStreamSpecification.ResourcePolicy": [
+   "PolicyDocument"
+  ],
+  "Replicas.*.ReplicaStreamSpecification.Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "Replicas.*.ResourcePolicy": [
+   "PolicyDocument"
+  ],
+  "Replicas.*.SSESpecification": [
+   "KMSMasterKeyId"
+  ],
+  "Replicas.*.Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "SSESpecification": [
+   "SSEEnabled"
+  ],
+  "StreamSpecification": [
+   "StreamViewType"
+  ],
+  "TimeToLiveSpecification": [
+   "Enabled"
+  ],
+  "VectorIndexes.*": [
+   "Dimensions",
+   "DistanceFunction",
+   "IndexName",
+   "Projection",
+   "VectorAttribute"
+  ],
+  "VectorIndexes.*.Projection": [],
+  "VectorIndexes.*.SearchSchema.*": [
+   "AttributeName",
+   "SearchSchemaElementType"
+  ],
+  "VectorIndexes.*.VectorAttribute": [
+   "AttributeName"
+  ],
+  "WarmThroughput": [],
+  "WriteOnDemandThroughputSettings": [],
+  "WriteProvisionedThroughputSettings": [],
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings": [
+   "MaxCapacity",
+   "MinCapacity",
+   "TargetTrackingScalingPolicyConfiguration"
+  ],
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": [
+   "TargetValue"
+  ]
+ },
+ "paths": {
+  "Arn": {
+   "type": "string"
+  },
+  "AttributeDefinitions": {
+   "type": "array"
+  },
+  "AttributeDefinitions.*": {
+   "type": "object"
+  },
+  "AttributeDefinitions.*.AttributeName": {
+   "type": "string"
+  },
+  "AttributeDefinitions.*.AttributeType": {
+   "type": "string",
+   "enum": [
+    "B",
+    "N",
+    "S"
+   ]
+  },
+  "BillingMode": {
+   "type": "string",
+   "enum": [
+    "PAY_PER_REQUEST",
+    "PROVISIONED"
+   ]
+  },
+  "GlobalSecondaryIndexes": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*.AttributeName": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.KeySchema.*.KeyType": {
+   "type": "string",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "GlobalSecondaryIndexes.*.Projection": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "GlobalSecondaryIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "GlobalSecondaryIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput.ReadUnitsPerSecond": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WarmThroughput.WriteUnitsPerSecond": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WriteOnDemandThroughputSettings.MaxWriteRequestUnits": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.MaxCapacity": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.MinCapacity": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.SeedCapacity": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": {
+   "type": "object"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.DisableScaleIn": {
+   "type": "boolean"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown": {
+   "type": "integer"
+  },
+  "GlobalSecondaryIndexes.*.WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.TargetValue": {
+   "type": "number"
+  },
+  "GlobalTableSourceArn": {
+   "type": "string"
+  },
+  "GlobalTableWitnesses": {
+   "type": "array"
+  },
+  "GlobalTableWitnesses.*": {
+   "type": "object"
+  },
+  "GlobalTableWitnesses.*.Region": {
+   "type": "string"
+  },
+  "KeySchema": {
+   "type": "array"
+  },
+  "KeySchema.*": {
+   "type": "object"
+  },
+  "KeySchema.*.AttributeName": {
+   "type": "string"
+  },
+  "KeySchema.*.KeyType": {
+   "type": "string",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "KeySchema.KeyType": {
+   "type": "object",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "LocalSecondaryIndexes": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.KeySchema": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*.AttributeName": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.KeySchema.*.KeyType": {
+   "type": "string",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "LocalSecondaryIndexes.*.KeySchema.KeyType": {
+   "type": "object",
+   "enum": [
+    "HASH",
+    "RANGE"
+   ]
+  },
+  "LocalSecondaryIndexes.*.Projection": {
+   "type": "object"
+  },
+  "LocalSecondaryIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "LocalSecondaryIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "LocalSecondaryIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "MultiRegionConsistency": {
+   "type": "string",
+   "enum": [
+    "EVENTUAL",
+    "STRONG"
+   ]
+  },
+  "ReadOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "ReadOnDemandThroughputSettings.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "ReadProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "ReadProvisionedThroughputSettings.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "Replicas": {
+   "type": "array"
+  },
+  "Replicas.*": {
+   "type": "object"
+  },
+  "Replicas.*.ContributorInsightsSpecification": {
+   "type": "object"
+  },
+  "Replicas.*.ContributorInsightsSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "Replicas.*.ContributorInsightsSpecification.Mode": {
+   "type": "string",
+   "enum": [
+    "ACCESSED_AND_THROTTLED_KEYS",
+    "THROTTLED_KEYS"
+   ]
+  },
+  "Replicas.*.DeletionProtectionEnabled": {
+   "type": "boolean"
+  },
+  "Replicas.*.DisassociationProtectionEnabled": {
+   "type": "boolean"
+  },
+  "Replicas.*.GlobalSecondaryIndexes": {
+   "type": "array"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ContributorInsightsSpecification": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ContributorInsightsSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ContributorInsightsSpecification.Mode": {
+   "type": "string",
+   "enum": [
+    "ACCESSED_AND_THROTTLED_KEYS",
+    "THROTTLED_KEYS"
+   ]
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadOnDemandThroughputSettings.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.MaxCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.MinCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.SeedCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": {
+   "type": "object"
+  },
+  "Replicas.*.GlobalSecondaryIndexes.*.ReadProvisionedThroughputSettings.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "Replicas.*.GlobalTableSettingsReplicationMode": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "Replicas.*.KinesisStreamSpecification": {
+   "type": "object"
+  },
+  "Replicas.*.KinesisStreamSpecification.ApproximateCreationDateTimePrecision": {
+   "type": "string",
+   "enum": [
+    "MICROSECOND",
+    "MILLISECOND"
+   ]
+  },
+  "Replicas.*.KinesisStreamSpecification.StreamArn": {
+   "type": "string"
+  },
+  "Replicas.*.PointInTimeRecoverySpecification": {
+   "type": "object"
+  },
+  "Replicas.*.PointInTimeRecoverySpecification.PointInTimeRecoveryEnabled": {
+   "type": "boolean"
+  },
+  "Replicas.*.PointInTimeRecoverySpecification.RecoveryPeriodInDays": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "Replicas.*.ReadOnDemandThroughputSettings.MaxReadRequestUnits": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings": {
+   "type": "object"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.MaxCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.MinCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.SeedCapacity": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": {
+   "type": "object"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.DisableScaleIn": {
+   "type": "boolean"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown": {
+   "type": "integer"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.TargetValue": {
+   "type": "number"
+  },
+  "Replicas.*.ReadProvisionedThroughputSettings.ReadCapacityUnits": {
+   "type": "integer"
+  },
+  "Replicas.*.Region": {
+   "type": "string"
+  },
+  "Replicas.*.ReplicaStreamSpecification": {
+   "type": "object"
+  },
+  "Replicas.*.ReplicaStreamSpecification.ResourcePolicy": {
+   "type": "object"
+  },
+  "Replicas.*.ReplicaStreamSpecification.ResourcePolicy.PolicyDocument": {
+   "type": "object"
+  },
+  "Replicas.*.ReplicaStreamSpecification.Tags": {
+   "type": "array"
+  },
+  "Replicas.*.ReplicaStreamSpecification.Tags.*": {
+   "type": "object"
+  },
+  "Replicas.*.ReplicaStreamSpecification.Tags.*.Key": {
+   "type": "string"
+  },
+  "Replicas.*.ReplicaStreamSpecification.Tags.*.Value": {
+   "type": "string"
+  },
+  "Replicas.*.ResourcePolicy": {
+   "type": "object"
+  },
+  "Replicas.*.ResourcePolicy.PolicyDocument": {
+   "type": "object"
+  },
+  "Replicas.*.SSESpecification": {
+   "type": "object"
+  },
+  "Replicas.*.SSESpecification.KMSMasterKeyId": {
+   "type": "string"
+  },
+  "Replicas.*.TableClass": {
+   "type": "string"
+  },
+  "Replicas.*.Tags": {
+   "type": "array"
+  },
+  "Replicas.*.Tags.*": {
+   "type": "object"
+  },
+  "Replicas.*.Tags.*.Key": {
+   "type": "string"
+  },
+  "Replicas.*.Tags.*.Value": {
+   "type": "string"
+  },
+  "SSESpecification": {
+   "type": "object"
+  },
+  "SSESpecification.SSEEnabled": {
+   "type": "boolean"
+  },
+  "SSESpecification.SSEType": {
+   "type": "string",
+   "enum": [
+    "KMS"
+   ]
+  },
+  "StreamArn": {
+   "type": "string"
+  },
+  "StreamSpecification": {
+   "type": "object"
+  },
+  "StreamSpecification.StreamViewType": {
+   "type": "string",
+   "enum": [
+    "KEYS_ONLY",
+    "NEW_AND_OLD_IMAGES",
+    "NEW_IMAGE",
+    "OLD_IMAGE"
+   ]
+  },
+  "TableId": {
+   "type": "string"
+  },
+  "TableName": {
+   "type": "string"
+  },
+  "TableType": {
+   "type": "string",
+   "enum": [
+    "GlobalTableReplica",
+    "Regional"
+   ]
+  },
+  "TimeToLiveSpecification": {
+   "type": "object"
+  },
+  "TimeToLiveSpecification.AttributeName": {
+   "type": "string"
+  },
+  "TimeToLiveSpecification.Enabled": {
+   "type": "boolean"
+  },
+  "VectorIndexes": {
+   "type": "array"
+  },
+  "VectorIndexes.*": {
+   "type": "object"
+  },
+  "VectorIndexes.*.Dimensions": {
+   "type": "integer"
+  },
+  "VectorIndexes.*.DistanceFunction": {
+   "type": "string",
+   "enum": [
+    "COSINE",
+    "DOT_PRODUCT",
+    "EUCLIDEAN"
+   ]
+  },
+  "VectorIndexes.*.IndexName": {
+   "type": "string"
+  },
+  "VectorIndexes.*.Projection": {
+   "type": "object"
+  },
+  "VectorIndexes.*.Projection.NonKeyAttributes": {
+   "type": "array"
+  },
+  "VectorIndexes.*.Projection.NonKeyAttributes.*": {
+   "type": "string"
+  },
+  "VectorIndexes.*.Projection.ProjectionType": {
+   "type": "string",
+   "enum": [
+    "ALL",
+    "INCLUDE",
+    "KEYS_ONLY"
+   ]
+  },
+  "VectorIndexes.*.SearchSchema": {
+   "type": "array"
+  },
+  "VectorIndexes.*.SearchSchema.*": {
+   "type": "object"
+  },
+  "VectorIndexes.*.SearchSchema.*.AttributeName": {
+   "type": "string"
+  },
+  "VectorIndexes.*.SearchSchema.*.SearchSchemaElementType": {
+   "type": "string",
+   "enum": [
+    "HASH",
+    "INLINE_FILTER"
+   ]
+  },
+  "VectorIndexes.*.VectorAttribute": {
+   "type": "object"
+  },
+  "VectorIndexes.*.VectorAttribute.AttributeName": {
+   "type": "string"
+  },
+  "WarmThroughput": {
+   "type": "object"
+  },
+  "WarmThroughput.ReadUnitsPerSecond": {
+   "type": "integer"
+  },
+  "WarmThroughput.WriteUnitsPerSecond": {
+   "type": "integer"
+  },
+  "WriteOnDemandThroughputSettings": {
+   "type": "object"
+  },
+  "WriteOnDemandThroughputSettings.MaxWriteRequestUnits": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings": {
+   "type": "object"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings": {
+   "type": "object"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.MaxCapacity": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.MinCapacity": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.SeedCapacity": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration": {
+   "type": "object"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.DisableScaleIn": {
+   "type": "boolean"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown": {
+   "type": "integer"
+  },
+  "WriteProvisionedThroughputSettings.WriteCapacityAutoScalingSettings.TargetTrackingScalingPolicyConfiguration.TargetValue": {
+   "type": "number"
+  }
+ }
+}

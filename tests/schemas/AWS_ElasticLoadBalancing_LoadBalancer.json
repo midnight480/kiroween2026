@@ -1,0 +1,247 @@
+{
+ "type": "AWS::ElasticLoadBalancing::LoadBalancer",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [
+   "Listeners"
+  ],
+  "AccessLoggingPolicy": [
+   "Enabled",
+   "S3BucketName"
+  ],
+  "AppCookieStickinessPolicy.*": [
+   "CookieName",
+   "PolicyName"
+  ],
+  "ConnectionDrainingPolicy": [
+   "Enabled"
+  ],
+  "ConnectionSettings": [
+   "IdleTimeout"
+  ],
+  "HealthCheck": [
+   "HealthyThreshold",
+   "Interval",
+   "Target",
+   "Timeout",
+   "UnhealthyThreshold"
+  ],
+  "LBCookieStickinessPolicy.*": [],
+  "Listeners.*": [
+   "InstancePort",
+   "LoadBalancerPort",
+   "Protocol"
+  ],
+  "Policies.*": [
+   "Attributes",
+   "PolicyName",
+   "PolicyType"
+  ],
+  "Policies.*.Attributes.*": [],
+  "SourceSecurityGroup": [],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ]
+ },
+ "paths": {
+  "AccessLoggingPolicy": {
+   "type": "object"
+  },
+  "AccessLoggingPolicy.EmitInterval": {
+   "type": "integer"
+  },
+  "AccessLoggingPolicy.Enabled": {
+   "type": "boolean"
+  },
+  "AccessLoggingPolicy.S3BucketName": {
+   "type": "string"
+  },
+  "AccessLoggingPolicy.S3BucketPrefix": {
+   "type": "string"
+  },
+  "AppCookieStickinessPolicy": {
+   "type": "array"
+  },
+  "AppCookieStickinessPolicy.*": {
+   "type": "object"
+  },
+  "AppCookieStickinessPolicy.*.CookieName": {
+   "type": "string"
+  },
+  "AppCookieStickinessPolicy.*.PolicyName": {
+   "type": "string"
+  },
+  "AvailabilityZones": {
+   "type": "array"
+  },
+  "AvailabilityZones.*": {
+   "type": "string"
+  },
+  "CanonicalHostedZoneName": {
+   "type": "string"
+  },
+  "CanonicalHostedZoneNameID": {
+   "type": "string"
+  },
+  "ConnectionDrainingPolicy": {
+   "type": "object"
+  },
+  "ConnectionDrainingPolicy.Enabled": {
+   "type": "boolean"
+  },
+  "ConnectionDrainingPolicy.Timeout": {
+   "type": "integer"
+  },
+  "ConnectionSettings": {
+   "type": "object"
+  },
+  "ConnectionSettings.IdleTimeout": {
+   "type": "integer"
+  },
+  "CrossZone": {
+   "type": "boolean"
+  },
+  "DNSName": {
+   "type": "string"
+  },
+  "HealthCheck": {
+   "type": "object"
+  },
+  "HealthCheck.HealthyThreshold": {
+   "type": "string"
+  },
+  "HealthCheck.Interval": {
+   "type": "string"
+  },
+  "HealthCheck.Target": {
+   "type": "string"
+  },
+  "HealthCheck.Timeout": {
+   "type": "string"
+  },
+  "HealthCheck.UnhealthyThreshold": {
+   "type": "string"
+  },
+  "Instances": {
+   "type": "array"
+  },
+  "Instances.*": {
+   "type": "string"
+  },
+  "LBCookieStickinessPolicy": {
+   "type": "array"
+  },
+  "LBCookieStickinessPolicy.*": {
+   "type": "object"
+  },
+  "LBCookieStickinessPolicy.*.CookieExpirationPeriod": {
+   "type": "string"
+  },
+  "LBCookieStickinessPolicy.*.PolicyName": {
+   "type": "string"
+  },
+  "Listeners": {
+   "type": "array"
+  },
+  "Listeners.*": {
+   "type": "object"
+  },
+  "Listeners.*.InstancePort": {
+   "type": "string"
+  },
+  "Listeners.*.InstanceProtocol": {
+   "type": "string"
+  },
+  "Listeners.*.LoadBalancerPort": {
+   "type": "string"
+  },
+  "Listeners.*.PolicyNames": {
+   "type": "array"
+  },
+  "Listeners.*.PolicyNames.*": {
+   "type": "string"
+  },
+  "Listeners.*.Protocol": {
+   "type": "string"
+  },
+  "Listeners.*.SSLCertificateId": {
+   "type": "string"
+  },
+  "LoadBalancerName": {
+   "type": "string"
+  },
+  "Policies": {
+   "type": "array"
+  },
+  "Policies.*": {
+   "type": "object"
+  },
+  "Policies.*.Attributes": {
+   "type": "array"
+  },
+  "Policies.*.Attributes.*": {
+   "type": "object"
+  },
+  "Policies.*.Attributes.*.Name": {
+   "type": "string"
+  },
+  "Policies.*.Attributes.*.Value": {
+   "type": "string"
+  },
+  "Policies.*.InstancePorts": {
+   "type": "array"
+  },
+  "Policies.*.InstancePorts.*": {
+   "type": "string"
+  },
+  "Policies.*.LoadBalancerPorts": {
+   "type": "array"
+  },
+  "Policies.*.LoadBalancerPorts.*": {
+   "type": "string"
+  },
+  "Policies.*.PolicyName": {
+   "type": "string"
+  },
+  "Policies.*.PolicyType": {
+   "type": "string"
+  },
+  "Scheme": {
+   "type": "string"
+  },
+  "SecurityGroups": {
+   "type": "array"
+  },
+  "SecurityGroups.*": {
+   "type": "string"
+  },
+  "SourceSecurityGroup": {
+   "type": "object"
+  },
+  "SourceSecurityGroup.GroupName": {
+   "type": "string"
+  },
+  "SourceSecurityGroup.OwnerAlias": {
+   "type": "string"
+  },
+  "Subnets": {
+   "type": "array"
+  },
+  "Subnets.*": {
+   "type": "string"
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  }
+ }
+}

@@ -71,6 +71,19 @@ const CODES = [
   "PUBLIC-ACCESS-ALLOWED",
   "REGION-SET",
   "DISPLAY-IGNORED",
+  // 対応表（src/mapping）で増えたもの
+  "INVALID-VALUE",
+  "UNKNOWN-PROPERTY",
+  "PLAIN-PASSWORD",
+  "CLOUDFRONT-CERT-REGION",
+  "OPEN-TO-THE-WORLD",
+  "CDN-NO-ALIAS",
+  "IMDSV1-ENABLED",
+  "ALB-NO-SG",
+  "CLASSIC-LB",
+  "DB-PUBLIC",
+  "DB-UNENCRYPTED",
+  "CLASSIC-THREE-TIER",
 ] as const;
 
 export const KNOWN_ERROR_CODES: readonly string[] = CODES;

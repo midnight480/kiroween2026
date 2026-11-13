@@ -1,0 +1,1305 @@
+{
+ "type": "AWS::S3::Bucket",
+ "source": "cfn-lint 1.60.0 / ap-northeast-1",
+ "required": {
+  "": [],
+  "AccelerateConfiguration": [
+   "AccelerationStatus"
+  ],
+  "AnalyticsConfigurations.*": [
+   "Id",
+   "StorageClassAnalysis"
+  ],
+  "AnalyticsConfigurations.*.StorageClassAnalysis": [],
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport": [
+   "Destination",
+   "OutputSchemaVersion"
+  ],
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination": [
+   "BucketArn",
+   "Format"
+  ],
+  "AnalyticsConfigurations.*.TagFilters.*": [
+   "Key",
+   "Value"
+  ],
+  "BucketEncryption": [
+   "ServerSideEncryptionConfiguration"
+  ],
+  "BucketEncryption.ServerSideEncryptionConfiguration.*": [],
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.BlockedEncryptionTypes": [],
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.ServerSideEncryptionByDefault": [
+   "SSEAlgorithm"
+  ],
+  "CorsConfiguration": [
+   "CorsRules"
+  ],
+  "CorsConfiguration.CorsRules.*": [
+   "AllowedMethods",
+   "AllowedOrigins"
+  ],
+  "IntelligentTieringConfigurations.*": [
+   "Id",
+   "Status",
+   "Tierings"
+  ],
+  "IntelligentTieringConfigurations.*.TagFilters.*": [
+   "Key",
+   "Value"
+  ],
+  "IntelligentTieringConfigurations.*.Tierings.*": [
+   "AccessTier",
+   "Days"
+  ],
+  "InventoryConfigurations.*": [
+   "Destination",
+   "Enabled",
+   "Id",
+   "IncludedObjectVersions",
+   "ScheduleFrequency"
+  ],
+  "InventoryConfigurations.*.Destination": [
+   "BucketArn",
+   "Format"
+  ],
+  "LifecycleConfiguration": [
+   "Rules"
+  ],
+  "LifecycleConfiguration.Rules.*": [
+   "Status"
+  ],
+  "LifecycleConfiguration.Rules.*.AbortIncompleteMultipartUpload": [
+   "DaysAfterInitiation"
+  ],
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionExpiration": [
+   "NoncurrentDays"
+  ],
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransition": [
+   "StorageClass",
+   "TransitionInDays"
+  ],
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions.*": [
+   "StorageClass",
+   "TransitionInDays"
+  ],
+  "LifecycleConfiguration.Rules.*.TagFilters.*": [
+   "Key",
+   "Value"
+  ],
+  "LifecycleConfiguration.Rules.*.Transition": [
+   "StorageClass"
+  ],
+  "LifecycleConfiguration.Rules.*.Transitions.*": [
+   "StorageClass"
+  ],
+  "LoggingConfiguration": [],
+  "MetadataConfiguration": [
+   "JournalTableConfiguration"
+  ],
+  "MetadataConfiguration.AnnotationTableConfiguration": [
+   "ConfigurationState"
+  ],
+  "MetadataConfiguration.AnnotationTableConfiguration.EncryptionConfiguration": [
+   "SseAlgorithm"
+  ],
+  "MetadataConfiguration.Destination": [
+   "TableBucketType"
+  ],
+  "MetadataConfiguration.InventoryTableConfiguration": [
+   "ConfigurationState"
+  ],
+  "MetadataConfiguration.InventoryTableConfiguration.EncryptionConfiguration": [
+   "SseAlgorithm"
+  ],
+  "MetadataConfiguration.JournalTableConfiguration": [
+   "RecordExpiration"
+  ],
+  "MetadataConfiguration.JournalTableConfiguration.EncryptionConfiguration": [
+   "SseAlgorithm"
+  ],
+  "MetadataConfiguration.JournalTableConfiguration.RecordExpiration": [
+   "Expiration"
+  ],
+  "MetadataTableConfiguration": [
+   "S3TablesDestination"
+  ],
+  "MetadataTableConfiguration.S3TablesDestination": [
+   "TableBucketArn",
+   "TableName"
+  ],
+  "MetricsConfigurations.*": [
+   "Id"
+  ],
+  "MetricsConfigurations.*.TagFilters.*": [
+   "Key",
+   "Value"
+  ],
+  "NotificationConfiguration": [],
+  "NotificationConfiguration.EventBridgeConfiguration": [
+   "EventBridgeEnabled"
+  ],
+  "NotificationConfiguration.LambdaConfigurations.*": [
+   "Event",
+   "Function"
+  ],
+  "NotificationConfiguration.LambdaConfigurations.*.Filter": [
+   "S3Key"
+  ],
+  "NotificationConfiguration.LambdaConfigurations.*.Filter.S3Key": [
+   "Rules"
+  ],
+  "NotificationConfiguration.LambdaConfigurations.*.Filter.S3Key.Rules.*": [
+   "Name",
+   "Value"
+  ],
+  "NotificationConfiguration.QueueConfigurations.*": [
+   "Event",
+   "Queue"
+  ],
+  "NotificationConfiguration.QueueConfigurations.*.Filter": [
+   "S3Key"
+  ],
+  "NotificationConfiguration.QueueConfigurations.*.Filter.S3Key": [
+   "Rules"
+  ],
+  "NotificationConfiguration.QueueConfigurations.*.Filter.S3Key.Rules.*": [
+   "Name",
+   "Value"
+  ],
+  "NotificationConfiguration.TopicConfigurations.*": [
+   "Event",
+   "Topic"
+  ],
+  "NotificationConfiguration.TopicConfigurations.*.Filter": [
+   "S3Key"
+  ],
+  "NotificationConfiguration.TopicConfigurations.*.Filter.S3Key": [
+   "Rules"
+  ],
+  "NotificationConfiguration.TopicConfigurations.*.Filter.S3Key.Rules.*": [
+   "Name",
+   "Value"
+  ],
+  "ObjectLockConfiguration": [],
+  "ObjectLockConfiguration.Rule": [],
+  "ObjectLockConfiguration.Rule.DefaultRetention": [],
+  "ObjectLockConfiguration.Rule.DefaultRetention.DefaultEventHold": [],
+  "OwnershipControls": [
+   "Rules"
+  ],
+  "OwnershipControls.Rules.*": [],
+  "PublicAccessBlockConfiguration": [],
+  "ReplicationConfiguration": [
+   "Role",
+   "Rules"
+  ],
+  "ReplicationConfiguration.Rules.*": [
+   "Destination",
+   "Status"
+  ],
+  "ReplicationConfiguration.Rules.*.DeleteMarkerReplication": [],
+  "ReplicationConfiguration.Rules.*.Destination": [
+   "Bucket"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.AccessControlTranslation": [
+   "Owner"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.EncryptionConfiguration": [
+   "ReplicaKmsKeyID"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.Metrics": [
+   "Status"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.Metrics.EventThreshold": [
+   "Minutes"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime": [
+   "Status",
+   "Time"
+  ],
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime.Time": [
+   "Minutes"
+  ],
+  "ReplicationConfiguration.Rules.*.Filter": [],
+  "ReplicationConfiguration.Rules.*.Filter.And": [],
+  "ReplicationConfiguration.Rules.*.Filter.And.TagFilters.*": [
+   "Key",
+   "Value"
+  ],
+  "ReplicationConfiguration.Rules.*.Filter.TagFilter": [
+   "Key",
+   "Value"
+  ],
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria": [],
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.ReplicaModifications": [
+   "Status"
+  ],
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.SseKmsEncryptedObjects": [
+   "Status"
+  ],
+  "Tags.*": [
+   "Key",
+   "Value"
+  ],
+  "VersioningConfiguration": [
+   "Status"
+  ],
+  "WebsiteConfiguration": [],
+  "WebsiteConfiguration.RedirectAllRequestsTo": [
+   "HostName"
+  ],
+  "WebsiteConfiguration.RoutingRules.*": [
+   "RedirectRule"
+  ],
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule": [],
+  "WebsiteConfiguration.RoutingRules.*.RoutingRuleCondition": []
+ },
+ "paths": {
+  "AbacStatus": {
+   "type": "string",
+   "enum": [
+    "Enabled",
+    "Disabled"
+   ]
+  },
+  "AccelerateConfiguration": {
+   "type": "object"
+  },
+  "AccelerateConfiguration.AccelerationStatus": {
+   "type": "string",
+   "enum": [
+    "Enabled",
+    "Suspended"
+   ]
+  },
+  "AccessControl": {
+   "type": "string",
+   "enum": [
+    "AuthenticatedRead",
+    "AwsExecRead",
+    "BucketOwnerFullControl",
+    "BucketOwnerRead",
+    "LogDeliveryWrite",
+    "Private",
+    "PublicRead",
+    "PublicReadWrite"
+   ]
+  },
+  "AnalyticsConfigurations": {
+   "type": "array"
+  },
+  "AnalyticsConfigurations.*": {
+   "type": "object"
+  },
+  "AnalyticsConfigurations.*.Id": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.Prefix": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis": {
+   "type": "object"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport": {
+   "type": "object"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination": {
+   "type": "object"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination.BucketAccountId": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination.BucketArn": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination.Format": {
+   "type": "string",
+   "enum": [
+    "CSV",
+    "ORC",
+    "Parquet"
+   ]
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.Destination.Prefix": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.StorageClassAnalysis.DataExport.OutputSchemaVersion": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.TagFilters": {
+   "type": "array"
+  },
+  "AnalyticsConfigurations.*.TagFilters.*": {
+   "type": "object"
+  },
+  "AnalyticsConfigurations.*.TagFilters.*.Key": {
+   "type": "string"
+  },
+  "AnalyticsConfigurations.*.TagFilters.*.Value": {
+   "type": "string"
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "BucketEncryption": {
+   "type": "object"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration": {
+   "type": "array"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*": {
+   "type": "object"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.BlockedEncryptionTypes": {
+   "type": "object"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.BlockedEncryptionTypes.EncryptionType": {
+   "type": "array"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.BlockedEncryptionTypes.EncryptionType.*": {
+   "type": "string",
+   "enum": [
+    "NONE",
+    "SSE-C"
+   ]
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.BucketKeyEnabled": {
+   "type": "boolean"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.ServerSideEncryptionByDefault": {
+   "type": "object"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.ServerSideEncryptionByDefault.KMSMasterKeyID": {
+   "type": "string"
+  },
+  "BucketEncryption.ServerSideEncryptionConfiguration.*.ServerSideEncryptionByDefault.SSEAlgorithm": {
+   "type": "string",
+   "enum": [
+    "aws:kms",
+    "AES256",
+    "aws:kms:dsse"
+   ]
+  },
+  "BucketName": {
+   "type": "string"
+  },
+  "BucketNamePrefix": {
+   "type": "string"
+  },
+  "BucketNamespace": {
+   "type": "string",
+   "enum": [
+    "global",
+    "account-regional"
+   ]
+  },
+  "CorsConfiguration": {
+   "type": "object"
+  },
+  "CorsConfiguration.CorsRules": {
+   "type": "array"
+  },
+  "CorsConfiguration.CorsRules.*": {
+   "type": "object"
+  },
+  "CorsConfiguration.CorsRules.*.AllowedHeaders": {
+   "type": "array"
+  },
+  "CorsConfiguration.CorsRules.*.AllowedHeaders.*": {
+   "type": "string"
+  },
+  "CorsConfiguration.CorsRules.*.AllowedMethods": {
+   "type": "array"
+  },
+  "CorsConfiguration.CorsRules.*.AllowedMethods.*": {
+   "type": "string",
+   "enum": [
+    "GET",
+    "PUT",
+    "HEAD",
+    "POST",
+    "DELETE"
+   ]
+  },
+  "CorsConfiguration.CorsRules.*.AllowedOrigins": {
+   "type": "array"
+  },
+  "CorsConfiguration.CorsRules.*.AllowedOrigins.*": {
+   "type": "string"
+  },
+  "CorsConfiguration.CorsRules.*.ExposedHeaders": {
+   "type": "array"
+  },
+  "CorsConfiguration.CorsRules.*.ExposedHeaders.*": {
+   "type": "string"
+  },
+  "CorsConfiguration.CorsRules.*.Id": {
+   "type": "string"
+  },
+  "CorsConfiguration.CorsRules.*.MaxAge": {
+   "type": "integer"
+  },
+  "DomainName": {
+   "type": "string"
+  },
+  "DualStackDomainName": {
+   "type": "string"
+  },
+  "IntelligentTieringConfigurations": {
+   "type": "array"
+  },
+  "IntelligentTieringConfigurations.*": {
+   "type": "object"
+  },
+  "IntelligentTieringConfigurations.*.Id": {
+   "type": "string"
+  },
+  "IntelligentTieringConfigurations.*.Prefix": {
+   "type": "string"
+  },
+  "IntelligentTieringConfigurations.*.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "IntelligentTieringConfigurations.*.TagFilters": {
+   "type": "array"
+  },
+  "IntelligentTieringConfigurations.*.TagFilters.*": {
+   "type": "object"
+  },
+  "IntelligentTieringConfigurations.*.TagFilters.*.Key": {
+   "type": "string"
+  },
+  "IntelligentTieringConfigurations.*.TagFilters.*.Value": {
+   "type": "string"
+  },
+  "IntelligentTieringConfigurations.*.Tierings": {
+   "type": "array"
+  },
+  "IntelligentTieringConfigurations.*.Tierings.*": {
+   "type": "object"
+  },
+  "IntelligentTieringConfigurations.*.Tierings.*.AccessTier": {
+   "type": "string",
+   "enum": [
+    "ARCHIVE_ACCESS",
+    "DEEP_ARCHIVE_ACCESS"
+   ]
+  },
+  "IntelligentTieringConfigurations.*.Tierings.*.Days": {
+   "type": "integer"
+  },
+  "InventoryConfigurations": {
+   "type": "array"
+  },
+  "InventoryConfigurations.*": {
+   "type": "object"
+  },
+  "InventoryConfigurations.*.Destination": {
+   "type": "object"
+  },
+  "InventoryConfigurations.*.Destination.BucketAccountId": {
+   "type": "string"
+  },
+  "InventoryConfigurations.*.Destination.BucketArn": {
+   "type": "string"
+  },
+  "InventoryConfigurations.*.Destination.Format": {
+   "type": "string",
+   "enum": [
+    "CSV",
+    "ORC",
+    "Parquet"
+   ]
+  },
+  "InventoryConfigurations.*.Destination.Prefix": {
+   "type": "string"
+  },
+  "InventoryConfigurations.*.Enabled": {
+   "type": "boolean"
+  },
+  "InventoryConfigurations.*.Id": {
+   "type": "string"
+  },
+  "InventoryConfigurations.*.IncludedObjectVersions": {
+   "type": "string",
+   "enum": [
+    "All",
+    "Current"
+   ]
+  },
+  "InventoryConfigurations.*.OptionalFields": {
+   "type": "array"
+  },
+  "InventoryConfigurations.*.OptionalFields.*": {
+   "type": "string",
+   "enum": [
+    "Size",
+    "LastModifiedDate",
+    "StorageClass",
+    "ETag",
+    "IsMultipartUploaded",
+    "ReplicationStatus",
+    "EncryptionStatus",
+    "ObjectLockRetainUntilDate",
+    "ObjectLockMode",
+    "ObjectLockLegalHoldStatus",
+    "ObjectLockEventHoldStatus",
+    "ObjectLockEventHoldDuration",
+    "IntelligentTieringAccessTier",
+    "BucketKeyStatus",
+    "ChecksumAlgorithm",
+    "ObjectAccessControlList",
+    "ObjectOwner",
+    "LifecycleExpirationDate",
+    "IntelligentTieringReferenceDate"
+   ]
+  },
+  "InventoryConfigurations.*.Prefix": {
+   "type": "string"
+  },
+  "InventoryConfigurations.*.ScheduleFrequency": {
+   "type": "string",
+   "enum": [
+    "Daily",
+    "Weekly"
+   ]
+  },
+  "LifecycleConfiguration": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules": {
+   "type": "array"
+  },
+  "LifecycleConfiguration.Rules.*": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.AbortIncompleteMultipartUpload": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.AbortIncompleteMultipartUpload.DaysAfterInitiation": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.ExpirationDate": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.ExpirationInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.ExpiredObjectDeleteMarker": {
+   "type": "boolean"
+  },
+  "LifecycleConfiguration.Rules.*.Id": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionExpiration": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionExpiration.NewerNoncurrentVersions": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionExpiration.NoncurrentDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionExpirationInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransition": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransition.NewerNoncurrentVersions": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransition.StorageClass": {
+   "type": "string",
+   "enum": [
+    "DEEP_ARCHIVE",
+    "GLACIER",
+    "Glacier",
+    "GLACIER_IR",
+    "INTELLIGENT_TIERING",
+    "ONEZONE_IA",
+    "STANDARD_IA"
+   ]
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransition.TransitionInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions": {
+   "type": "array"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions.*": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions.*.NewerNoncurrentVersions": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions.*.StorageClass": {
+   "type": "string",
+   "enum": [
+    "DEEP_ARCHIVE",
+    "GLACIER",
+    "Glacier",
+    "GLACIER_IR",
+    "INTELLIGENT_TIERING",
+    "ONEZONE_IA",
+    "STANDARD_IA"
+   ]
+  },
+  "LifecycleConfiguration.Rules.*.NoncurrentVersionTransitions.*.TransitionInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.ObjectSizeGreaterThan": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.ObjectSizeLessThan": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.Prefix": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.Status": {
+   "type": "string",
+   "enum": [
+    "Enabled",
+    "Disabled"
+   ]
+  },
+  "LifecycleConfiguration.Rules.*.TagFilters": {
+   "type": "array"
+  },
+  "LifecycleConfiguration.Rules.*.TagFilters.*": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.TagFilters.*.Key": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.TagFilters.*.Value": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.Transition": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.Transition.StorageClass": {
+   "type": "string",
+   "enum": [
+    "DEEP_ARCHIVE",
+    "GLACIER",
+    "Glacier",
+    "GLACIER_IR",
+    "INTELLIGENT_TIERING",
+    "ONEZONE_IA",
+    "STANDARD_IA"
+   ]
+  },
+  "LifecycleConfiguration.Rules.*.Transition.TransitionDate": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.Transition.TransitionInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.Rules.*.Transitions": {
+   "type": "array"
+  },
+  "LifecycleConfiguration.Rules.*.Transitions.*": {
+   "type": "object"
+  },
+  "LifecycleConfiguration.Rules.*.Transitions.*.StorageClass": {
+   "type": "string",
+   "enum": [
+    "DEEP_ARCHIVE",
+    "GLACIER",
+    "Glacier",
+    "GLACIER_IR",
+    "INTELLIGENT_TIERING",
+    "ONEZONE_IA",
+    "STANDARD_IA"
+   ]
+  },
+  "LifecycleConfiguration.Rules.*.Transitions.*.TransitionDate": {
+   "type": "string"
+  },
+  "LifecycleConfiguration.Rules.*.Transitions.*.TransitionInDays": {
+   "type": "integer"
+  },
+  "LifecycleConfiguration.TransitionDefaultMinimumObjectSize": {
+   "type": "string",
+   "enum": [
+    "varies_by_storage_class",
+    "all_storage_classes_128K"
+   ]
+  },
+  "LoggingConfiguration": {
+   "type": "object"
+  },
+  "LoggingConfiguration.DestinationBucketName": {
+   "type": "string"
+  },
+  "LoggingConfiguration.LogFilePrefix": {
+   "type": "string"
+  },
+  "LoggingConfiguration.TargetObjectKeyFormat": {
+   "type": "object"
+  },
+  "MetadataConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.ConfigurationState": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.EncryptionConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.EncryptionConfiguration.KmsKeyArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.EncryptionConfiguration.SseAlgorithm": {
+   "type": "string",
+   "enum": [
+    "aws:kms",
+    "AES256"
+   ]
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.Role": {
+   "type": "string"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.TableArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.AnnotationTableConfiguration.TableName": {
+   "type": "string"
+  },
+  "MetadataConfiguration.Destination": {
+   "type": "object"
+  },
+  "MetadataConfiguration.Destination.TableBucketArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.Destination.TableBucketType": {
+   "type": "string",
+   "enum": [
+    "aws",
+    "customer"
+   ]
+  },
+  "MetadataConfiguration.Destination.TableNamespace": {
+   "type": "string"
+  },
+  "MetadataConfiguration.InventoryTableConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.ConfigurationState": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.EncryptionConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.EncryptionConfiguration.KmsKeyArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.EncryptionConfiguration.SseAlgorithm": {
+   "type": "string",
+   "enum": [
+    "aws:kms",
+    "AES256"
+   ]
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.TableArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.InventoryTableConfiguration.TableName": {
+   "type": "string"
+  },
+  "MetadataConfiguration.JournalTableConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.EncryptionConfiguration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.EncryptionConfiguration.KmsKeyArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.EncryptionConfiguration.SseAlgorithm": {
+   "type": "string",
+   "enum": [
+    "aws:kms",
+    "AES256"
+   ]
+  },
+  "MetadataConfiguration.JournalTableConfiguration.RecordExpiration": {
+   "type": "object"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.RecordExpiration.Days": {
+   "type": "integer"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.RecordExpiration.Expiration": {
+   "type": "string",
+   "enum": [
+    "ENABLED",
+    "DISABLED"
+   ]
+  },
+  "MetadataConfiguration.JournalTableConfiguration.TableArn": {
+   "type": "string"
+  },
+  "MetadataConfiguration.JournalTableConfiguration.TableName": {
+   "type": "string"
+  },
+  "MetadataTableConfiguration": {
+   "type": "object"
+  },
+  "MetadataTableConfiguration.S3TablesDestination": {
+   "type": "object"
+  },
+  "MetadataTableConfiguration.S3TablesDestination.TableArn": {
+   "type": "string"
+  },
+  "MetadataTableConfiguration.S3TablesDestination.TableBucketArn": {
+   "type": "string"
+  },
+  "MetadataTableConfiguration.S3TablesDestination.TableName": {
+   "type": "string"
+  },
+  "MetadataTableConfiguration.S3TablesDestination.TableNamespace": {
+   "type": "string"
+  },
+  "MetricsConfigurations": {
+   "type": "array"
+  },
+  "MetricsConfigurations.*": {
+   "type": "object"
+  },
+  "MetricsConfigurations.*.AccessPointArn": {
+   "type": "string"
+  },
+  "MetricsConfigurations.*.Id": {
+   "type": "string"
+  },
+  "MetricsConfigurations.*.Prefix": {
+   "type": "string"
+  },
+  "MetricsConfigurations.*.TagFilters": {
+   "type": "array"
+  },
+  "MetricsConfigurations.*.TagFilters.*": {
+   "type": "object"
+  },
+  "MetricsConfigurations.*.TagFilters.*.Key": {
+   "type": "string"
+  },
+  "MetricsConfigurations.*.TagFilters.*.Value": {
+   "type": "string"
+  },
+  "NotificationConfiguration": {
+   "type": "object"
+  },
+  "NotificationConfiguration.EventBridgeConfiguration": {
+   "type": "object"
+  },
+  "NotificationConfiguration.EventBridgeConfiguration.EventBridgeEnabled": {
+   "type": "boolean"
+  },
+  "NotificationConfiguration.LambdaConfigurations": {
+   "type": "array"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Event": {
+   "type": "string"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Filter": {
+   "type": "object"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Filter.S3Key": {
+   "type": "object"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Filter.S3Key.Rules": {
+   "type": "array"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Filter.S3Key.Rules.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.LambdaConfigurations.*.Function": {
+   "type": "string"
+  },
+  "NotificationConfiguration.QueueConfigurations": {
+   "type": "array"
+  },
+  "NotificationConfiguration.QueueConfigurations.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Event": {
+   "type": "string"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Filter": {
+   "type": "object"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Filter.S3Key": {
+   "type": "object"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Filter.S3Key.Rules": {
+   "type": "array"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Filter.S3Key.Rules.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.QueueConfigurations.*.Queue": {
+   "type": "string"
+  },
+  "NotificationConfiguration.TopicConfigurations": {
+   "type": "array"
+  },
+  "NotificationConfiguration.TopicConfigurations.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Event": {
+   "type": "string"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Filter": {
+   "type": "object"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Filter.S3Key": {
+   "type": "object"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Filter.S3Key.Rules": {
+   "type": "array"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Filter.S3Key.Rules.*": {
+   "type": "object"
+  },
+  "NotificationConfiguration.TopicConfigurations.*.Topic": {
+   "type": "string"
+  },
+  "ObjectLockConfiguration": {
+   "type": "object"
+  },
+  "ObjectLockConfiguration.ObjectLockEnabled": {
+   "type": "string",
+   "enum": [
+    "Enabled"
+   ]
+  },
+  "ObjectLockConfiguration.Rule": {
+   "type": "object"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention": {
+   "type": "object"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.Days": {
+   "type": "integer"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.DefaultEventHold": {
+   "type": "object"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.DefaultEventHold.Days": {
+   "type": "integer"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.DefaultEventHold.Years": {
+   "type": "integer"
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.Mode": {
+   "type": "string",
+   "enum": [
+    "COMPLIANCE",
+    "GOVERNANCE"
+   ]
+  },
+  "ObjectLockConfiguration.Rule.DefaultRetention.Years": {
+   "type": "integer"
+  },
+  "ObjectLockEnabled": {
+   "type": "boolean"
+  },
+  "OwnershipControls": {
+   "type": "object"
+  },
+  "OwnershipControls.Rules": {
+   "type": "array"
+  },
+  "OwnershipControls.Rules.*": {
+   "type": "object"
+  },
+  "OwnershipControls.Rules.*.ObjectOwnership": {
+   "type": "string",
+   "enum": [
+    "ObjectWriter",
+    "BucketOwnerPreferred",
+    "BucketOwnerEnforced"
+   ]
+  },
+  "PublicAccessBlockConfiguration": {
+   "type": "object"
+  },
+  "PublicAccessBlockConfiguration.BlockPublicAcls": {
+   "type": "boolean"
+  },
+  "PublicAccessBlockConfiguration.BlockPublicPolicy": {
+   "type": "boolean"
+  },
+  "PublicAccessBlockConfiguration.IgnorePublicAcls": {
+   "type": "boolean"
+  },
+  "PublicAccessBlockConfiguration.RestrictPublicBuckets": {
+   "type": "boolean"
+  },
+  "RegionalDomainName": {
+   "type": "string"
+  },
+  "ReplicationConfiguration": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Role": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules": {
+   "type": "array"
+  },
+  "ReplicationConfiguration.Rules.*": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.DeleteMarkerReplication": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.DeleteMarkerReplication.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Destination": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.AccessControlTranslation": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.AccessControlTranslation.Owner": {
+   "type": "string",
+   "enum": [
+    "Destination"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Account": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Bucket": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.EncryptionConfiguration": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.EncryptionConfiguration.ReplicaKmsKeyID": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Metrics": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Metrics.EventThreshold": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Metrics.EventThreshold.Minutes": {
+   "type": "integer"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.Metrics.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime.Time": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.ReplicationTime.Time.Minutes": {
+   "type": "integer"
+  },
+  "ReplicationConfiguration.Rules.*.Destination.StorageClass": {
+   "type": "string",
+   "enum": [
+    "DEEP_ARCHIVE",
+    "GLACIER",
+    "GLACIER_IR",
+    "INTELLIGENT_TIERING",
+    "ONEZONE_IA",
+    "REDUCED_REDUNDANCY",
+    "STANDARD",
+    "STANDARD_IA"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Filter": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.And": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.And.Prefix": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.And.TagFilters": {
+   "type": "array"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.And.TagFilters.*": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.Prefix": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.TagFilter": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.TagFilter.Key": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Filter.TagFilter.Value": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Id": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Prefix": {
+   "type": "string"
+  },
+  "ReplicationConfiguration.Rules.*.Priority": {
+   "type": "integer"
+  },
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.ReplicaModifications": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.ReplicaModifications.Status": {
+   "type": "string",
+   "enum": [
+    "Enabled",
+    "Disabled"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.SseKmsEncryptedObjects": {
+   "type": "object"
+  },
+  "ReplicationConfiguration.Rules.*.SourceSelectionCriteria.SseKmsEncryptedObjects.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "ReplicationConfiguration.Rules.*.Status": {
+   "type": "string",
+   "enum": [
+    "Disabled",
+    "Enabled"
+   ]
+  },
+  "Tags": {
+   "type": "array"
+  },
+  "Tags.*": {
+   "type": "object"
+  },
+  "Tags.*.Key": {
+   "type": "string"
+  },
+  "Tags.*.Value": {
+   "type": "string"
+  },
+  "VersioningConfiguration": {
+   "type": "object"
+  },
+  "VersioningConfiguration.Status": {
+   "type": "string",
+   "enum": [
+    "Enabled",
+    "Suspended"
+   ]
+  },
+  "WebsiteConfiguration": {
+   "type": "object"
+  },
+  "WebsiteConfiguration.ErrorDocument": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.IndexDocument": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RedirectAllRequestsTo": {
+   "type": "object"
+  },
+  "WebsiteConfiguration.RedirectAllRequestsTo.HostName": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RedirectAllRequestsTo.Protocol": {
+   "type": "string",
+   "enum": [
+    "http",
+    "https"
+   ]
+  },
+  "WebsiteConfiguration.RoutingRules": {
+   "type": "array"
+  },
+  "WebsiteConfiguration.RoutingRules.*": {
+   "type": "object"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule": {
+   "type": "object"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule.HostName": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule.HttpRedirectCode": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule.Protocol": {
+   "type": "string",
+   "enum": [
+    "http",
+    "https"
+   ]
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule.ReplaceKeyPrefixWith": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RedirectRule.ReplaceKeyWith": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RoutingRuleCondition": {
+   "type": "object"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RoutingRuleCondition.HttpErrorCodeReturnedEquals": {
+   "type": "string"
+  },
+  "WebsiteConfiguration.RoutingRules.*.RoutingRuleCondition.KeyPrefixEquals": {
+   "type": "string"
+  },
+  "WebsiteURL": {
+   "type": "string"
+  }
+ }
+}
