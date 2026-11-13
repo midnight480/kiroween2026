@@ -77,6 +77,7 @@ muteButton.addEventListener("click", () => {
 
 // ---------------------------------------------------------------- 印字
 
+const params = new URLSearchParams(window.location.search);
 let printing = 0; // 世代番号。新しい印字が始まったら古いものを止める
 
 function render(listing: Listing): void {
@@ -97,8 +98,11 @@ function render(listing: Listing): void {
   };
 
   // 動きを減らす設定、または行が多いときは一気に印字する
-  if (reducedMotion || listing.lines.length > 400) {
+  if (reducedMotion || listing.lines.length > 400 || params.has("scroll")) {
     for (let i = 0; i < listing.lines.length; i++) add(i);
+    // ?scroll=0..1 で帳票の位置を指定する（動画撮影用）
+    const at = Number(params.get("scroll"));
+    if (params.has("scroll") && Number.isFinite(at)) paper.scrollTop = (paper.scrollHeight - paper.clientHeight) * Math.min(Math.max(at, 0), 1);
     return;
   }
 
@@ -144,7 +148,11 @@ function loadSample(id: string): void {
 }
 
 select.addEventListener("change", () => loadSample(select.value));
-loadSample(SAMPLES[0]?.id ?? "s3");
+// ?sample=<id> で最初のサンプルを指定する（動画撮影用。headless Chrome がスクリーンショットを撮る）
+const requested = params.get("sample");
+const first = SAMPLES.find((s) => s.id === requested)?.id ?? SAMPLES[0]?.id ?? "s3";
+select.value = first;
+loadSample(first);
 
 langButton.addEventListener("click", () => {
   locale = locale === "en" ? "ja" : "en";
