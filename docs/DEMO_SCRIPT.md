@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本は 2:50（10 秒の余裕）。ナレーションは 294 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本は 2:50（10 秒の余裕）。ナレーションは 295 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -16,7 +16,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 | 1:02–1:30 | 46 種類・公式スキーマ・安全な既定値 | ブラウザで「The classic three-tier」を選ぶ。帳票をゆっくりスクロール（`MetadataOptions`、`StorageEncrypted: true`、`PubliclyAccessible: false` で止める） |
 | 1:30–2:08 | 実デプロイ | ターミナルで `cobf examples/messaging.cbl`（`CALL "DEPLOY"` が既定動作）→ 確認に `y`。完成したら `publish` と `receive`。続けて**事前に撮った**3 層構成のクリップ（ALB が `COBOL` と返す → `destroy`） |
 | 2:08–2:22 | 落ち | ブラウザデモの帳票の末尾。紫の「1998 CALLED. THEY WANT THEIR ARCHITECTURE BACK.」を大きく映す |
-| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 308 件のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
+| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
 
 ## ナレーション（場面ごと）
 
@@ -46,7 +46,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **7. 2:22–2:50**
 
-> I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. Three hundred eight tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
+> I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 
 ## ナレーション（通しで。CapCut の読み上げに貼る用）
 
@@ -57,10 +57,10 @@ It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits 
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
-I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. Three hundred eight tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
+I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 ```
 
-読み上げの前に、必ず人の目で見直す（設計書の手順どおり）。数字は「Forty-six」「one-hundred-thirty-two」「Three hundred eight」と綴ってあるので、読み上げが数字を取り違えない。
+読み上げの前に、必ず人の目で見直す（設計書の手順どおり）。数字は「Forty-six」「one-hundred-thirty-two」「three hundred」と綴ってあるので、読み上げが数字を取り違えない。
 
 ## Kiro CLI から動画を作る（`npm run video`）
 

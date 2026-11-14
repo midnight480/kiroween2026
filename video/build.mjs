@@ -258,8 +258,9 @@ ff("-i", video, "-i", audio, "-i", srt, "-map", "0:v", "-map", "1:a", "-map", "2
 const total = duration(final);
 console.log(`\n出力: ${final}\n字幕: ${srt}\n長さ: ${total.toFixed(1)} 秒`);
 if (total >= config.maxSeconds) warnings.push(`長さが ${total.toFixed(1)} 秒です。Devpost の要件は 3 分未満。ナレーションの速度 (video/scenes.json の rate) か台本を見直してください`);
-const claimed = [...narration.values()].join(" ").match(/Three hundred eight/i);
-if (claimed && facts.tests && facts.tests !== "308") warnings.push(`台本は「308 テスト」と言っていますが、実際は ${facts.tests} 件です。台本を直してください`);
+// ナレーションが「More than three hundred tests」と言うなら、実測が 300 件を超えていること
+const claimed = [...narration.values()].join(" ").match(/More than three hundred tests/i);
+if (claimed && facts.tests && Number(facts.tests) <= 300) warnings.push(`台本は「300 テスト超」と言っていますが、実際は ${facts.tests} 件です。台本を直してください`);
 if (facts.tests) console.log(`テスト: ${facts.tests} 件（画面に映した実測値）`);
 if (warnings.length) {
   console.log("\n要確認:");
