@@ -11,7 +11,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 | 時間 | 見せるもの | 画面の操作 |
 |---|---|---|
 | 0:00–0:12 | 固定形式の COBOL | ブラウザデモ。サンプル「The classic three-tier」を表示。ルーラの 7・12・72 桁目の縦線にカーソルを当てる |
-| 0:12–0:35 | 動機（8i の DB リンク） | 黒地に文字カード「Oracle 8i · DB links · 3 + 1 servers」。続けてブラウザデモのサンプル「DBLINK (the ghost of 8i)」を見せ、亡霊が現れる |
+| 0:12–0:35 | 動機（8i の DB リンク） | 黒地に文字カード「COBOL / Pro*COBOL app → Java · Oracle 8i · DB links」。続けてブラウザデモのサンプル「DBLINK (the ghost of 8i)」を見せ、亡霊が現れる |
 | 0:35–1:02 | 本物の COBOL・桁ずれ・小文字・DBLINK | ターミナルで `cobc -fsyntax-only --fixed examples/three-tier.cbl && echo valid COBOL`。ブラウザで「Shifted column」→「Lower case」→「DBLINK」を順に選ぶ（血のインクで赤く出る） |
 | 1:02–1:30 | 46 種類・公式スキーマ・安全な既定値 | ブラウザで「The classic three-tier」を選ぶ。帳票をゆっくりスクロール（`MetadataOptions`、`StorageEncrypted: true`、`PubliclyAccessible: false` で止める） |
 | 1:30–2:08 | 実デプロイ | ターミナルで `cobf examples/messaging.cbl`（`CALL "DEPLOY"` が既定動作）→ 確認に `y`。完成したら `publish` と `receive`。続けて**事前に撮った**3 層構成のクリップ（ALB が `COBOL` と返す → `destroy`） |
@@ -26,7 +26,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **2. 0:12–0:35**
 
-> Twenty years ago I kept an Oracle 8i system alive. No clustering, so redundancy meant four servers wired together with database links, by hand. Today, the same intent is a few lines of COBOL.
+> I once analyzed an old COBOL and Pro*COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 
 **3. 0:35–1:02**
 
@@ -52,7 +52,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 ```
 Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an indicator. Code starts in column eight. And this file deploys AWS.
-Twenty years ago I kept an Oracle 8i system alive. No clustering, so redundancy meant four servers wired together with database links, by hand. Today, the same intent is a few lines of COBOL.
+I once analyzed an old COBOL and Pro*COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
@@ -105,6 +105,8 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 - 最初の 10 秒で「COBOL が AWS をデプロイする」と分かるように。審査員は 3 分を超えて見ない。
 
 ## 言ってはいけないこと（未確認・未実装）
+
+- **作者の経歴を、実際より大きく言わない。** 事実は、「COBOL / Pro\*COBOL で書かれた業務アプリケーション（バックエンドは Oracle 8i）を**解析し、Java 化しようとした**経験がある」こと。「8i のシステムを保守・運用していた」「日常的に COBOL を書いていた」とは言わない。8i が RAC を組めず、DB 同士を DB リンクで相互接続して冗長化していた、という構成は、その解析で知ったこと。
 
 - 「あらゆる AWS リソースに対応」→ 対応は **46 種類**。EKS、ElastiCache、CloudFront/ACM/Route 53、Classic LB は、CloudFormation が ChangeSet として受け付けただけで、**実際にはデプロイしていない**。
 - 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つ**だけ。Specs と Steering は作っていない。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。

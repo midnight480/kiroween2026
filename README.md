@@ -20,7 +20,7 @@ This project brings COBOL back as an infrastructure-as-code language. You write 
 - `SELECT ... ASSIGN TO` plus `FD` is a managed database.
 - `CALL "DEPLOY"` declares the intent to deploy.
 
-The author once maintained an Oracle 8i system. Without clustering, redundancy there meant wiring DB links between several database servers by hand. Today the same intent is a few lines of COBOL that declare a multi-region, strongly consistent DynamoDB table.
+The author once analyzed a COBOL and Pro\*COBOL application, with Oracle 8i behind it, in order to convert it to Java. Oracle 8i could not be clustered at the time, so the application kept its databases redundant by having them exchange data with each other over DB links. Today the same intent is a few lines of COBOL that declare a multi-region, strongly consistent DynamoDB table.
 
 ### Not CDK, not jsii
 
@@ -121,6 +121,14 @@ Aurora DSQL is a stretch goal.
 | 73-80 | Identification | Ignored; writing a value here raises a warning |
 
 Additional quirks: upper case is enforced outside string literals, tabs are rejected, and lines over 80 columns are errors.
+
+## Documentation
+
+- [docs/GUIDE.md](docs/GUIDE.md): a step-by-step guide, from your first program to deploying it. Every program in it is checked by a test.
+- [docs/REFERENCE.md](docs/REFERENCE.md): every resource type, with each COBOL item, the CloudFormation property it becomes, allowed values, defaults and the warnings it can raise. It is generated from the mapping tables, so it cannot drift from the code.
+- [docs/DESIGN.md](docs/DESIGN.md): the design notes (in Japanese).
+
+The guide and the reference are in English.
 
 ## Getting started
 
@@ -223,6 +231,8 @@ The plan is to use Kiro Specs (requirements, design and tasks in EARS notation),
 
 ```
 README.md / README_ja.md   This file
+docs/GUIDE.md              Step-by-step guide (English)
+docs/REFERENCE.md          Resource reference, generated from src/mapping (English)
 docs/DESIGN.md             Full design notes (in Japanese)
 docs/DEMO_SCRIPT.md        Script and shooting guide for the demo video (Japanese notes, English narration)
 src/                       Transpiler and CLI (TypeScript)
