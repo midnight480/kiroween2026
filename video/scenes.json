@@ -3,7 +3,7 @@
   "rate": 120,
   "padSeconds": 0.5,
   "maxSeconds": 180,
-  "_comment": "場面の番号は docs/DEMO_SCRIPT.md の「ナレーション（場面ごと）」の **N.** と対応する。ナレーションの文章は台本から読むので、ここには書かない。shot の type: web（ブラウザデモ）, card（文字カード）, term（実際にコマンドを実行して端末風に描く）, clip（事前に撮った動画。無ければ目印のカード）",
+  "_comment": "shot.seconds は、その映像を何秒映すか。scene.audioSplit は、ナレーションの文を映像ごとに何文ずつ読むか（[4, 3] なら、前半 4 文を 1 つ目の映像、後半 3 文を 2 つ目の映像）。場面の番号は docs/DEMO_SCRIPT.md の「ナレーション（場面ごと）」の **N.** と対応する。ナレーションの文章は台本から読むので、ここには書かない。shot の type: web（ブラウザデモ）, card（文字カード）, term（実際にコマンドを実行して端末風に描く）, clip（事前に撮った動画。無ければ目印のカード）",
   "scenes": [
     {
       "n": 1,
@@ -35,9 +35,11 @@
     },
     {
       "n": 5,
+      "audioSplit": [3, 1, 3],
       "shots": [
-        { "type": "clip", "file": "video/clips/deploy-messaging.mp4", "label": "cobf examples/messaging.cbl  →  y  →  publish / receive" },
-        { "type": "clip", "file": "video/clips/three-tier.mp4", "label": "three-tier: curl → COBOL → destroy  (sped up)" }
+        { "type": "clip", "seconds": 12.5, "file": "video/clips/deploy-messaging.mp4", "label": "cobf examples/messaging.cbl  →  y  (the wait, sped up)" },
+        { "type": "clip", "seconds": 12, "file": "video/clips/publish-messaging.mp4", "label": "deploy complete  →  publish  →  receive" },
+        { "type": "clip", "seconds": 24, "file": "video/clips/three-tier.mp4", "label": "three-tier: curl → COBOL → destroy  (sped up)" }
       ]
     },
     {

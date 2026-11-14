@@ -187,49 +187,92 @@ const sceneWavs = [];
 const timeline = []; // 字幕用: { start, end, text }
 let clock = 0;
 
+// 場面の中で、映像ごとに「何秒映すか」(shot.seconds) と「ナレーションのどこを読むか」(scene.audioSplit) を決められる。
+//   audioSplit: [4, 3]  … ナレーションを文の数 4 と 3 に分け、1 つ目の映像と 2 つ目の映像にそれぞれ付ける
+//   指定が無ければ、これまでどおり、ナレーションの長さを映像で等分する
+const sentencesOf = (text) => text.match(/[^.!?]+[.!?]+/g)?.map((s) => s.trim()) ?? [text];
 for (const scene of config.scenes) {
   const text = narration.get(scene.n);
-  const wav = synth(scene.n, text);
-  const len = duration(wav) + config.padSeconds;
-  const per = len / scene.shots.length;
-
+  const sentences = sentencesOf(text);
+  const split = scene.audioSplit;
+  if (split) {
+    if (split.length !== scene.shots.length || split.reduce((a, b) => a + b, 0) !== sentences.length) {
+      throw new Error(`場面 ${scene.n}: audioSplit ${JSON.stringify(split)} が、映像 ${scene.shots.length} 本・ナレーション ${sentences.length} 文と合いません`);
+    }
+  }
+  // 映像ごとの、ナレーション（文の配列）と長さ
+  let cursor = 0;
+  const plan = scene.shots.map((shot, i) => {
+    const mine = split ? sentences.slice(cursor, (cursor += split[i])) : sentences;
+    const speech = mine.join(" ");
+    const wav = synth(split ? `${scene.n}-${i + 1}` : scene.n, speech);
+    return { shot, mine, wav, speech: duration(wav) };
+  });
+  const wholeLen = duration(plan[0].wav) + config.padSeconds; // 分けないときの場面の長さ
+  const fixed = plan.reduce((a, p) => a + (p.shot.seconds ?? 0), 0);
+  const flex = plan.filter((p) => p.shot.seconds === undefined).length;
+  for (const p of plan) {
+    if (split) p.len = Math.max(p.shot.seconds ?? 0, p.speech + config.padSeconds);
+    else p.len = p.shot.seconds ?? Math.max(wholeLen - fixed, 0.5) / Math.max(flex, 1);
+  }
+  const len = plan.reduce((a, p) => a + p.len, 0);
   const parts = [];
-  for (const [i, shot] of scene.shots.entries()) {
+  const wavs = [];
+  let t = clock;
+  for (const [i, p] of plan.entries()) {
     const name = `s${scene.n}-${i + 1}`;
-    const made = await makeShot(shot, name);
+    const made = await makeShot(p.shot, name);
     const out = join(OUT, "work", `${name}.mp4`);
     if (made.png) {
-      ff("-loop", "1", "-framerate", String(FPS), "-t", per.toFixed(3), "-i", made.png, "-vf", FILTER, "-an", "-c:v", "libx264", "-crf", "18", out);
+      ff("-loop", "1", "-framerate", String(FPS), "-t", p.len.toFixed(3), "-i", made.png, "-vf", FILTER, "-an", "-c:v", "libx264", "-crf", "18", out);
     } else {
-      // 事前に撮った映像: 場面の割り当て時間に収まるよう速度を合わせる（長ければ早送り、短ければ最後で止める）
+      // 事前に撮った映像: 割り当て時間に収まるよう速度を合わせる（長ければ早送り、短ければ最後で止める）
       const src = duration(made.clip);
-      const speed = Math.max(src / per, 1);
-      ff("-i", made.clip, "-vf", `setpts=PTS/${speed.toFixed(4)},${FILTER},tpad=stop_mode=clone:stop_duration=${per.toFixed(3)}`, "-t", per.toFixed(3), "-an", "-c:v", "libx264", "-crf", "18", out);
-      if (speed > 1.05) warnings.push(`${shot.file} を ${speed.toFixed(1)} 倍速にしました。画面に "sped up" と入れてください（実時間でないことを隠さない）`);
+      const speed = Math.max(src / p.len, 1);
+      ff("-i", made.clip, "-vf", `setpts=PTS/${speed.toFixed(4)},${FILTER},tpad=stop_mode=clone:stop_duration=${p.len.toFixed(3)}`, "-t", p.len.toFixed(3), "-an", "-c:v", "libx264", "-crf", "18", out);
+      if (speed > 1.05) warnings.push(`${p.shot.file} を さらに ${speed.toFixed(1)} 倍速にしました。画面に "sped up" と入れてください（実時間でないことを隠さない）`);
     }
     parts.push(out);
+    if (split) {
+      // この映像に付けるナレーション。無音の余白をつけて、映像と同じ長さにする
+      const padded = join(OUT, "work", `scene${scene.n}-${i + 1}.wav`);
+      ff("-i", p.wav, "-af", `apad=whole_dur=${p.len.toFixed(3)}`, "-t", p.len.toFixed(3), "-ar", "48000", "-ac", "1", padded);
+      wavs.push(padded);
+      // 字幕: 文ごとに、文字数に比例して時間を割り当てる（この映像の開始から）
+      const total = p.mine.reduce((a, x) => a + x.length, 0);
+      let st = t;
+      for (const sen of p.mine) {
+        const d = (p.speech * sen.length) / total;
+        timeline.push({ start: st, end: st + d, text: sen });
+        st += d;
+      }
+    }
+    t += p.len;
   }
-
+  if (!split) {
+    // 分けない場面: ナレーションは場面全体で 1 回だけ。無音の余白をつけて、映像の合計と同じ長さにする
+    const whole = plan[0];
+    const padded = join(OUT, "work", `scene${scene.n}-1.wav`);
+    ff("-i", whole.wav, "-af", `apad=whole_dur=${len.toFixed(3)}`, "-t", len.toFixed(3), "-ar", "48000", "-ac", "1", padded);
+    wavs.push(padded);
+    const total = sentences.reduce((a, x) => a + x.length, 0);
+    let st = clock;
+    for (const sen of sentences) {
+      const d = (whole.speech * sen.length) / total;
+      timeline.push({ start: st, end: st + d, text: sen });
+      st += d;
+    }
+  }
   const list = join(OUT, "work", `scene${scene.n}.txt`);
-  writeFileSync(list, parts.map((p) => `file '${p}'`).join("\n"));
+  writeFileSync(list, parts.map((x) => `file '${x}'`).join("\n"));
   const sceneVideo = join(OUT, "work", `scene${scene.n}.mp4`);
   ff("-f", "concat", "-safe", "0", "-i", list, "-c", "copy", sceneVideo);
   sceneVideos.push(sceneVideo);
-
-  // ナレーションに無音の余白をつけて、映像と同じ長さにする
-  const padded = join(OUT, "work", `scene${scene.n}.wav`);
-  ff("-i", wav, "-af", `apad=pad_dur=${config.padSeconds}`, "-t", len.toFixed(3), "-ar", "48000", "-ac", "1", padded);
-  sceneWavs.push(padded);
-
-  // 字幕: 文ごとに、文字数に比例して時間を割り当てる
-  const sentences = text.match(/[^.!?]+[.!?]+/g)?.map((s) => s.trim()) ?? [text];
-  const total = sentences.reduce((a, s) => a + s.length, 0);
-  let t = clock;
-  for (const s of sentences) {
-    const d = ((len - config.padSeconds) * s.length) / total;
-    timeline.push({ start: t, end: t + d, text: s });
-    t += d;
-  }
+  const wlist = join(OUT, "work", `scene${scene.n}-wav.txt`);
+  writeFileSync(wlist, wavs.map((x) => `file '${x}'`).join("\n"));
+  const sceneWav = join(OUT, "work", `scene${scene.n}.wav`);
+  ff("-f", "concat", "-safe", "0", "-i", wlist, "-c", "copy", sceneWav);
+  sceneWavs.push(sceneWav);
   clock += len;
 }
 server.close();

@@ -97,6 +97,27 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 5. 3 層構成の映像は、**別に撮る**（デプロイに約 10 分かかる）: `cobf examples/three-tier.cbl` → 完了 → `curl -s http://<ALB の DNS 名>/`（DNS 名にアカウント ID は含まれない）→ `cobf destroy examples/three-tier.cbl --yes`。編集で早送りにして、画面に **「sped up」** と入れる（実時間でないことを隠さない）。
 6. 実デプロイは**撮影のたびに課金**される（3 層構成は数十円、messaging はほぼ無料）。撮り終えたら、必ずスタックを削除して確認する。
 
+## 実デプロイの撮り方（実際に撮って確かめた手順）
+
+画面収録は**全画面**を撮るので、そのままだと別のウィンドウ（会議、Dock のアプリ名など）が映る。**撮影用の Terminal ウィンドウを 1 つだけ作り、そのウィンドウだけを録画する**。
+
+1. **ウィンドウを作る。** Terminal で新しいウィンドウを開き、`exec zsh -f` で自分の設定（プロンプトのテーマなど）を外し、`PS1='$ '` にする。`AWS_PROFILE`、`AWS_REGION`、`alias cobf='node dist/cli.js'`、`publish`/`receive` の関数は、**録画の前に**設定して `clear` で画面を消す（設定の行を映さない）。フォントは 16 pt、幅は約 1430 pt にすると、132 桁の帳票が折り返さずに収まる（139 桁×41 行）。
+2. **録画は `-V<秒>` で自動終了させる。**
+   ```
+   screencapture -v -V125 -x -l<ウィンドウ ID> raw.mov &
+   ```
+   ウィンドウ ID は AppleScript の `id of window`。**シグナルで止めない。** バックグラウンドのプロセスは SIGINT を無視し、SIGTERM で止めると録画のファイルが**確定されずに消える**（実際に 1 本失った）。長めの秒数で撮って、あとで切り詰める。
+3. **コマンドは AppleScript で打つ。** `do script "コマンド" in (selected tab of window id …)`。実行中のプロセスへの入力（`y`）も同じ方法で送れる。実行が終わったかは `busy of selected tab` で見る。JSON のような引用符の多い文字列は、AppleScript の構文エラーになるので渡さない（`publish COBOL-1` のように単純な語にする）。
+4. **後処理は `video/clip.mjs`。** タイトルバーを切り落とし（`tetsuya — …` と出るため）、区間ごとに速度を変え、早送りの区間に「SPED UP ×N」を重ねて、30 fps の mp4 にする。
+   ```
+   node video/clip.mjs raw.mov video/clips/deploy-messaging.mp4 '2.2-11@1,11-84@20'
+   node video/clip.mjs raw.mov video/clips/publish-messaging.mp4 '84-96@1'
+   ```
+   区間は「開始秒-終了秒@倍速」。待ち時間だけ早送りし、コマンドの入力と結果は等倍にする。区間の秒数は、帳票に出るイベントの時刻（`14:01:27` など）と、録画の開始時刻から数えられる。
+5. **必ず 1 コマ見る。** 書き出したら、`ffmpeg -ss <秒> -i clip.mp4 -frames:v 1 frame.png` で数コマ抜いて、アカウント ID・ARN・プロファイル名・ユーザー名が映っていないことを目で確かめる。
+6. **場面 5 の同期。** `video/scenes.json` の `shot.seconds`（その映像を何秒映すか）と `audioSplit`（ナレーションの文を映像ごとに何文ずつ読むか。場面 5 は `[3, 1, 3]`）で、映像とナレーションを合わせる。
+7. **撮影後の片付け。** スタックを削除し、Terminal の設定（フォント 12 pt、タイトルの表示項目）を元に戻す。
+
 ## 撮影のコツ
 
 - 画面録画は 1 場面ずつ別ファイルで撮り、CapCut でつなぐ。ナレーションは通しで先に作り、映像をそれに合わせる。
