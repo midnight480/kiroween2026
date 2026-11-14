@@ -12,7 +12,37 @@
           "type": "web",
           "sample": "three-tier",
           "scroll": 0
+        },
+        {
+          "type": "web",
+          "sample": "three-tier",
+          "scroll": 0,
+          "hl": "1-6"
+        },
+        {
+          "type": "web",
+          "sample": "three-tier",
+          "scroll": 0,
+          "hl": "7"
+        },
+        {
+          "type": "web",
+          "sample": "three-tier",
+          "scroll": 0,
+          "hl": "8-72"
+        },
+        {
+          "type": "web",
+          "sample": "three-tier",
+          "scroll": 0
         }
+      ],
+      "audioSplit": [
+        1,
+        1,
+        1,
+        1,
+        1
       ]
     },
     {
@@ -100,13 +130,13 @@
         },
         {
           "type": "clip",
-          "seconds": 12.0,
+          "seconds": 15.0,
           "file": "video/clips/publish-messaging.mp4",
           "label": "deploy complete  →  publish  →  receive"
         },
         {
           "type": "clip",
-          "seconds": 14.5,
+          "seconds": 12.4,
           "file": "video/clips/three-tier-deploy.mp4",
           "label": "three-tier: cobf deploy (the wait, sped up)"
         },
@@ -118,7 +148,7 @@
         },
         {
           "type": "clip",
-          "seconds": 15.6,
+          "seconds": 9.3,
           "file": "video/clips/three-tier-destroy.mp4",
           "label": "cobf destroy (the wait, sped up)"
         }
@@ -136,6 +166,19 @@
     },
     {
       "n": 7,
+      "shots": [
+        {
+          "type": "card",
+          "lines": [
+            "COBOL engineers can use AWS.",
+            "Without leaving COBOL."
+          ],
+          "style": "big"
+        }
+      ]
+    },
+    {
+      "n": 8,
       "shots": [
         {
           "type": "term",

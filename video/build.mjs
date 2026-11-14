@@ -161,6 +161,7 @@ async function makeShot(shot, name) {
   const png = join(OUT, "work", `${name}.png`);
   if (shot.type === "web") {
     const q = new URLSearchParams({ lang: "en", sample: shot.sample, scroll: String(shot.scroll ?? 0) });
+    if (shot.hl) q.set("hl", shot.hl);
     await shoot(`http://127.0.0.1:${port}/?${q}`, png);
     return { png };
   }

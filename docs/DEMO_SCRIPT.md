@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本から作った動画は **2:49（169 秒）**。上限の 3 分まで 11 秒の余裕がある（場面 5 の実デプロイの映像を入れた実測値）。ナレーションは 297 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本から作った動画は **2:57（177 秒）**。上限の 3 分まで 3 秒の余裕がある（場面 5 の実デプロイの映像を入れた実測値）。ナレーションは 322 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -16,7 +16,8 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 | 1:02–1:30 | 46 種類・公式スキーマ・安全な既定値 | ブラウザで「The classic three-tier」を選ぶ。帳票をゆっくりスクロール（`MetadataOptions`、`StorageEncrypted: true`、`PubliclyAccessible: false` で止める） |
 | 1:30–2:08 | 実デプロイ | ターミナルで `cobf examples/messaging.cbl`（`CALL "DEPLOY"` が既定動作）→ 確認に `y`。完成したら `publish` と `receive`。続けて**事前に撮った**3 層構成のクリップ（ALB が `COBOL` と返す → `destroy`） |
 | 2:08–2:22 | 落ち | ブラウザデモの帳票の末尾。紫の「1998 CALLED. THEY WANT THEIR ARCHITECTURE BACK.」を大きく映す |
-| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
+| 2:22–2:36 | 誰のためか | 文字カード「COBOL engineers can use AWS. / Without leaving COBOL.」。AWS Transform は COBOL を Java に変換する（公式: docs.aws.amazon.com/m2 の qt-webapp-mainframe）。これは逆の向き |
+| 2:36–2:58 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
 
 ## ナレーション（場面ごと）
 
@@ -44,7 +45,11 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 > Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
 
-**7. 2:22–2:50**
+**7. 2:22–2:36**
+
+> This is for COBOL engineers. AWS can transform COBOL into Java. This goes the other way: COBOL stays COBOL, and its engineers can use AWS.
+
+**8. 2:36–2:58**
 
 > I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 
@@ -57,6 +62,7 @@ It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits 
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack, sped up. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
+This is for COBOL engineers. AWS can transform COBOL into Java. This goes the other way: COBOL stays COBOL, and its engineers can use AWS.
 I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 ```
 
@@ -132,7 +138,7 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 - **作者の経歴を、実際より大きく言わない。** 事実は、「COBOL で書かれた業務アプリケーション（バックエンドは Oracle 8i）を**解析し、Java 化しようとした**経験がある」こと。「8i のシステムを保守・運用していた」「日常的に COBOL を書いていた」とは言わない。8i が RAC を組めず、DB 同士を DB リンクで相互接続して冗長化していた、という構成は、その解析で知ったこと。
 
 - 「あらゆる AWS リソースに対応」→ 対応は **46 種類**。EKS、ElastiCache、CloudFront/ACM/Route 53、Classic LB は、CloudFormation が ChangeSet として受け付けただけで、**実際にはデプロイしていない**。
-- 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つ**だけ。Specs と Steering は作っていない。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。
+- 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つと Steering 6 ファイル**。Specs はまだ作っていない（Steering は 6 ファイルある）。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。
 - 「ブラウザからデプロイできる」→ できない。ブラウザは**コンパイルだけ**で、デプロイは CLI。台本もそう言っている（"The browser never sees an AWS key"）。
 - 「本番向け」→ デモ用の作品。更新が失敗したときのロールバックは、実機では未確認。
 
