@@ -15,8 +15,9 @@ A resource type is a row set in `src/mapping/*.ts` (`ResourceSpec`), read by one
 4. Put cross-field rules and warnings in `post` using the hook (`has`, `get`, `set`, `wrote`, `warn`, `fail`).
 5. Run the tests. `tests/mapping.test.ts` checks every property name, enum, default and kind against the official schema, field name
    uniqueness across types, list suffix overlap, and COBOL reserved words. Fix the table, not the test.
-6. Add an engine test for each new rule, a golden case if there is an example, and run `uvx cfn-lint` on the output.
-7. Check the real service accepts it with `cobf diff` (creates and deletes a ChangeSet, costs nothing). Only deploy with the owner's approval.
+6. Run `npm run docs:reference` so docs/REFERENCE.md lists the new type. A rule that lives in a shared helper rather than in `post` must be added to the spec's `notes`, or the reference will not show it.
+7. Add an engine test for each new rule, a golden case if there is an example, and run `uvx cfn-lint` on the output.
+8. Check the real service accepts it with `cobf diff` (creates and deletes a ChangeSet, costs nothing). Only deploy with the owner's approval.
 
 ## Rules the engine already enforces
 
