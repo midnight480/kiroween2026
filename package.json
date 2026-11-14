@@ -19,7 +19,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
     "web:build": "esbuild web/src/main.ts --bundle --format=iife --target=es2022 --loader:.cbl=text --outfile=web/dist/app.js",
-    "video": "node video/build.mjs"
+    "video": "node video/build.mjs",
+    "docs:reference": "tsc -p tsconfig.build.json && node scripts/gen-reference.mjs"
   },
   "devDependencies": {
     "@types/node": "26.6.6",

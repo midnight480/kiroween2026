@@ -25,6 +25,7 @@ export const DATABASE: ResourceSpec[] = [
   {
     type: "AWS::RDS::DBInstance",
     tags: true,
+    notes: ["Rules on the master password: a plain-text value is rejected (use `SECRET:<name>` or `SSM:<path>`). Writing a password and also `DB-MANAGED-PASSWORD` is an error. A user name with no password gets `ManageMasterUserPassword: true`, so the password lives in Secrets Manager."],
     fields: [
       f("DB-CLASS", "DBInstanceClass", "string", { required: true }),
       f("DB-ENGINE", "Engine", "string"),
@@ -55,6 +56,7 @@ export const DATABASE: ResourceSpec[] = [
     // Aurora のクラスター。インスタンスは AWS::RDS::DBInstance に DB-CLUSTER を付けて書く
     type: "AWS::RDS::DBCluster",
     tags: true,
+    notes: ["Rules on the master password: a plain-text value is rejected (use `SECRET:<name>` or `SSM:<path>`). Writing a password and also `CLUSTER-MANAGED-PASSWORD` is an error. A user name with no password gets `ManageMasterUserPassword: true`, so the password lives in Secrets Manager."],
     fields: [
       f("CLUSTER-ENGINE", "Engine", "string", { required: true }),
       f("CLUSTER-ENGINE-VERSION", "EngineVersion", "string"),
