@@ -12,7 +12,7 @@
     {
       "n": 2,
       "shots": [
-        { "type": "card", "lines": ["COBOL + Pro*COBOL app  to  Java", "Oracle 8i  ·  DB links"], "style": "big" },
+        { "type": "card", "lines": ["COBOL app  to  Java", "Oracle 8i  ·  DB links"], "style": "big" },
         { "type": "web", "sample": "dblink", "scroll": 0 }
       ]
     },
