@@ -11,6 +11,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync, createReadS
 import { createServer } from "node:http";
 import { dirname, join, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { homedir } from "node:os";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "video", "out");
@@ -132,8 +133,8 @@ function termHtml(blocks) {
   const body = blocks.map((b) => `<div class=p>$ ${esc(b.cmd)}</div><pre>${esc(b.out)}</pre>`).join("");
   return `<!doctype html><meta charset=utf-8><style>${BASE_CSS}
     body{padding:40px 56px;box-sizing:border-box;background:#000;color:#d7ffe0}
-    .p{color:#5dff7a;font-size:22px;margin:0 0 10px}
-    pre{font-size:20px;line-height:1.35;margin:0 0 20px;white-space:pre-wrap;word-break:break-all}</style>${body}`;
+    .p{color:#5dff7a;font-size:32px;margin:0 0 14px}
+    pre{font-size:30px;line-height:1.35;margin:0 0 26px;white-space:pre-wrap;word-break:break-all}</style>${body}`;
 }
 
 const facts = { tests: undefined };
@@ -141,7 +142,9 @@ const facts = { tests: undefined };
 async function termShot(shot, name) {
   const blocks = shot.cmds.map((c) => {
     const r = run("sh", ["-c", c.cmd], { cwd: ROOT, allowFail: true, env: { ...process.env, COBF_LANG: "en", NO_COLOR: "1", FORCE_COLOR: "0", CI: "1" } });
-    const all = stripAnsi(`${r.stdout}${r.stderr}`).replace(/\s+$/, "");
+    // 画面にユーザー名やローカルのパスを出さない（公開する動画なので）
+    const all = stripAnsi(`${r.stdout}${r.stderr}`).replaceAll(ROOT, "~/kiroween2026").replaceAll(homedir(), "~").replace(/\s+$/, "");
+    if (/\/Users\/|\/home\//.test(all)) warnings.push(`端末の出力にローカルのパスが残っています: ${c.cmd}`);
     if (r.status !== 0) warnings.push(`コマンドが失敗しました (exit ${r.status}): ${c.cmd}`);
     if (c.id === "tests") facts.tests = all.match(/Tests\s+(\d+)\s+passed/)?.[1];
     let lines = all.split("\n");

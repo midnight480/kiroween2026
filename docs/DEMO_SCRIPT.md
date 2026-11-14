@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本は 2:50（10 秒の余裕）。ナレーションは 295 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本は 2:50（10 秒の余裕）。ナレーションは 298 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -34,7 +34,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **4. 1:02–1:30**
 
-> A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
+> A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
 
 **5. 1:30–2:08**
 
@@ -54,7 +54,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an indicator. Code starts in column eight. And this file deploys AWS.
 I analyzed a COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
-A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
+A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
 I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
@@ -105,6 +105,8 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 - 最初の 10 秒で「COBOL が AWS をデプロイする」と分かるように。審査員は 3 分を超えて見ない。
 
 ## 言ってはいけないこと（未確認・未実装）
+
+- **「パブリック IP が付かない」と一般論で言わない。** 画面の 3 層構成では、Web 層の EC2 はパブリックサブネットに置かれ、`MapPublicIpOnLaunch: true` なので**公開 IP が付く**（直接の接続は、セキュリティグループが防いでいる）。安全な既定値として言えるのは、DB は公開されない（`PubliclyAccessible: false`）、ECS のタスクには公開 IP を付けない、EC2 は IMDSv2 必須、保管時の暗号化、など。画面に映っている行と合うものだけを言う。
 
 - **作者の経歴を、実際より大きく言わない。** 事実は、「COBOL で書かれた業務アプリケーション（バックエンドは Oracle 8i）を**解析し、Java 化しようとした**経験がある」こと。「8i のシステムを保守・運用していた」「日常的に COBOL を書いていた」とは言わない。8i が RAC を組めず、DB 同士を DB リンクで相互接続して冗長化していた、という構成は、その解析で知ったこと。
 

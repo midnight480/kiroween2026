@@ -28,9 +28,9 @@
     {
       "n": 4,
       "shots": [
-        { "type": "web", "sample": "three-tier", "scroll": 0.3 },
-        { "type": "web", "sample": "three-tier", "scroll": 0.55 },
-        { "type": "web", "sample": "three-tier", "scroll": 0.8 }
+        { "type": "web", "sample": "three-tier", "scroll": 0.1 },
+        { "type": "web", "sample": "three-tier", "scroll": 0.72 },
+        { "type": "web", "sample": "three-tier", "scroll": 0.97 }
       ]
     },
     {

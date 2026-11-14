@@ -43,10 +43,10 @@ export function wrap(text: string, indent = "    ", limit = WIDTH): string[] {
 }
 
 /**
- * エラーと警告の文は 96 桁で折る。帳票は 132 桁だが、画面で横にスクロールしなくても
+ * エラーと警告の文は 80 桁で折る。帳票は 132 桁だが、画面で横にスクロールしなくても
  * 読めるようにするため（デモで一番見せたい文が右端で切れてしまう）。
  */
-const MESSAGE_WIDTH = 96;
+const MESSAGE_WIDTH = 80;
 
 /** `ASSIGN TO "DBLINK"` で出る 8i の亡霊（3+1 台のサーバー）。 */
 const GHOST = [
