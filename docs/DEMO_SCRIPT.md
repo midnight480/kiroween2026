@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本は 2:50（10 秒の余裕）。ナレーションは 295 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本から作った動画は **2:57（177 秒）**。上限の 3 分まで 3 秒の余裕がある（場面 5 の実デプロイの映像を入れた実測値）。ナレーションは 322 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -16,7 +16,8 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 | 1:02–1:30 | 46 種類・公式スキーマ・安全な既定値 | ブラウザで「The classic three-tier」を選ぶ。帳票をゆっくりスクロール（`MetadataOptions`、`StorageEncrypted: true`、`PubliclyAccessible: false` で止める） |
 | 1:30–2:08 | 実デプロイ | ターミナルで `cobf examples/messaging.cbl`（`CALL "DEPLOY"` が既定動作）→ 確認に `y`。完成したら `publish` と `receive`。続けて**事前に撮った**3 層構成のクリップ（ALB が `COBOL` と返す → `destroy`） |
 | 2:08–2:22 | 落ち | ブラウザデモの帳票の末尾。紫の「1998 CALLED. THEY WANT THEIR ARCHITECTURE BACK.」を大きく映す |
-| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
+| 2:22–2:36 | 誰のためか | 文字カード「COBOL engineers can use AWS. / Without leaving COBOL.」。AWS Transform は COBOL を Java に変換する（公式: docs.aws.amazon.com/m2 の qt-webapp-mainframe）。これは逆の向き |
+| 2:36–2:58 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
 
 ## ナレーション（場面ごと）
 
@@ -34,17 +35,21 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **4. 1:02–1:30**
 
-> A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
+> A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
 
 **5. 1:30–2:08**
 
-> Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
+> Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack, sped up. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 
 **6. 2:08–2:22**
 
 > Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
 
-**7. 2:22–2:50**
+**7. 2:22–2:36**
+
+> This is for COBOL engineers. AWS can transform COBOL into Java. This goes the other way: COBOL stays COBOL, and its engineers can use AWS.
+
+**8. 2:36–2:58**
 
 > I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 
@@ -54,9 +59,10 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an indicator. Code starts in column eight. And this file deploys AWS.
 I analyzed a COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
-A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
-Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
+A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
+Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack, sped up. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
+This is for COBOL engineers. AWS can transform COBOL into Java. This goes the other way: COBOL stays COBOL, and its engineers can use AWS.
 I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 ```
 
@@ -74,7 +80,7 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 
 - ナレーションは、この台本の「ナレーション（場面ごと）」の引用（`> …`）をそのまま読む。台本を直して `npm run video` し直せば動画も変わる。声は macOS の `say`（`video/scenes.json` の `voice` と `rate`）。
 - 画面は `video/scenes.json` の場面ごとの指定で作る: ブラウザデモ（headless Chrome。`?sample=<id>&scroll=0..1` で表示を決める）、文字カード、端末（その場で実際にコマンドを実行した出力。テスト件数は実測値で、台本の数と違えば警告する）。
-- **実デプロイの映像（場面 5）は自動では作らない。** AWS に触るため。下の「撮影前の準備」のとおり自分で撮り、`video/clips/deploy-messaging.mp4` と `video/clips/three-tier.mp4` に置いてから `npm run video` し直す。無いあいだは「RECORD THIS CLIP」のカードが入る。長い映像は場面の長さに合わせて早送りされ、そのときは「sped up」を入れるよう警告が出る。
+- **実デプロイの映像（場面 5）は自動では作らない。** AWS に触るため。下の「実デプロイの撮り方」のとおり自分で撮り、`video/clips/` の 5 本（`deploy-messaging.mp4`、`publish-messaging.mp4`、`three-tier-deploy.mp4`、`three-tier-curl.mp4`、`three-tier-destroy.mp4`）に置いてから `npm run video` し直す。無いあいだは「RECORD THIS CLIP」の目印のカードが入る。場面 5 の映像は実際に撮影済みで、約 8 分のデプロイと約 6 分の削除は早送りにし、その間は画面に「SPED UP ×N」と出る。生の録画（約 200 MB）は `video/out/check/` に残してあり、切り直せる（どちらも git の対象外）。
 - 必要なもの: ffmpeg、Google Chrome、macOS の `say`。追加の npm パッケージは無い。`video/out/` と `video/clips/` はコミットしない。
 - 出力は 1920x1080・30fps・AAC、英語字幕（mov_text）を埋め込み、`demo.srt` も別に出す（YouTube の字幕にアップロードできる）。字幕のタイミングは文の長さからの推定なので、YouTube で確認する。
 - 合成音声で物足りなければ、`video/out/work/` の画面素材と `demo.srt` を CapCut などに持ち込んで仕上げてもよい。
@@ -97,6 +103,27 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 5. 3 層構成の映像は、**別に撮る**（デプロイに約 10 分かかる）: `cobf examples/three-tier.cbl` → 完了 → `curl -s http://<ALB の DNS 名>/`（DNS 名にアカウント ID は含まれない）→ `cobf destroy examples/three-tier.cbl --yes`。編集で早送りにして、画面に **「sped up」** と入れる（実時間でないことを隠さない）。
 6. 実デプロイは**撮影のたびに課金**される（3 層構成は数十円、messaging はほぼ無料）。撮り終えたら、必ずスタックを削除して確認する。
 
+## 実デプロイの撮り方（実際に撮って確かめた手順）
+
+画面収録は**全画面**を撮るので、そのままだと別のウィンドウ（会議、Dock のアプリ名など）が映る。**撮影用の Terminal ウィンドウを 1 つだけ作り、そのウィンドウだけを録画する**。
+
+1. **ウィンドウを作る。** Terminal で新しいウィンドウを開き、`exec zsh -f` で自分の設定（プロンプトのテーマなど）を外し、`PS1='$ '` にする。`AWS_PROFILE`、`AWS_REGION`、`alias cobf='node dist/cli.js'`、`publish`/`receive` の関数は、**録画の前に**設定して `clear` で画面を消す（設定の行を映さない）。フォントは 16 pt、幅は約 1430 pt にすると、132 桁の帳票が折り返さずに収まる（139 桁×41 行）。
+2. **録画は `-V<秒>` で自動終了させる。**
+   ```
+   screencapture -v -V125 -x -l<ウィンドウ ID> raw.mov &
+   ```
+   ウィンドウ ID は AppleScript の `id of window`。**シグナルで止めない。** バックグラウンドのプロセスは SIGINT を無視し、SIGTERM で止めると録画のファイルが**確定されずに消える**（実際に 1 本失った）。長めの秒数で撮って、あとで切り詰める。
+3. **コマンドは AppleScript で打つ。** `do script "コマンド" in (selected tab of window id …)`。実行中のプロセスへの入力（`y`）も同じ方法で送れる。実行が終わったかは `busy of selected tab` で見る。JSON のような引用符の多い文字列は、AppleScript の構文エラーになるので渡さない（`publish COBOL-1` のように単純な語にする）。
+4. **後処理は `video/clip.mjs`。** タイトルバーを切り落とし（`tetsuya — …` と出るため）、区間ごとに速度を変え、早送りの区間に「SPED UP ×N」を重ねて、30 fps の mp4 にする。
+   ```
+   node video/clip.mjs raw.mov video/clips/deploy-messaging.mp4 '2.2-11@1,11-84@20'
+   node video/clip.mjs raw.mov video/clips/publish-messaging.mp4 '84-96@1'
+   ```
+   区間は「開始秒-終了秒@倍速」。待ち時間だけ早送りし、コマンドの入力と結果は等倍にする。区間の秒数は、帳票に出るイベントの時刻（`14:01:27` など）と、録画の開始時刻から数えられる。
+5. **必ず 1 コマ見る。** 書き出したら、`ffmpeg -ss <秒> -i clip.mp4 -frames:v 1 frame.png` で数コマ抜いて、アカウント ID・ARN・プロファイル名・ユーザー名が映っていないことを目で確かめる。
+6. **場面 5 の同期。** `video/scenes.json` の `shot.seconds`（その映像を何秒映すか）と `audioSplit`（ナレーションの文を映像ごとに何文ずつ読むか。場面 5 は `[3, 1, 3]`）で、映像とナレーションを合わせる。
+7. **撮影後の片付け。** スタックを削除し、Terminal の設定（フォント 12 pt、タイトルの表示項目）を元に戻す。
+
 ## 撮影のコツ
 
 - 画面録画は 1 場面ずつ別ファイルで撮り、CapCut でつなぐ。ナレーションは通しで先に作り、映像をそれに合わせる。
@@ -106,10 +133,12 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 
 ## 言ってはいけないこと（未確認・未実装）
 
+- **「パブリック IP が付かない」と一般論で言わない。** 画面の 3 層構成では、Web 層の EC2 はパブリックサブネットに置かれ、`MapPublicIpOnLaunch: true` なので**公開 IP が付く**（直接の接続は、セキュリティグループが防いでいる）。安全な既定値として言えるのは、DB は公開されない（`PubliclyAccessible: false`）、ECS のタスクには公開 IP を付けない、EC2 は IMDSv2 必須、保管時の暗号化、など。画面に映っている行と合うものだけを言う。
+
 - **作者の経歴を、実際より大きく言わない。** 事実は、「COBOL で書かれた業務アプリケーション（バックエンドは Oracle 8i）を**解析し、Java 化しようとした**経験がある」こと。「8i のシステムを保守・運用していた」「日常的に COBOL を書いていた」とは言わない。8i が RAC を組めず、DB 同士を DB リンクで相互接続して冗長化していた、という構成は、その解析で知ったこと。
 
 - 「あらゆる AWS リソースに対応」→ 対応は **46 種類**。EKS、ElastiCache、CloudFront/ACM/Route 53、Classic LB は、CloudFormation が ChangeSet として受け付けただけで、**実際にはデプロイしていない**。
-- 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つ**だけ。Specs と Steering は作っていない。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。
+- 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つと Steering 6 ファイル**。Specs はまだ作っていない（Steering は 6 ファイルある）。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。
 - 「ブラウザからデプロイできる」→ できない。ブラウザは**コンパイルだけ**で、デプロイは CLI。台本もそう言っている（"The browser never sees an AWS key"）。
 - 「本番向け」→ デモ用の作品。更新が失敗したときのロールバックは、実機では未確認。
 

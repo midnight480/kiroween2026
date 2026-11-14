@@ -2,12 +2,14 @@
 
 [English](README.md)
 
+**デモ動画（2:57）:** https://www.youtube.com/watch?v=YhqlqcMIz-k
+
 > 純粋な固定形式 COBOL を書くと、AWS CloudFormation にコンパイルされる。
 > **"Pure fixed-format COBOL, now deploying multi-region AWS — `CALL "DEPLOY".`"**
 
 [Kiroween 2026](https://kiroween.devpost.com/)（Devpost、2026/10/30〜12/4、締切 JST 12/5 07:00）への応募作品です。本命は **Resurrection** 部門で、Frankenstein と Costume Contest をサブに想定しています。
 
-> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、コンテナ（ECS、EKS）、メッセージング（SQS、SNS）、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、46 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）、SNS から SQS へのパイプライン、ECS Fargate のサービスは、実際の AWS アカウントにデプロイ済みです。ブラウザデモと、ほとんどの「癖」機能は未実装です。ルール上、応募対象は期間中に書いたコードのみです。
+> **ステータス: 実装の初期段階。** `cobf compile` は、Network、Compute、Databases、コンテナ（ECS、EKS）、メッセージング（SQS、SNS）、エッジ（CloudFront、ACM、Route 53）に加えて S3、IAM、Lambda、DynamoDB まで、46 種類のリソースの COBOL を CloudFormation に変換し、出力は `cfn-lint` を通ります。`cobf deploy` と `cobf destroy` は一通り動き、S3、IAM、Lambda、DynamoDB（MRSC を含む）、3 層構成のスタック一式（VPC、ALB、EC2 の Auto Scaling、RDS）、SNS から SQS へのパイプライン、ECS Fargate のサービスは、実際の AWS アカウントにデプロイ済みです。ブラウザデモと「癖」機能（カードリーダーのエラー、小文字の「異端」判定、DB リンクの亡霊）は実装済みです。ルール上、応募対象は期間中に書いたコードのみです。
 
 ## コンセプト
 

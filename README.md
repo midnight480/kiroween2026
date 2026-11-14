@@ -2,12 +2,14 @@
 
 [日本語版 / Japanese](README_ja.md)
 
+**Demo video (2:57):** https://www.youtube.com/watch?v=YhqlqcMIz-k
+
 > Pure fixed-format COBOL in, AWS CloudFormation out.
 > **"Pure fixed-format COBOL, now deploying multi-region AWS — `CALL "DEPLOY".`"**
 
 An entry for [Kiroween 2026](https://kiroween.devpost.com/) (Devpost, 2026-10-30 to 2026-12-04; deadline JST 2026-12-05 07:00). The target category is **Resurrection**, with Frankenstein and Costume Contest as secondary fits.
 
-> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 46 resource types across Network, Compute, Databases, containers (ECS, EKS), messaging (SQS, SNS) and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC), a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS), an SNS-to-SQS pipeline and an ECS Fargate service have been deployed to a real AWS account. The browser demo and most quirk features are not built yet. Per the hackathon rules, only code written during the contest period counts.
+> **Status: early implementation.** `cobf compile` turns COBOL into CloudFormation for 46 resource types across Network, Compute, Databases, containers (ECS, EKS), messaging (SQS, SNS) and the edge (CloudFront, ACM, Route 53), plus S3, IAM, Lambda and DynamoDB, and the output passes `cfn-lint`. `cobf deploy` and `cobf destroy` work end to end, and S3, IAM, Lambda, DynamoDB (including MRSC), a full three-tier stack (VPC, ALB, EC2 Auto Scaling, RDS), an SNS-to-SQS pipeline and an ECS Fargate service have been deployed to a real AWS account. The browser demo and the quirk features (card-reader errors, lower-case "heresy", DB link ghost) are built. Per the hackathon rules, only code written during the contest period counts.
 
 ## Concept
 

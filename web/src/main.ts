@@ -1,7 +1,7 @@
 import { setLocale, type Locale } from "../../src/i18n.js";
 import { buildListing, type Listing } from "./listing.js";
 import { SAMPLES } from "./samples.js";
-import { pickLocale, UI, type UiKey } from "./ui.js";
+import { parseHighlight, pickLocale, UI, type UiKey } from "./ui.js";
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -117,12 +117,20 @@ function render(listing: Listing): void {
 
 // ---------------------------------------------------------------- コンパイル
 
+const highlight = parseHighlight(window.location.search);
+const hlBand = document.getElementById("hl");
+if (highlight && hlBand) {
+  hlBand.hidden = false;
+  hlBand.style.left = `calc(var(--pad) + ${highlight.from - 1}ch)`;
+  hlBand.style.width = `${highlight.to - highlight.from + 1}ch`;
+  status.classList.add("caption");
+}
 let debounce: number | undefined;
 
 function compileNow(): void {
   const text = source.value;
   const listing = buildListing(text, "PROGRAM.CBL");
-  status.textContent = listing.ok ? t("statusOk") : t("statusFail");
+  status.textContent = highlight ? highlight.caption : listing.ok ? t("statusOk") : t("statusFail");
   render(listing);
 }
 
