@@ -26,7 +26,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **2. 0:12–0:35**
 
-> I once analyzed an old COBOL and Pro*COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
+> I analyzed a COBOL and Pro star COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 
 **3. 0:35–1:02**
 
@@ -52,7 +52,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 ```
 Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an indicator. Code starts in column eight. And this file deploys AWS.
-I once analyzed an old COBOL and Pro*COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
+I analyzed a COBOL and Pro star COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
