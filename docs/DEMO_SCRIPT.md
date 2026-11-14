@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本は 2:50（10 秒の余裕）。ナレーションは 298 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本から作った動画は **2:49（169 秒）**。上限の 3 分まで 11 秒の余裕がある（場面 5 の実デプロイの映像を入れた実測値）。ナレーションは 297 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -38,7 +38,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **5. 1:30–2:08**
 
-> Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
+> Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack, sped up. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 
 **6. 2:08–2:22**
 
@@ -55,7 +55,7 @@ Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an
 I analyzed a COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: IMDS version two, encrypted storage, and databases that are never public. Plain-text passwords are rejected.
-Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
+Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack, sped up. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
 I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 ```
@@ -74,7 +74,7 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 
 - ナレーションは、この台本の「ナレーション（場面ごと）」の引用（`> …`）をそのまま読む。台本を直して `npm run video` し直せば動画も変わる。声は macOS の `say`（`video/scenes.json` の `voice` と `rate`）。
 - 画面は `video/scenes.json` の場面ごとの指定で作る: ブラウザデモ（headless Chrome。`?sample=<id>&scroll=0..1` で表示を決める）、文字カード、端末（その場で実際にコマンドを実行した出力。テスト件数は実測値で、台本の数と違えば警告する）。
-- **実デプロイの映像（場面 5）は自動では作らない。** AWS に触るため。下の「撮影前の準備」のとおり自分で撮り、`video/clips/deploy-messaging.mp4` と `video/clips/three-tier.mp4` に置いてから `npm run video` し直す。無いあいだは「RECORD THIS CLIP」のカードが入る。長い映像は場面の長さに合わせて早送りされ、そのときは「sped up」を入れるよう警告が出る。
+- **実デプロイの映像（場面 5）は自動では作らない。** AWS に触るため。下の「実デプロイの撮り方」のとおり自分で撮り、`video/clips/` の 5 本（`deploy-messaging.mp4`、`publish-messaging.mp4`、`three-tier-deploy.mp4`、`three-tier-curl.mp4`、`three-tier-destroy.mp4`）に置いてから `npm run video` し直す。無いあいだは「RECORD THIS CLIP」の目印のカードが入る。場面 5 の映像は実際に撮影済みで、約 8 分のデプロイと約 6 分の削除は早送りにし、その間は画面に「SPED UP ×N」と出る。生の録画（約 200 MB）は `video/out/check/` に残してあり、切り直せる（どちらも git の対象外）。
 - 必要なもの: ffmpeg、Google Chrome、macOS の `say`。追加の npm パッケージは無い。`video/out/` と `video/clips/` はコミットしない。
 - 出力は 1920x1080・30fps・AAC、英語字幕（mov_text）を埋め込み、`demo.srt` も別に出す（YouTube の字幕にアップロードできる）。字幕のタイミングは文の長さからの推定なので、YouTube で確認する。
 - 合成音声で物足りなければ、`video/out/work/` の画面素材と `demo.srt` を CapCut などに持ち込んで仕上げてもよい。

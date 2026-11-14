@@ -78,7 +78,7 @@ segments.forEach((s, i) => {
     inputs.push("-i", badges.get(label));
     // バッジは右下に置く。帳票の見出しは 132 桁で右端まで届くので、右上に置くと文字を隠してしまう。
     // 早送りの区間で画面の下半分が空いているのは、デプロイの途中（イベントが上から並ぶ間）だけ
-    const scale = Math.round(width * 0.27);
+    const scale = Math.round(width * 0.2);
     filters.push(`${chain}[t${i}]`);
     filters.push(`[${badgeInput}:v]scale=${scale}:-1[b${i}]`);
     filters.push(`[t${i}][b${i}]overlay=W-w-${Math.round(width * 0.03)}:H-h-${Math.round(width * 0.05)}[p${i}]`);
