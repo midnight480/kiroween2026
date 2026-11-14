@@ -2,7 +2,7 @@
 
 Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、著作権のある音楽・素材は使わない。
 審査基準の「Presentation」は、*課題・誰のため・なぜ重要か* が伝わり、**エンドツーエンドで動くこと**を見せているかを見る。
-この台本は 2:50（10 秒の余裕）。ナレーションは 287 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
+この台本は 2:50（10 秒の余裕）。ナレーションは 295 語で、どの場面も毎分 120 語以下（ゆっくり読める）。
 
 > 台本で言っている内容は、すべて実機かテストで確認済み。言えないこと（未確認）は末尾の「言ってはいけないこと」に書いた。
 
@@ -11,12 +11,12 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 | 時間 | 見せるもの | 画面の操作 |
 |---|---|---|
 | 0:00–0:12 | 固定形式の COBOL | ブラウザデモ。サンプル「The classic three-tier」を表示。ルーラの 7・12・72 桁目の縦線にカーソルを当てる |
-| 0:12–0:35 | 動機（8i の DB リンク） | 黒地に文字カード「Oracle 8i · DB links · 3 + 1 servers」。続けてブラウザデモのサンプル「DBLINK (the ghost of 8i)」を見せ、亡霊が現れる |
+| 0:12–0:35 | 動機（8i の DB リンク） | 黒地に文字カード「COBOL app to Java · Oracle 8i · DB links」。続けてブラウザデモのサンプル「DBLINK (the ghost of 8i)」を見せ、亡霊が現れる |
 | 0:35–1:02 | 本物の COBOL・桁ずれ・小文字・DBLINK | ターミナルで `cobc -fsyntax-only --fixed examples/three-tier.cbl && echo valid COBOL`。ブラウザで「Shifted column」→「Lower case」→「DBLINK」を順に選ぶ（血のインクで赤く出る） |
 | 1:02–1:30 | 46 種類・公式スキーマ・安全な既定値 | ブラウザで「The classic three-tier」を選ぶ。帳票をゆっくりスクロール（`MetadataOptions`、`StorageEncrypted: true`、`PubliclyAccessible: false` で止める） |
 | 1:30–2:08 | 実デプロイ | ターミナルで `cobf examples/messaging.cbl`（`CALL "DEPLOY"` が既定動作）→ 確認に `y`。完成したら `publish` と `receive`。続けて**事前に撮った**3 層構成のクリップ（ALB が `COBOL` と返す → `destroy`） |
 | 2:08–2:22 | 落ち | ブラウザデモの帳票の末尾。紫の「1998 CALLED. THEY WANT THEIR ARCHITECTURE BACK.」を大きく映す |
-| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 308 件のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
+| 2:22–2:50 | Kiro と締め | リポジトリ画面（`.kiro/`、テスト 300 件超のターミナル出力）→ 最後に `CALL "DEPLOY".` の 1 行を大きく映して終わる |
 
 ## ナレーション（場面ごと）
 
@@ -26,7 +26,7 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **2. 0:12–0:35**
 
-> Twenty years ago I kept an Oracle 8i system alive. No clustering, so redundancy meant four servers wired together with database links, by hand. Today, the same intent is a few lines of COBOL.
+> I analyzed a COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 
 **3. 0:35–1:02**
 
@@ -46,21 +46,21 @@ Devpost の要件: **3 分未満**、YouTube に**公開**、実機の映像、�
 
 **7. 2:22–2:50**
 
-> I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. Three hundred eight tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
+> I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 
 ## ナレーション（通しで。CapCut の読み上げに貼る用）
 
 ```
 Pure fixed-format COBOL. Columns one to six, a sequence number. Column seven, an indicator. Code starts in column eight. And this file deploys AWS.
-Twenty years ago I kept an Oracle 8i system alive. No clustering, so redundancy meant four servers wired together with database links, by hand. Today, the same intent is a few lines of COBOL.
+I analyzed a COBOL application, to convert it to Java. Its database, Oracle 8i, could not be clustered back then. So redundancy meant servers wired to each other with DB links. Today, that same intent is a few lines of COBOL.
 It is real COBOL. GnuCOBOL compiles it. A transpiler reads it as text and emits CloudFormation. It is not a CDK binding. Shift one column, and the card reader tells you where. Write in lower case, and you are told it is heresy. Mention a database link, and the ghost of 8i appears.
 A record is a resource. A value is a property. Forty-six AWS resource types: networks, servers, load balancers, databases, containers, queues, CloudFront. Every property name is checked against the official CloudFormation schemas. Defaults are secure: encrypted databases, IMDS version two, no public IPs. Plain-text passwords are rejected.
 Now for real. CALL DEPLOY, against a live AWS account. A change set, then events on a one-hundred-thirty-two column printer. Publish to the topic, and the message lands in the queue. And here is a full three-tier stack I deployed earlier. The load balancer answers: COBOL. Then destroy, and nothing is left behind.
 Ancient language, modern cloud, and what did I build? A load balancer, servers, and a database. The classic three-tier. Nineteen ninety-eight called. They want their architecture back.
-I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. Three hundred eight tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
+I built this with Kiro. Workflow agents reviewed the design and every revision. A hook keeps the Japanese README in sync. More than three hundred tests guard it, including one that fails if a message is left untranslated. The browser never sees an AWS key. Fixed format, forever. CALL DEPLOY.
 ```
 
-読み上げの前に、必ず人の目で見直す（設計書の手順どおり）。数字は「Forty-six」「one-hundred-thirty-two」「Three hundred eight」と綴ってあるので、読み上げが数字を取り違えない。
+読み上げの前に、必ず人の目で見直す（設計書の手順どおり）。数字は「Forty-six」「one-hundred-thirty-two」「three hundred」と綴ってあるので、読み上げが数字を取り違えない。
 
 ## Kiro CLI から動画を作る（`npm run video`）
 
@@ -105,6 +105,8 @@ npm run video                        # video/out/demo.mp4 と demo.srt を作る
 - 最初の 10 秒で「COBOL が AWS をデプロイする」と分かるように。審査員は 3 分を超えて見ない。
 
 ## 言ってはいけないこと（未確認・未実装）
+
+- **作者の経歴を、実際より大きく言わない。** 事実は、「COBOL で書かれた業務アプリケーション（バックエンドは Oracle 8i）を**解析し、Java 化しようとした**経験がある」こと。「8i のシステムを保守・運用していた」「日常的に COBOL を書いていた」とは言わない。8i が RAC を組めず、DB 同士を DB リンクで相互接続して冗長化していた、という構成は、その解析で知ったこと。
 
 - 「あらゆる AWS リソースに対応」→ 対応は **46 種類**。EKS、ElastiCache、CloudFront/ACM/Route 53、Classic LB は、CloudFormation が ChangeSet として受け付けただけで、**実際にはデプロイしていない**。
 - 「Kiro の Specs / Steering を使った」→ リポジトリの `.kiro/` にあるのは**フック 1 つ**だけ。Specs と Steering は作っていない。台本の Kiro の部分は、実際にあるもの（ワークフローのエージェントによる設計とその修正のレビュー、フック）だけに絞ってある。

@@ -20,7 +20,7 @@ COBOL は死んでいません。日本の自治体や金融の基幹系では�
 - `SELECT ... ASSIGN TO` と `FD` = マネージド DB
 - `CALL "DEPLOY"` = デプロイの意図の宣言
 
-作者はかつて Oracle 8i のシステムを保守していました。当時はクラスタを組めず、DB サーバー間に DB リンクを手作業で張り巡らせて冗長化していました。いまは同じ意図を、マルチリージョン強整合の DynamoDB テーブルとして COBOL 数行で宣言できます。
+作者は以前、COBOL と Pro\*COBOL で書かれた業務アプリケーションを解析し、Java 化しようとした経験があります。バックエンドは Oracle 8i でした。当時の 8i はクラスタを組めなかったので、そのアプリケーションは、データベース同士が DB リンクで相互にデータをやり取りすることで、冗長構成を取っていました。いまは同じ意図を、マルチリージョン強整合の DynamoDB テーブルとして COBOL 数行で宣言できます。
 
 ### CDK ではなく、jsii でもない
 
@@ -121,6 +121,14 @@ Aurora DSQL はストレッチ目標です。
 | 73–80 | 識別領域 | 無視。値を書くと警告 |
 
 そのほかの「癖」: 文字列リテラル外の大文字強制、タブ禁止、80 桁超はエラー。
+
+## ドキュメント
+
+- [docs/GUIDE.md](docs/GUIDE.md): 最初の 1 本から、デプロイまでの手順書。載せているプログラムは、すべてテストで確かめています。
+- [docs/REFERENCE.md](docs/REFERENCE.md): 全リソース型の、COBOL の項目、対応する CloudFormation のプロパティ、許される値、既定値、出る警告の一覧。対応表から自動で生成するので、コードとずれません。
+- [docs/DESIGN.md](docs/DESIGN.md): 設計メモ（日本語）。
+
+手順書とリファレンスは英語です。
 
 ## はじめかた
 
@@ -223,6 +231,8 @@ Kiro の Specs（EARS 記法の requirements → design → tasks）、Hooks（`
 
 ```
 README.md / README_ja.md   このファイル（英語／日本語）
+docs/GUIDE.md              手順書（英語）
+docs/REFERENCE.md          リソースのリファレンス。src/mapping から生成（英語）
 docs/DESIGN.md             設計メモ全文（日本語）
 docs/DEMO_SCRIPT.md        デモ動画の台本と撮影ガイド（日本語の注記、英語のナレーション）
 src/                       トランスパイラと CLI（TypeScript）

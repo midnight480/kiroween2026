@@ -14,6 +14,7 @@ export const MESSAGING: ResourceSpec[] = [
   {
     type: "AWS::SQS::Queue",
     tags: true,
+    notes: ["Error: when `QUEUE-FIFO` is `Y`, `QUEUE-NAME` is required and must end in `.fifo`."],
     fields: [
       f("QUEUE-NAME", "QueueName", "string"),
       f("QUEUE-FIFO", "FifoQueue", "bool"),
@@ -60,6 +61,7 @@ export const MESSAGING: ResourceSpec[] = [
   {
     type: "AWS::SNS::Topic",
     tags: true,
+    notes: ["Error: when `TOPIC-FIFO` is `Y`, `TOPIC-NAME` is required and must end in `.fifo`."],
     fields: [
       f("TOPIC-NAME", "TopicName", "string"),
       f("TOPIC-DISPLAY", "DisplayName", "string"),

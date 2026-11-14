@@ -18,6 +18,7 @@ inclusion: always
 | Build the CLI | `npm run build` |
 | Build the browser demo | `npm run web:build`, then serve `web/` on `127.0.0.1` |
 | Regenerate the generated examples | `python3 scripts/gen-examples.py` |
+| Regenerate docs/REFERENCE.md | `npm run docs:reference` (the tests fail when it is stale) |
 | Refresh the official schema snapshots | `uv run --with cfn-lint==1.60.0 python scripts/extract-schemas.py` |
 | Lint a template | `uvx cfn-lint <file>` (exit 4 = warnings only, such as W3010 hard-coded AZs) |
 | Check a sample is real COBOL | `cobc -fsyntax-only --fixed <file>` |

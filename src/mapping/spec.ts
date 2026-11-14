@@ -76,6 +76,11 @@ export interface ResourceSpec {
   /** `NAME-TAG` を `Tags: [{ Key: "Name", Value }]` に変換する */
   tags?: boolean;
   post?: (h: Hook) => void;
+  /**
+   * リファレンス（docs/REFERENCE.md）に載せる、英語の補足。`post` の中に直接書かれていない規則
+   * （共通の関数で検査しているもの）だけに使う。`post` に書いた warn / fail は自動で載る。
+   */
+  notes?: string[];
 }
 
 /** すべてのリソースで使える項目（リソース属性）。 */

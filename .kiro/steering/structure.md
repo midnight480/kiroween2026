@@ -16,7 +16,9 @@ examples/             deployable programs. three-tier, edge, classic and smoke-s
 verify/samples/       original syntax samples checked with GnuCOBOL
 web/                  browser demo (editor, line printer); web/dist is generated and ignored
 scripts/              example generator, official-schema extractor
-docs/                 DESIGN.md (Japanese design notes), DEMO_SCRIPT.md
+docs/                 GUIDE.md and REFERENCE.md (English, for users), DESIGN.md (Japanese design notes), DEMO_SCRIPT.md
 ```
+
+docs/REFERENCE.md is generated from src/mapping: never edit it by hand, run `npm run docs:reference`. tests/guide.test.ts compiles every program in docs/GUIDE.md.
 
 README.md is the source of truth for the README. `README_ja.md` must match it in structure and content; a hook keeps them in sync.
